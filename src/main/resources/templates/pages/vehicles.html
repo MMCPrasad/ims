@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+  <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+<main class="main" id="top">
+  <div class="container-fluid" data-layout="container">
+
+    <div th:replace="~{./ui/sidebar.html}"></div>
+    <div class="content">
+      <div th:replace="~{./ui/navbar.html}"></div>
+
+      <div class="container">
+        <div class="row" id="page">
+
+        </div>
+      </div>
+
+
+      <div id="vehicles_Temp" style="display: none">
+        <!-- content -->
+        <!-- add all content here -->
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="p-4">
+                <div class="card w-full md:w-1300px shadow-lg">
+
+                  <div class="card-body ">
+                    <form>
+                      <div class="card mb-3">
+                        <div class="card-header mb-0 pb-0">
+                          <div class="card-title">
+                            <h6>Identification Information</h6>
+                          </div>
+                        </div>
+                        <div class="card-body shadow-sm">
+                          <div class="row">
+                            <!-- ID -->
+                            <div class="col-md-4">
+                              <label for="id">ID</label>
+                              <input class="form-control" id="id" placeholder="3WRT%" disabled>
+                            </div>
+
+                            <!-- Registered Number -->
+                            <div class="col-md-4">
+                              <label for="registerNo">Registered Number</label>
+                              <input class="form-control" id="registerNo" placeholder="Enter registered number" required>
+                            </div>
+
+                            <!-- CR Status -->
+                            <div class="col-md-4">
+                              <label for="crStatus">CR Status(possibly Certificate of
+                                Registration)</label>
+                              <input class="form-control" id="crStatus" placeholder="Enter CR status" required>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card mb-3">
+                        <div class="card-header">
+                          <div class="card-title">
+                            <h6>Vehicle Details</h6>
+                          </div>
+                        </div>
+                        <div class="card-body shadow-sm">
+                          <div class="row">
+                            <!-- Brand -->
+                            <div class="col-md-3">
+                              <label for="brand">Brand</label>
+                              <select id="brand" class="form-select ajax-select" ajax="common/vbrand/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Model -->
+                            <div class="col-md-3">
+                              <label for="model">Model</label>
+                              <select  id="model" class="form-select ajax-select" ajax="common/vmodel/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Vehicle Type -->
+                            <div class="col-md-3">
+                              <label for="type">Vehicle Type</label>
+                              <select id="type" class="form-select ajax-select" ajax="common/vtype/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+                            <!-- Transmission -->
+                            <div class="col-md-3">
+                              <label for="transmission">Transmission</label>
+                              <select id="transmission" class="form-select ajax-select" ajax="common/vtransmission/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+                          </div>
+                          <div class="row mt-3">
+                            <div class="col-md-3">
+                              <label for="condition">Condition</label>
+                              <select id="condition" class="form-select ajax-select" ajax="common/vcondition/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Lot Number -->
+                            <div class="col-md-3">
+                              <label for="lotNo">Lot Number</label>
+                              <input class="form-control" id="lotNo" placeholder="Enter Lot Number">
+                            </div>
+
+                            <!-- Chassis Number -->
+                            <div class="col-md-3">
+                              <label for="chassiNo">Chassis Number</label>
+                              <input class="form-control" id="chassiNo" placeholder="Enter Chassis Number">
+                            </div>
+
+                            <!-- Engine Number -->
+                            <div class="col-md-3">
+                              <label for="engineNo">Engine Number</label>
+                              <input class="form-control" id="engineNo" placeholder="Enter Engine Number">
+                            </div>
+                          </div>
+
+                          <div class="row mt-3">
+
+                            <!-- Fuel Type -->
+                            <div class="col-md-3">
+                              <label for="fuelType">Fuel Type</label>
+                              <select id="fuelType" class="form-select ajax-select" ajax="common/fuel-type/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Body Type -->
+                            <div class="col-md-3">
+                              <label for="bodyType">Body Type</label>
+                              <select id="bodyType" class="form-select ajax-select" ajax="common/body-type/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Color -->
+                            <div class="col-md-3">
+                              <label for="color">Color</label>
+                              <select id="color" class="form-select ajax-select" ajax="common/vcolor/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+
+                            <!-- Country -->
+                            <div class="col-md-3">
+                              <label for="country">Country</label>
+                              <select id="country" class="form-select ajax-select" ajax="common/country/select" refid="id" reftxt="description"  required="">
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card mb-3">
+                        <div class="card-header mb-0 pb-0">
+                          <div class="card-title">
+                            <h6>Performance Information</h6>
+                          </div>
+                        </div>
+                        <div class="card-body shadow-sm ">
+                          <div class="row">
+                            <!-- Mileage -->
+                            <div class="col-md-2 mx-3">
+                              <label for="mileage">Mileage</label>
+                              <input class="form-control" id="mileage" placeholder="">
+                            </div>
+
+                            <!-- Year of Manufacture -->
+                            <div class="col-md-2 mx-3">
+                              <label for="yearOfManufacture">Year of Manufacture</label>
+                              <input class="form-control" id="yearOfManufacture" placeholder="2010">
+                            </div>
+
+                            <!-- Engine Capacity -->
+                            <div class="col-md-2 mx-3">
+                              <label for="engineCapacity">Engine Capacity</label>
+                              <input class="form-control" id="engineCapacity" placeholder="5000CC">
+                            </div>
+
+                            <!-- Engine Condition -->
+                            <div class="col-md-2 mx-3">
+                              <label for="engineCondition">Engine Condition</label>
+                              <input class="form-control" id="engineCondition" placeholder="">
+                            </div>
+
+                            <!-- Body Condition -->
+                            <div class="col-md-2">
+                              <label for="bodyCondition">Body Condition</label>
+                              <input class="form-control" id="bodyCondition" placeholder="">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="card mb-3 ">
+                        <div class="card-header mb-0 pb-0">
+                          <div class="card-title">
+                            <h6>Registration History</h6>
+                          </div>
+                        </div>
+                        <div class="card-body shadow-sm">
+                          <div class="row">
+                            <div class="col-md-5 mx-5">
+                              <label for="firstRegistrationDate">First Registration Date</label>
+                              <input class="form-control" id="firstRegistrationDate" type="date" required="" />
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please select date of birth</div>
+                            </div>
+                            <div class="col-md-5 mx-4">
+                              <label for="lastRegistrationDate">Last Registration Date</label>
+
+                              <input class="form-control" id="lastRegistrationDate" type="date" required="" />
+                              <div class="valid-feedback">Looks good!</div>
+                              <div class="invalid-feedback">Please select date of birth</div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+
+                      <div class="card mb-3">
+                        <div class="card-header mb-0 pb-0">
+                          <div class="card-title">
+                            <h6>Additional Information</h6>
+                          </div>
+                        </div>
+                        <div class="card-body shadow-sm">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <label for="specs">Specs</label>
+                              <textarea class="form-control" placeholder="...." id="specs"></textarea>
+                            </div>
+                          </div>
+
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="frontWithSelfie">Front with Selfie</label>
+                              <input class="form-control" type="file" id="frontWithSelfie">
+                            </div>
+                          </div>
+
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="frontView">Front View</label>
+                              <input class="form-control" type="file" id="frontView">
+                            </div>
+                          </div>
+
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="rearView">Rear View</label>
+                              <input class="form-control" type="file" id="rearView">
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="sideView1">Side View 1</label>
+                              <input class="form-control" type="file" id="sideView1">
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="sideView2">Side View 2</label>
+                              <input class="form-control" type="file" id="sideView2">
+                            </div>
+                          </div>
+                          <div class="row mt-2">
+                            <div class="col-md-12">
+                              <label for="cockpitView">Cockpit View</label>
+                              <input class="form-control" type="file" id="cockpitView">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+      <div th:replace="~{./ui/footer.html}">Side</div>
+    </div>
+  </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script>
+
+  $.fn.dataTable.ext.errMode = 'none';
+
+  $(document).find('.ajax-select').each(function () {
+    convertToSelect2(this);
+  });
+
+  let tableData = {
+    columns: [
+      {"name": "ID", "data": "id", "visible": false},
+      {"name": "Name", "data": "name"},
+      {"name": "Status", "data": "status", "width": "50px"}
+    ],
+    url: window.location.origin + contextPath + 'common/vehicles/datatable',
+    tableSize: 'col-12'
+  };
+
+  let formData = {
+    url: window.location.origin + contextPath + 'common/vehicles',
+    customFields: $('#vehicles_Temp').children(),
+    formSize: 'col-12',
+    contentType: 'json'
+  };
+
+  new initiatePage($('#page'), 'Vehicle', tableData, formData);
+
+
+</script>
+
+
+</body>
+
+
+</html>

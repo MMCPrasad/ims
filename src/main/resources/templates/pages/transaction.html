@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+<main class="main" id="top">
+    <div class="container-fluid" data-layout="container">
+
+        <div th:replace="~{./ui/sidebar.html}"></div>
+        <div class="content">
+            <div th:replace="~{./ui/navbar.html}"></div>
+
+            <div class="container">
+                <div class="row" id="page">
+
+                </div>
+            </div>
+
+
+            <div id="transTemp" style="display: none">
+                <!-- content -->
+                <!-- add all content here -->
+                <div class="col-md-4">
+                    <div class="card mb-3">
+                        <div class="card-body bg-light ">
+                            <div class="tab-content">
+                                <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                                     aria-labelledby="tab-dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95" id="dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95">
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-auto">
+                                            <label class="form-label" for="code">Code</label>
+                                            <input class="form-control" id="code" name="code" type="text" value="C4A345" required="" disabled />
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="name">Full name</label>
+                                            <input class="form-control" id="name" name="name" type="text" placeholder="johnny depp" required="" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter a your full name.</div>
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="type">Debit or Credit</label>
+                                            <!--TODO check credit_or_debit table -->
+                                            <select class="form-select ajax-select" id="type" name="type" ajax="commmon/Dr_cr/select" required="">
+                                            </select>
+                                            <div class="invalid-feedback">Please select a valid method.</div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="chargeCode">Charge Code</label>
+                                            <select class="form-select ajax-select" ajax="common/charge-master/select" refid="id" reftxt="description" id="chargeCode" name="chargeCode" required="">
+                                            </select>
+                                            <div class="invalid-feedback">Please provide a valid charge code.</div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="shortNaration">Short Narration</label>
+                                            <input class="form-control" id="shortNaration" name="shortNaration" type="text" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script>
+
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $(document).find('.ajax-select').each(function () {
+        convertToSelect2(this);
+    });
+
+    let tableData = {
+        columns: [
+            {"name": "ID", "data": "id", "visible": false},
+            {"name": "Name", "data": "name"},
+            {"name": "Status", "data": "status", "width": "50px"}
+        ],
+        url: window.location.origin + contextPath + 'common/transaction/datatable',
+        tableSize: 'col-12'
+    };
+
+    let formData = {
+        url: window.location.origin + contextPath + 'common/transaction',
+        customFields: $('#transTemp').children(),
+        formSize: 'col-12',
+        contentType: 'json'
+    };
+
+    new initiatePage($('#page'), 'Transaction', tableData, formData);
+
+
+</script>
+
+
+</body>
+
+
+</html>

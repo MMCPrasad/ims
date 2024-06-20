@@ -1,0 +1,883 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+           .card-highlight {
+                border-color: darkblue !important; /* Change border color as per your preference */
+                border-width: 2px !important;
+                cursor: pointer;
+            }
+
+            .count-badge {
+                position: absolute;
+                bottom: 0px;
+                right: 0px;
+                background-color: #5b6e84;
+                color: #ffffff;
+                /*padding: 5px;*/
+                padding-left: 13px;
+                padding-right: 11px;
+                /*border-radius: 6%;*/
+                border-top-left-radius: 24px;
+            }
+
+
+            .invoice .invoice-title{
+                /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);*/
+                padding: 10px;
+            }
+
+            .invoice .invoice-title h4
+            {
+                color: #6c757d;
+            }
+
+            .invoice .seperator {
+                border-top: 2px solid rgba(153, 153, 153, 0.3) !important;
+            }
+
+            .invoice .second_part,.invoice .third_part
+            {
+                /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);*/
+                padding: 10px;
+            }
+            .invoice .second_part h5, .invoice .third_part h5{
+                color: black;
+            }
+
+            .invoice .second_part table,
+            .invoice .third_part {
+                color: rgba(0, 0, 0, 0.85);
+            }
+
+            .invoice .second_part table thead th,
+            .invoice .third_part table thead th
+            {
+                font-weight: 900;
+                font-size: 0.75rem;
+                padding-top: 0.35rem;
+                padding-bottom: 0.55rem;
+                letter-spacing: 0.5px;
+                text-transform: uppercase;
+                /*border: 1px solid rgba(0, 0, 0, 0.5);*/
+            }
+
+            .invoice .second_part table  td ,
+            .invoice .third_part table  td
+            {
+                font-size: 0.7rem;
+                /*border: 1px solid rgba(0, 0, 0, 0.5);*/
+            }
+
+            .invoice .second_part table  td h6,
+            .invoice .third_part table  td h6
+            {
+                color: rgb(0 0 0 / 85%);
+            }
+            .invoice h4
+            {
+                color: rgb(0 0 0 / 85%);
+            }
+            .invoice table td, table th{
+                padding: 0.1rem;
+            }
+
+            .invoice dl,.invoice ol,.invoice ul {
+                margin-top: 0;
+                margin-bottom: 0rem;
+            }
+
+            .timeline-with-icons {
+                border-left: 1px solid hsl(0, 0%, 90%);
+                position: relative;
+                list-style: none;
+            }
+
+            .timeline-with-icons .timeline-item {
+                position: relative;
+            }
+
+            .timeline-with-icons .timeline-item:after {
+                position: absolute;
+                display: block;
+                top: 0;
+            }
+
+            .timeline-with-icons .timeline-icon {
+                position: absolute;
+                left: -48px;
+                background-color: hsl(217, 88.2%, 90%);
+                color: hsl(217, 88.8%, 35.1%);
+                border-radius: 50%;
+                height: 31px;
+                width: 31px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .text-capitalize { text-transform: capitalize !important; }
+
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+                    <div id="lead_temp" style="display: none">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-xl-12 col-xxl-12 h-100 m-0 p-0">
+
+                                    <div class="row m-2">
+
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div id="show_leadCode" class="col-md-3 mb-3" style="display:none;">
+                                                    <label for="leadCode" >Lead Code</label>
+                                                    <input  id="leadCode" name="leadCode" class="form-control" disabled>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="nic" >NIC <span class="text-danger">*</span></label>                                                  
+                                                    <input type="text" id="nic" name="nic" class="form-control" required>
+                                                </div>
+
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="title" >Title </label>
+                                                    <select class="form-select ajax-select" id="title" ajax="common/title/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="gender" >Gender </label>                                                   
+                                                    <select class="form-select ajax-select" id="gender" ajax="common/gender/select" refid="id" reftxt="text" ></select>
+                                                </div>
+
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="dateOfBirth">Date of Birth </label>
+                                                    <input type="date"  id="dateOfBirth" name="dateOfBirth"  class="form-control" >
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="fullName">Full Name </label>
+                                                    <input type="text"  id="fullName" name="fullName"  class="form-control" required>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="nameWithInitials">Name With Initial </label>
+                                                    <input type="text" id="nameWithInitials" name="nameWithInitials" class="form-control" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                        <div class="row m-2">
+                                            <div class="col-sm-6">
+                                                <div class="col-12">
+                                                    <label for="permanentAddressL1">Permanent Address </label>
+                                                    <input class="form-control" id="permanentAddressL1" placeholder="Line 1*" >
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <input class="form-control" id="permanentAddressL2" placeholder="Line 2">
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <input class="form-control" id="permanentAddressL3" placeholder="Line 3">
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <select class="form-select ajax-select" placeholder="Select a City" id="permanentCity" ajax="common/city/select" refid="id" reftxt="text" >
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 mb-3">
+                                                <div class="col-12">
+                                                    <label for="residentialAddressL1">Residential Address </label>
+                                                    <input class="form-control" id="residentialAddressL1" placeholder="Line 1*" >
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <input class="form-control" id="residentialAddressL2" placeholder="Line 2">
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <input class="form-control" id="residentialAddressL3" placeholder="Line 3">
+                                                </div>
+                                                <div class="col-12 mt-2">
+                                                    <select class="form-select ajax-select" placeholder="Select a City" id="residentialCity" ajax="common/city/select" refid="id" reftxt="text" >
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="telephones">Telephone</label>
+                                                <div class="col-lg-12 dataArray" id="telephones" func="addTelephone"></div>
+                                                <div class="col-12">
+                                                    <button id="addTelephoneBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Telephone</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="mobiles">Mobile</label>
+                                                <div class="col-lg-12 dataArray" id="mobiles" func="addMobile"></div>
+                                                <div class="col-12">
+                                                    <button id="addMobileBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Mobile</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label" for="emails">Email</label>
+                                                <div class="col-lg-12 dataArray" id="emails" func="addEmail"></div>
+                                                <div class="col-12">
+                                                    <button id="addEmailBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add email</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr>      
+
+                                            <div class="row m-2">
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="branch" >Branch </label>
+                                                    <select class="form-select ajax-select" id="branch" ajax="common/branch/select" refid="id" reftxt="text" ></select>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="marketingOfficer">Marketing Officer  <span class="text-danger">*</span></label>
+                                                    <select class="form-select ajax-select" id="marketingOfficer" ajax="common/account-officer/select" refid="id" reftxt="text" required></select>
+                                                </div>
+
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="leadChannel">Channel  </label>
+                                                    <select class="form-select ajax-select" id="leadChannel" ajax="common/lead-channel/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="leadStage">Stage  <span class="text-danger">*</span></label>
+                                                    <select class="form-select ajax-select" id="leadStage" ajax="common/lead-stage/select" refid="id" reftxt="text" required></select>
+                                                </div>
+                                            </div>
+
+                                            <hr></hr>
+
+
+                                            <div class="row m-2">
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="product">Product  </label>
+                                                    <select class="form-select ajax-select" id="product" ajax="common/product/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="vehicleNumber">Vehicle No  </label>
+                                                    <input type="text"  id="vehicleNumber" name="vehicleNumber"  class="form-control"  > 
+
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="clientType" >Client Type </label>
+                                                    <select class="form-select ajax-select" id="clientType" ajax="common/client-type/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-3">
+                                                    <label for="mileage">Mileage(KM) </label>
+                                                    <input type="text"  id="mileage" name="milege" style="text-align: right;" class="form-control number-format" > 
+                                                </div>
+
+                                            </div>
+
+                                            <hr></hr>
+                                            <div class="row m-2">
+
+                                                <div class="col-md-6">
+                                                    <label for="followupAction">Followup Action <span class="text-danger">*</span></label>
+                                                    <textarea class="form-control" placeholder="Type your comment here." id="followupAction" name="followupAction" required></textarea>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="followupActionDate">Follwup Date <span class="text-danger">*</span></label>
+                                                    <input type="date"  id="followupActionDate" name="followupActionDate"  class="form-control" required>
+                                                </div>
+                                            </div>
+
+                                            <hr></hr>
+                                            <div class="row m-2">
+                                                <div class="col-md-6">
+                                                    <label for="comment">Comment </label>
+                                                    <textarea class="form-control" placeholder="Type your comment here." id="comment" ></textarea>
+                                                </div>
+
+
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                            <div class="col-10 col-lg-10 col-xl-10  " id="indetailsSection" style="display:none;" >
+
+
+
+                                                <div class="invoice card   offset-2" style="">
+                                                    <div class="card-body">
+                                                        <div class="p-3">
+
+                                                            <div class="row">
+                                                                <div class="col-3">
+
+                                                                    <div class="invoice-title">
+
+                                                                        <div class="mb-2">
+                                                                            <img src="img/logos/accelution.jpg" alt="logo" height="40">
+                                                                        </div>
+                                                                        <div class="text-muted">
+                                                                            <h6 class="text-dark opacity-50 mb-1">Accelution Pvt LTD</h6>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-5">
+                                                                    <h5 class=" font-size-12 text-center text-dark" id="">Accelution Pvt LTD</h5>
+                                                                    <h6 class=" font-size-10 text-center text-dark" id="report_name"> </h6>
+                                                                </div>
+                                                                <div class="col-4">
+
+                                                                    <h6 class="text-end text-dark opacity-50" id="reportCode">-</h6>
+                                                                    <h6 class="text-end text-dark opacity-50" id="generated_by">-</h6>
+                                                                    <h6 class="text-end text-dark opacity-50" id="generated_time">-</h6>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <hr class="seperator">
+                                                                <div class="second_part">
+                                                                    <div class="row ">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="text-muted">
+                                                                                <h6 class="font-size-16 mb-3 text-dark">Customer Basic Information:</h6>
+                                                                            </div>
+
+                                                                            <table class="table table-sm  table-bordered border-dark  table-responsive-sm table-responsive-xl table-responsive-xxl table-responsive-lg table-responsive-md text-dark " >
+                                                                                <thead class="">
+                                                                                    <tr> 
+                                                                                        <th style="font-size: 0.55rem;"><center>NIC</center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Name </center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Gender</center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Birthday</center></th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="basic_table_tbody">
+                                                                                    <tr>
+                                                                                        <td class=" text-center" style=" padding: 5px">-</td>
+                                                                                        <td class=" text-center" style="padding: 5px">-</td>
+                                                                                        <td class=" text-center" style="padding: 5px">-</td>
+                                                                                        <td class=" text-center" style="padding: 5px">-</td>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="second_part">
+                                                                    <div class="row ">
+                                                                        <div class="col-sm-12 ">
+                                                                            <div class="text-muted">
+                                                                                <h6 class="font-size-16 mb-3 text-dark" id="secondry_table_name">Customer Contact Information:</h6>
+
+                                                                            </div>
+                                                                            <table class="table table-lg  table-bordered  border-dark  table-responsive-sm table-responsive-xl table-responsive-xxl table-responsive-lg table-responsive-md text-dark" >
+                                                                                <thead class="thead-teal">
+                                                                                    <tr> 
+                                                                                        <th style="font-size: 0.55rem;"><center>Permanent Address</center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Residential Address </center></th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="contact_table1_tbody">
+                                                                                    <td class="" style=" padding: 5px">
+                                                                                        <div></div>  
+                                                                                        <div></div> 
+                                                                                        <div></div> 
+                                                                                        <div></div>
+                                                                                    </td>
+                                                                                    <td class="r" style="padding: 5px">
+                                                                                        <div></div>  
+                                                                                        <div></div> 
+                                                                                        <div></div> 
+                                                                                        <div></div>
+                                                                                    </td>                                                                                  
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                            <table class="table table-lg  table-bordered  border-dark  table-responsive-sm table-responsive-xl table-responsive-xxl table-responsive-lg table-responsive-md text-dark" >
+                                                                                <thead class="thead-teal">
+                                                                                    <tr> 
+                                                                                        <th style="font-size: 0.55rem;"><center>Mobile</center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Telephone </center></th>
+                                                                                        <th style="font-size: 0.55rem;"><center>Email</center></th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="contact_table2_tbody">
+                                                                                    <td class=" text-center" style=" padding: 5px">                                                                                
+                                                                                    </td>
+                                                                                    <td class=" text-center" style="padding: 5px">                                                                                   
+                                                                                    </td>  
+                                                                                    <td class=" text-center" style=" padding: 5px">                                                                                     
+                                                                                    </td>
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                            <hr class="seperator">  
+                                                                                <div class="text-muted">
+                                                                                    <h6 class="font-size-16 mb-3 text-dark">Lead Information</h6>
+
+                                                                                </div>
+                                                                                <table class="table table-lg  table-bordered  border-dark  table-responsive-sm table-responsive-xl table-responsive-xxl table-responsive-lg table-responsive-md text-dark" >
+                                                                                    <thead class="thead-teal" >
+                                                                                        <tr> 
+                                                                                            <th style="font-size: 0.55rem;   text-align: center;" >Lead Code</th>
+                                                                                            <th style="font-size: 0.55rem;  text-align: center;">Channel</th>
+                                                                                            <th style="font-size: 0.55rem;  text-align: center;">Stage</th>
+                                                                                            <th style="font-size: 0.55rem;   text-align: center;">Product</th>
+                                                                                            <th style="font-size: 0.55rem;   text-align: center;">Vehicle No</th>
+                                                                                            <th style="font-size: 0.55rem;   text-align: center;">Client Type</th>
+                                                                                            <th style="font-size: 0.55rem;  text-align: center;">Mileage(KM)</th>
+                                                                                        </tr>
+                                                                                    </thead>
+
+
+                                                                                    <tbody id="lead_table_body">
+                                                                                        <td class=" text-center" style=" padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                        <td class=" text-center" style="padding: 5px"></td>
+                                                                                    </tbody>
+
+                                                                                </table>
+
+                                                                                <div id="reduce_section" > 
+                                                                                    <hr class="seperator">  
+                                                                                        <div class="text-muted">
+                                                                                            <h6 class="font-size-16 mb-3 text-dark" id="secondry_table_name">Follow Up Details</h6>
+
+                                                                                        </div>
+                                                                                        <table class="table table-lg  table-bordered  border-dark  table-responsive-sm table-responsive-xl table-responsive-xxl table-responsive-lg table-responsive-md text-dark" >
+                                                                                            <thead class="thead-teal" >
+                                                                                                <tr> 
+                                                                                                    <th style="font-size: 0.55rem;  width: 10%; text-align: center;">officer</th>
+                                                                                                    <th style="font-size: 0.55rem;  width: 10%; text-align: center;">branch</th>
+                                                                                                    <th style="font-size: 0.55rem;  width: 10%; text-align: center;">Followup date</th>
+                                                                                                    <th style="font-size: 0.55rem;  width: 35%; text-align: center;">Followup action</th>
+                                                                                                    <th style="font-size: 0.55rem; width: 35%; text-align: center;">Comment</th>
+                                                                                                </tr>
+                                                                                            </thead>
+
+
+                                                                                            <tbody id="followup_table_body">
+                                                                                                <td class=" text-center" style="padding: 5px"></td>
+                                                                                                <td class=" text-center" style="padding: 5px"></td>
+                                                                                                <td class=" text-center" style="padding: 5px"></td>
+                                                                                                <td class=" text-center" style="padding: 5px"></td>
+                                                                                                <td class=" text-center" style="padding: 5px"></td>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                </div>
+
+                                                                                <div id="other_section" >
+                                                                                    <hr class="seperator">  
+                                                                                        <div class="text-muted">
+                                                                                            <h6 class="font-size-16 mb-3 text-dark" id="secondry_table_name">The History of the Lead</h6>
+
+                                                                                        </div>
+                                                                                        <div class="">
+                                                                                            <ul class="timeline-with-icons" id="historyLeadList">
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="py-2">
+                                                                    <div class="col-lg-12" style="text-align:right">
+                                                                        <button type="button" class="btn btn-secondary" id="cancelReportBtn"><i class="fas fa-times"></i> Cancel</button>
+                                                                        <button type="button" class="btn btn-success" id="printBtn"><i class="fas fa-print"></i> Print</button>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+
+                                            <div th:replace="~{./ui/footer.html}">Side</div>
+                                            </div>
+
+
+
+                                            </div>
+                                            </main>
+                                            <script th:src="@{/js/lead-pages.js?v=1}"></script>
+                                            <div th:replace="~{./ui/scripts.html}"></div>
+                                            <script th:src="@{/vendors/select2/select2.min.js}"></script>
+                                            <script th:src="@{/js/jquery.cropit.js}"></script>
+
+
+                                            <script>
+
+                                                const selector_ = 'input:not([ignore]):not(.dataArrayObjectElement,.dataObjectElement)[type!=search],select:not(.dataArrayObjectElement,.dataObjectElement):not([ignore]),textarea:not(.dataArrayObjectElement,.dataObjectElement):not([ignore]),.dataArray:not([parent]),.dataObject';
+
+                                                $.fn.dataTable.ext.errMode = 'none';
+                                                $(document).find('.ajax-select').each(function () {
+                                                    convertToSelect2(this);
+                                                });
+
+                                                let tableData = {
+                                                    columns: [
+                                                        {"name": "ID", "data": "id", "visible": false},
+
+                                                        {"name": "Lead ID", "data": "leadCode"},
+                                                        {"name": "Customer Name", "data": "nameWithInitials"},
+                                                        {"name": "NIC", "data": "nic"},
+                                                        {"name": "Branch", "data": "branch"},
+                                                        {"name": "Stage", "data": "stage"},
+                                                        {"name": "Product", "data": "product"},
+                                                        {"name": "Status", "data": "status", "width": "50px"}
+                                                    ],
+                                                    //                                                    url: window.location.origin + contextPath + 'leadCon/datatable/'+status_check,
+                                                    url: window.location.origin + contextPath + 'leadCon/datatable-report',
+                                                    tableSize: 'col-12'
+                                                };
+                                                let formData = {
+                                                    url: window.location.origin + contextPath + 'leadCon',
+                                                    customFields: $('#lead_temp').children(),
+                                                    formSize: 'col-12',
+                                                    contentType: 'json'
+                                                };
+
+                                                let page = new initiatePage($('#page'), 'Lead', tableData, formData);
+
+
+                                                $(document).on('click', '.removeElementBtn', function () {
+                                                    $(this).parent().remove();
+                                                });
+                                                function addMobile(arryObj) {
+                                                    let temp = document.createElement('div');
+                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                    $(temp).html('<input type="text" class="form-control w-25 dataArrayObjectElement" placeholder="Mobile Number" name="number" required="">'
+                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                    if (arryObj) {
+                                                        Object.keys(arryObj).forEach(function (key) {
+                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                        });
+                                                    }
+                                                    $('#mobiles').append(temp);
+                                                }
+
+                                                $('#addMobileBtn').click(function () {
+                                                    addMobile();
+                                                });
+                                                function addTelephone(arryObj) {
+                                                    let temp = document.createElement('div');
+                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                    $(temp).html('<input type="text" class="form-control w-25 dataArrayObjectElement" placeholder="Telephone Number" name="number" required="">'
+                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                    if (arryObj) {
+                                                        Object.keys(arryObj).forEach(function (key) {
+                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                        });
+                                                    }
+                                                    $('#telephones').append(temp);
+                                                }
+
+                                                $('#addTelephoneBtn').click(function () {
+                                                    addTelephone();
+                                                });
+                                                function addEmail(arryObj) {
+                                                    let temp = document.createElement('div');
+                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                    $(temp).html('<input type="text" class="form-control w-25 dataArrayObjectElement" placeholder="email" name="email" required="">'
+                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                    if (arryObj) {
+                                                        Object.keys(arryObj).forEach(function (key) {
+                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                        });
+                                                    }
+                                                    $('#emails').append(temp);
+                                                }
+
+                                                $('#addEmailBtn').click(function () {
+                                                    addEmail();
+                                                });
+
+                                                $(document).on('click', '.editrec', function () {
+                                                    $('#show_leadCode').show();
+                                                });
+                                                $(document).on('click', '#addBtn', function () {
+                                                    $('#show_leadCode').hide();
+                                                });
+
+
+                                                $('#nic').on('keyup', function () {
+                                                    var nic = $(this).val();
+                                                    if (nic.length === 10 || nic.length === 12) {
+                                                        $.ajax({
+                                                            url: 'leadCon/customer/' + nic,
+                                                            type: 'GET',
+                                                            dataType: 'json',
+                                                            success: function (resp) {
+
+
+
+                                                                Swal.fire({
+                                                                    title: "Data is Avaiable!",
+                                                                    text: "Customer Details are avaiable for NIC entered!",
+                                                                    icon: "warning",
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: "#3085d6",
+                                                                    cancelButtonColor: "#d33",
+                                                                    confirmButtonText: "Yes, fill it!"
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+
+                                                                        $('#formSection').find('input').not(':eq(1)').val('');
+                                                                        $('#formSection').find('textarea').val('');
+                                                                        $('#formSection').find('.dataArrayObject').remove();
+                                                                        $('#formSection').find('select').val(null).trigger('change');
+
+
+                                                                        $('#formSection').find(selector_).each(function () {
+                                                                            let data = resp[$(this).attr('id')];
+                                                                            if (data === undefined) {
+                                                                                return;
+                                                                            }
+                                                                            setFieldData(this, data);
+                                                                            $('#formSection').find('textarea').val('');
+                                                                            var inputs = $('#formSection').find('input');
+                                                                            inputs.slice(-3).val('');
+
+                                                                            var selects = $('#formSection').find('select');
+                                                                            var lastSix = selects.slice(-6);
+                                                                            lastSix.val(null).trigger('change');
+
+
+                                                                        });
+
+
+                                                                        Swal.fire({
+
+                                                                            title: "Field!",
+                                                                            text: "Customer data has been added.",
+                                                                            icon: "success",
+
+                                                                        });
+                                                                    }
+                                                                });
+
+                                                            },
+                                                            error: function (xhr, status, error) {
+                                                                $('#formSection').find('input').not(':eq(1)').val('');
+                                                                $('#formSection').find('textarea').val('');
+                                                                $('#formSection').find('select').val(null).trigger('change');
+                                                                $('#formSection').find('.dataArrayObject').remove();
+
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+
+
+
+                                                //            number formating
+                                                var numberFormatInputs = document.querySelectorAll('.number-format');
+                                                numberFormatInputs.forEach(function (input) {
+                                                    input.addEventListener('input', function () {
+                                                        var unformattedValue = this.value.replace(/[^0-9\.]/g, ''); // Remove non-numeric characters
+                                                        var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+
+                                                        this.value = formattedValue;
+                                                        var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                                                        this.setSelectionRange(cursorPosition, cursorPosition);
+                                                    });
+                                                });
+
+
+
+                                                // for name with initial from full name
+
+                                                const fullNameInput = document.getElementById('fullName');
+                                                const nameWithInitialsInput = document.getElementById('nameWithInitials');
+                                                // Add keyup event listener to the full name input field
+                                                fullNameInput.addEventListener('keyup', () => {
+                                                    // Get the value of the full name input
+                                                    const fullName = fullNameInput.value.trim();
+                                                    // Check if the full name contains only one word
+                                                    if (fullName.split(' ').length === 1) {
+                                                        // If so, clear the name with initials input
+                                                        nameWithInitialsInput.value = '';
+                                                        return;
+                                                    }
+
+                                                    // Split the full name into words
+                                                    const words = fullName.split(' ');
+                                                    // Extract the first letters of the first and middle names
+                                                    let initials = words.slice(0, -1).map(word => word.charAt(0)).join('. ') + '.';
+                                                    // Add the last name in full
+                                                    initials += ' ' + words.slice(-1);
+                                                    // Update the name with initials input field
+                                                    nameWithInitialsInput.value = initials;
+                                                });
+
+
+
+                                                reload_dashboard_details();
+                                                function reload_dashboard_details() {
+
+                                                    $.post('leadCon/dashboard_details', function (resp) {
+                                                        var total = resp.total;
+                                                        var stage1 = resp.stage_1;
+                                                        var stage2 = resp.stage_2;
+                                                        var stage3 = resp.stage_3;
+                                                        var stage4 = resp.stage_4;
+                                                        var lateCount = resp.late_count;
+
+                                                        $('#card_1').text(total);
+                                                        $('#card_2').text(stage1);
+                                                        $('#card_3').text(stage2);
+                                                        $('#card_4').text(stage3);
+                                                        $('#card_5').text(stage4);
+                                                        $('#card_6').text(lateCount);
+                                                    });
+                                                }
+
+
+                                                $(document).ready(function () {
+
+
+
+
+                                                    let temm = document.createElement('div');
+                                                    $(temm).html(`
+                                                                    <div class="row m-2">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="title" >Stage</label>
+                                <select class="form-select ajax-select" id="stageFilter" ajax="common/lead-stage/select" refid="id" reftxt="text" ></select>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="gender" >Branch </label>                                                   
+                                <select class="form-select ajax-select" id="branchFilter" ajax="common/branch/select" refid="id" reftxt="text" ></select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="gender" >Product </label>                                                   
+                                <select class="form-select ajax-select" id="productFilter" ajax="common/product/select" refid="id" reftxt="text" ></select>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="gender" >Channel </label>                                                   
+                                <select class="form-select ajax-select" id="channelFilter" ajax="common/lead-channel/select" refid="id" reftxt="text" ></select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="gender" >Status </label>                                                   
+                                <select class="form-select ajax-select" id="statusFilter"  >
+                                    <option  selected>All</option>
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="gender" >Followup Date </label>                                                   
+                                <select class="form-select ajax-select" id="followupActionDateFilter" >
+                                    <option  selected>All</option>
+                                    <option value="delayed"  >Delayed</option>
+                                    <option value="next" >Next</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="dateOfBirth">From </label>
+                                <input type="date"  id="fromFilter" name="from"  class="form-control" >
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="dateOfBirth">Date As at </label>
+                                <input type="date"  id="dateAsAtFilter" name=""  class="form-control" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                    `);
+                                                    $('#dropdownSection').append(temm);
+
+
+
+
+
+
+                                                    $('#dropdownSection').find('.ajax-select').each(function () {
+                                                        convertToSelect2(this);
+                                                    });
+
+
+                                                    $('#dashboard_addId').hide();
+
+
+
+
+
+
+
+
+                                                    $('#stageFilter, #branchFilter, #productFilter, #channelFilter, #statusFilter, #statusFilter, #fromFilter , #dateAsAtFilter, #followupActionDateFilter').change(function () {
+                                                        page.setAdditionData({'stage': $('#stageFilter').val() || '', 'branch': $('#branchFilter').val() || '', 'product': $('#productFilter').val() || '', 'channel': $('#channelFilter').val() || '', 'status': $('#statusFilter').val() || '', 'followupActionDate': $('#followupActionDateFilter').val() || '', 'from': $('#fromFilter').val() || '', 'dateAsAt': $('#dateAsAtFilter').val() || ''});
+                                                        page.dataTable.ajax.reload();
+
+                                                    });
+
+
+
+
+
+
+
+                                                    reload_dashboard_details();
+
+
+
+
+                                                });
+
+                                                $(document).on('click', '#cancelReportBtn', function () {
+                                                    showTable();
+                                                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            </script>
+                                            </body>
+
+                                            </html>
+
+

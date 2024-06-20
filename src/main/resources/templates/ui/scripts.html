@@ -1,0 +1,177 @@
+<script th:src="@{/vendors/popper/popper.min.js}"></script>
+<script th:src="@{/vendors/bootstrap/bootstrap.min.js}"></script>
+<script th:src="@{/vendors/anchorjs/anchor.min.js}"></script>
+<script th:src="@{/vendors/is/is.min.js}"></script>
+<script th:src="@{/vendors/fontawesome/all.min.js}"></script>
+<script th:src="@{/vendors/lodash/lodash.min.js}"></script>
+<script th:src="@{/vendors/list.js/list.min.js}"></script>
+
+<script th:src="@{/js/theme.js}"></script>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/jquery.highlight.js}"></script>
+<script th:src="@{/js/datatables.min.js}"></script>
+<script th:src="@{/js/sweetalert2.min.js}"></script>
+<script th:src="@{/js/common-pages.js?v=1}"></script>
+
+
+<script th:src="@{/js/splide.min.js}"></script>
+
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var contextPath = /*[[ @{/} ]]*/ '';
+    /*]]>*/
+</script>
+
+<script>
+
+    function arrangePages(array) {
+        const itemMap = new Map();
+        const roots = [];
+        array.forEach(item => {
+            item.children = [];
+            itemMap.set(item.id, item);
+        });
+        array.forEach(item => {
+            if (item.parent) {
+                const parent = itemMap.get(item.parent);
+                parent.children.push(item);
+            } else {
+                roots.push(item);
+            }
+        });
+        return roots;
+    }
+
+    fetch(window.location.origin + contextPath + 'system-pages/user').then(resp => resp.json()).then(pages => {
+        //$('#navbarVerticalNav').html('');
+        pages = arrangePages(pages);
+        pages.sort((a, b) => (a.odr > b.odr) ? 1 : ((b.odr > a.odr) ? -1 : 0));
+        pages.forEach(page => {
+            let navItem = document.createElement('div');
+            $(navItem).addClass('nav-item');
+
+            let verticalLabel = document.createElement('div');
+            $(verticalLabel).addClass('row navbar-vertical-label-wrapper mt-3 mb-2');
+            $(verticalLabel).html('<div class="col-auto navbar-vertical-label">' + page.name + '</div>'
+                    + '<div class="col ps-0">'
+                    + '<hr class="mb-0 navbar-vertical-divider" />'
+                    + '</div>');
+
+            $(navItem).append(verticalLabel);
+
+            //with icons
+            let l2Pages = page.children;
+            l2Pages.sort((a, b) => (a.odr > b.odr) ? 1 : ((b.odr > a.odr) ? -1 : 0));
+
+            l2Pages.forEach(l2Page => {
+
+                let l2Link = document.createElement('a');
+                $(l2Link).addClass('nav-link');
+
+                let l3Pages = l2Page.children;
+                l3Pages.sort((a, b) => (a.odr > b.odr) ? 1 : ((b.odr > a.odr) ? -1 : 0));
+
+                if (l3Pages.length > 0) {
+                    $(l2Link).addClass('dropdown-indicator');
+                    $(l2Link).attr('role', 'button');
+                    $(l2Link).attr('data-bs-toggle', 'collapse');
+                    $(l2Link).attr('aria-expanded', 'false');
+                    $(l2Link).attr('href', '#page' + l2Page.id);
+                    $(l2Link).attr('aria-controls', 'page' + l2Page.id);
+
+                    $(l2Link).html('<div class="d-flex align-items-center">'
+                            + '<span class="nav-link-icon">'
+                            + '<span class="' + l2Page.icon + '"></span>'
+                            + '</span>'
+                            + '<span class="nav-link-text ps-1">' + l2Page.name + '</span>'
+                            + '</div>');
+
+
+                    let collapseUl = document.createElement('ul');
+                    $(collapseUl).addClass('nav collapse');
+                    $(collapseUl).attr('id', 'page' + l2Page.id);
+
+                    l3Pages.forEach(l3Page => {
+                        let l3Li = document.createElement('li');
+                        $(l3Li).addClass('nav-item');
+
+                        let l4Pages = l3Page.children;
+                        l4Pages.sort((a, b) => (a.odr > b.odr) ? 1 : ((b.odr > a.odr) ? -1 : 0));
+
+                        let l3Link = document.createElement('a');
+                        $(l3Link).addClass('nav-link');
+                        $(l3Link).attr('href', window.location.origin + contextPath + l3Page.url);
+                        $(l3Link).html('<div class="d-flex align-items-center">'
+                                + '<span class="nav-link-text ps-1">' + l3Page.name + '</span>'
+                                + '</div>');
+
+                        if (l4Pages.length > 0) {
+                            $(l3Link).addClass('dropdown-indicator');
+                            $(l3Link).attr('role', 'button');
+                            $(l3Link).attr('data-bs-toggle', 'collapse');
+                            $(l3Link).attr('aria-expanded', 'false');
+                            $(l3Link).attr('href', '#page' + l3Page.id);
+                            $(l3Link).attr('aria-controls', 'page' + l3Page.id);
+
+                            let collapseUlL3 = document.createElement('ul');
+                            $(collapseUlL3).addClass('nav collapse');
+                            $(collapseUlL3).attr('id', 'page' + l3Page.id);
+
+                            l4Pages.forEach(l4Page => {
+                                let l4Li = document.createElement('li');
+                                $(l4Li).addClass('nav-item');
+
+                                let l4Link = document.createElement('a');
+                                $(l4Link).addClass('nav-link');
+                                $(l4Link).attr('href', window.location.origin + contextPath + l4Page.url);
+                                $(l4Link).html('<div class="d-flex align-items-center">'
+                                        + '<span class="nav-link-text ps-1">' + l4Page.name + '</span>'
+                                        + '</div>');
+
+                                $(l4Li).append(l4Link);
+                                $(collapseUlL3).append(l4Li);
+                            });
+                            $(l3Li).append(l3Link);
+                            $(l3Li).append(collapseUlL3);
+                        }else{
+                            $(l3Li).append(l3Link);
+                        }
+                        
+                        $(collapseUl).append(l3Li);
+
+                    });
+
+                    $(navItem).append(l2Link);
+                    $(navItem).append(collapseUl);
+
+
+                } else {
+
+                    $(l2Link).html('<div class="d-flex align-items-center">'
+                            + '<span class="nav-link-icon">'
+                            + '<span class="' + l2Page.icon + '"></span>'
+                            + '</span>'
+                            + '<span class="nav-link-text ps-1">' + l2Page.name + '</span>'
+                            + '</div>');
+
+                    $(l2Link).attr('href', window.location.origin + contextPath + l2Page.url);
+                    $(navItem).append(l2Link);
+                }
+
+
+
+            });
+            $('#navbarVerticalNav').append(navItem);
+        });
+
+        $('a[href="' + window.location.href + '"]').addClass('active');
+        $('a[href="' + window.location.href + '"]').parents('ul.nav').each(function () {
+            $(this).addClass('show');
+            $(document).find('a[href="#' + $(this).attr('id') + '"]').attr('aria-expanded', 'true');
+        });
+
+    });
+</script>

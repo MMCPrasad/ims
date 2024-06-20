@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+                <style>
+                    h6{
+                        margin-bottom: .5rem;
+                        font-family: inherit;
+                        font-weight: 500;
+                        line-height: 1.1;
+                        /*color: white;*/
+                        font-weight: 400;
+                        font-size: 1.2rem;
+                    }
+                    .cards .card-block-small {
+                        padding: 15px 20px;
+                    }
+                    .cards {
+                        position: relative;
+                        overflow: hidden;
+                        cursor: pointer;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+                        transition: transform 0.3s ease; /* Add a transition for the transform property */
+                    }
+
+                    .cards:hover {
+                        transform: translateY(-5px); /* Move the card up slightly on hover */
+                    }
+
+                    .cards::before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        transition: all 0.3s ease;
+                        opacity: 0;
+                        transform: translateY(100%);
+                        overflow: hidden;
+                        padding: 10px 0;
+                        background-color: rgba(255, 255, 255, 0.9); /* Add a background color for the "like" popup */
+                        border-radius: 10px; /* Match the border-radius of the card */
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Match the box-shadow of the card */
+                    }
+
+                    /*                        .cards:hover::before {
+                                                opacity: 1;
+                                                transform: translateY(-100%);  Move the "like" popup up 
+                                            }*/
+
+
+                    .cards i {
+                        position: absolute;
+                        bottom: 10px;
+                        left: -20px;
+                        transition: all 0.3s ease;
+                        transform-origin: bottom left;
+                        transform: scale(3.5) ;
+                        opacity: 0.5; /* Set the opacity to 50% */
+                    }
+
+                    .cards:hover i {
+                        transform: rotate(15deg) scale(5);
+                        opacity: 0.5; /* Set the opacity to 100% on hover */
+                    }
+
+                    .text-color-black{
+                        color: black;
+                    }
+
+                    .container {
+                        width: 80%;
+                        margin: auto;
+                    }
+
+                    .box{
+                        border: 1px solid black;
+
+                    }
+                    .header, .section {
+                        /*                        border: 1px solid black;*/
+                        margin-bottom: 10px;
+                    }
+                    .header {
+                        text-align: center;
+                        padding: 10px;
+                    }
+                    .section {
+                        padding: 10px;
+                    }
+                    .section table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    .section table, .section th, .section td {
+                        border: 1px solid black;
+                    }
+                    .section th, .section td {
+                        padding: 5px;
+                        text-align: left;
+                    }/*
+                    .section th {
+                        background-color: #f2f2f2;
+                    }*/
+                    .label {
+                        font-weight: bold;
+                        display: inline-block;
+                        /*width: 100px;*/
+                    }
+                    .form-row {
+                        margin-bottom: 10px;
+                    }
+                    .comment-box {
+                        width: 100%;
+                        height: 100px;
+                        border: 1px solid black;
+                    }
+
+                </style>
+
+                <section class="navi-card" style="padding: 0rem 1rem;" id="navi-card">
+                    <div class="row " style="margin-bottom: 1px;margin-top: 10px;">  
+
+                    </div>
+                    <div class="row"> 
+                        <div class="col">
+                            <div class="cards  bg-c-green text-white widget-visitor-card" id="hodpendingcrd" style="height: 100px;    background:linear-gradient(to top, #9CF1EB, #33A6B8);">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="hodpending_count">0</h4>
+                                    <h6 class="text-color-black">Request Initiated</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="cards  bg-c-green text-white widget-visitor-card" id="rejectgcrd" style="height: 100px;    background: linear-gradient(to top, #E48989 , #E74C4C);">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="reject_count">0</h4>
+                                    <h6 class="text-color-black">Rejected</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="cards  bg-c-green text-white widget-visitor-card" id="adminpendingcrd" style="height: 100px;    background: linear-gradient(to top, #1AA3FF, #0056A3);">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="admin_pending_count">0</h4>
+                                    <h6 class="text-color-black">Procurement Queue</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cards bg-c-yellow text-white widget-visitor-card" id="qoutationApprovalPendingcrd" style="height: 100px; background: linear-gradient(to top, #F09CF1, #C42CB0);">
+                                <div class="card-block-small text-center" >
+                                    <h4 class="text-color-black" id="qoutaion_approval_pending_count">0</h4>
+                                    <h6 class="text-color-black">Pending Approval</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="cards bg-c-pink  text-white widget-visitor-card" id="po_pending_crd" style="height: 100px;background: linear-gradient(to top, rgb(255, 255, 128), rgb(255, 193, 7));">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="po_pending_count">0</h4>
+                                    <h6 class="text-color-black">PO Pending</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cards bg-c-info  text-white widget-visitor-card cardActive" id="po_saved_crd" style="height: 100px; background: linear-gradient(to top, #86F453, #34A853);">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="po_saved_count">0</h4>
+                                    <h6 class="text-color-black">PO Issued</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cards bg-c-pink  text-white widget-visitor-card" id="grn_canceled_crd" style="height:100px; background: linear-gradient(to top, rgb(255, 102, 115), rgb(220, 53, 69));">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="grn_canceled_count">0</h4>
+                                    <h6 class="text-color-black">PO Canceled</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="cards bg-c-pink  text-white widget-visitor-card" id="grn_issued_crd" style="height:100px; background: linear-gradient(to top, rgb(102, 187, 153), rgb(25, 135, 84));">
+                                <div class="card-block-small text-center">
+                                    <h4 class="text-color-black" id="grn_issued_count">0</h4>
+                                    <h6 class="text-color-black">GRN Issued</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row " style="margin-bottom: 1px;margin-top: 10px;">  
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+                <div class="row" id="page">
+                    <div class="col-12" id="tableSection">
+                        <div class="card" style="padding-top: 30px;">
+                            <div id="fixed-asset-request_edit" style="display: none;">
+                                <div class="container box">
+                                    <div class="card-header header">
+                                        <div class="row">
+                                            <div style="float: left;" class="col-3"><img src="img/logos/accelution.jpg" alt="logo" height="40"></div>
+                                            <div style="float: inside;" class="col-6"><h4><b>Fixed Asset Request Form</b></h4></div>
+                                            <div style="float: right;" class="col-3">Ref No:<span id="requestId_edit" class="mb-0 fw-semi-bold"></span></div>
+                                        </div>
+                                    </div>
+                                    <div class="section">
+                                        <div class="form-row row">
+                                            <div class="col">
+                                                <span class="label">Request By:</span>
+                                                <span id="requestBy_edit" class="mb-0 fw-semi-bold"></span>
+                                            </div>
+                                            <div class="col" style="padding-left: 250px;">
+                                                <span class="label" >Date:</span>
+                                                <span id="endOn_edit" class="mb-0 fw-semi-bold"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-row row">
+                                            <div class="col">
+                                                <span class="label">Department:</span>
+                                                <span id="department_edit" class="mb-0 fw-semi-bold"></span>
+                                            </div>
+                                            <div class="col"></div>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <span class="label">Item Detail:</span>
+                                            <table class="table table-sm table-bordered">
+                                                <thead class="bg-200 text-900">
+                                                    <tr>
+                                                        <th>Asset</th>
+                                                        <th>Quantity</th>
+                                                        <th>Budget</th>
+                                                        <th>Budget Line</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><span id="asset_edit"></span></td>
+                                                        <td class="text-end"><span id="quantity_edit"></span></td>
+                                                        <td><span id="budgetAvailability_edit"></span></td>
+                                                        <td><span id="budgetLine_edit"></span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-row">
+                                            <span class="label">Justification:</span>
+                                            <span id="justification_edit"></span>
+                                        </div>
+                                        <div class="fa_request_form" id="fa_request_form">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body" id="table_card">
+
+                                <div class="table-responsive scrollbar">
+                                    <table class="table table-sm data-table table-bordered" id="mainTable">
+                                        <thead class="bg-200 text-900">
+                                            <tr>
+                                                <th>Request Id</th>
+                                                <th>Requested By</th>
+                                                <th>Asset</th>
+                                                <th>Request On</th>
+                                                <th>Department</th>
+                                                <th>Approval Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="card-footer" style="text-align:right">
+                                <button type="button" class="btn btn-secondary" id="cancelBtn_edit" style="display: none;">Cancel</button>
+                                <button class="btn btn-primary" id="addBtn"><i class="fas fa-plus"></i> Add</button>
+                                <button onclick="printDiv('fixed-asset-request_edit')" type="button" class="btn btn-success" id="printBtn" style="display: none;"><i class="fas fa-print"></i> Print</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="fixed-asset-request" style="display: none;">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+                                        <div class="card w-full md:w-1300px shadoq-lg ps-3">
+                                            <div class="card-header">
+                                                <h5 class="card-title mb-0">Create Fixed Asset Request</h5>
+                                            </div>
+                                            <div class="card-body" >
+                                                <form>
+
+                                                    <!--                                                        <div class="row padding_bottom_5">
+                                                                                                                <div class="col-md-2">
+                                                                                                                    <label for="request_id">Reference No<span class="text-danger">*</span></label>
+                                                                                                                </div>
+                                                                                                                <div class="col-md-4">
+                                                                                                                    <input type="text" class="form-control" id="requestId" required="">
+                                                                                                                </div>
+                                                                                                            </div>-->
+
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-2">
+                                                            <label for="department">Department<span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <select id="department" class="form-select ajax-select" ajax="common/department/select" refid="id" reftxt="text" required="" ></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-2">
+                                                            <label for="asset">Asset<span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <table class="table table-sm table-bordered" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <td style="padding-left: 0.5rem" class="col-md-4">Asset</td>
+                                                                        <td style="width:15%">Quantity</td>
+                                                                        <td>Budget</td>
+                                                                        <td>Budget Line</td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td style="padding-left: 0.5rem"><select id="asset" class="form-select ajax-select col-md-3" ajax="common/sub-category/select" refid="id" reftxt="text" required="" ></select></td>
+                                                                        <td><input type="number" class="form-control qty text-end" id="quantity" min="0" required=""></td>
+                                                                        <td>
+                                                                            <select id="budgetAvailability" class="form-select ajax-select" onchange="handleBudgetAvailabilityChange()" required="">
+                                                                                <option value="Yes">Yes</option>
+                                                                                <option value="No">No</option>
+                                                                            </select>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <select id="budgetLine" class="form-select ajax-select"  ajax="common/budget/select" refid="id" reftxt="text"></select>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row padding_bottom_5" >
+                                                        <div class="col-md-2">
+                                                            <label for="justification">Justification</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <textarea id="justification" class="form-control"></textarea>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-2">
+                                                            <label for="requestBy">Request By</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <lable id="requestBy" th:text="${session.username}" class="mb-0 fw-semi-bold"></lable>                                                           
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-2">
+                                                            <label for="currentDate">Request Date</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <lable  class="mb-0 fw-semi-bold" id="currentDate"></lable>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-2">
+                                                            <label for="recommendTo">Recommend To<span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <select id="recommendTo" class="form-select ajax-select"
+                                                                    ajax="common/user/select" refid="id"
+                                                                    reftxt="text" required=""></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row padding_bottom_5">
+                                                        <div class="col-md-4">
+
+                                                        </div>
+                                                        <div class="col-md-4">
+
+                                                        </div>
+                                                        <div class="col-md-4" style="text-align: right;">
+                                                            <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                                                            <button type="button" class="btn btn-success" id='submit_rq'>Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>        
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+    <script>
+        function handleBudgetAvailabilityChange() {
+            var budgetAvailability = document.getElementById("budgetAvailability");
+            var budgetLine = document.getElementById("budgetLine");
+
+            if (budgetAvailability.value === "No") {
+                budgetLine.disabled = true;
+                budgetLine.removeAttribute("required"); // Remove the required attribute
+                clearSelectOptions(budgetLine);
+            } else {
+                budgetLine.disabled = false;
+                budgetLine.setAttribute("required", ""); // Add the required attribute
+            }
+        }
+
+
+        function clearSelectOptions(selectElement) {
+            selectElement.innerHTML = "";
+        }
+    </script>
+
+    <script th:inline="none">
+
+        $.fn.dataTable.ext.errMode = 'none';
+
+
+        let tableData = {
+            columns: [
+                {"data": "id", "title": "ID", "visible": false},
+                {"data": "requestId", "title": "Request ID"},
+                {"data": "item", "title": "Asset"},
+                {"data": "entOn", "title": "Requested On"},
+                {"data": "department", "title": "Department"},
+                {"data": "recommendTo", "title": "Recommended To"},
+                {"data": "action", "title": "Status", "width": "50px"}
+            ],
+            url: window.location.origin + contextPath + 'fa_request/datatable_fa_request',
+            tableSize: 'col-12'
+        };
+        $('#page').find('#mainTable thead').find('tr').first().append('<th style="width:1px;">Action</th>');
+
+        let status = 'all';
+
+        let datatable = $('#page').find('#mainTable').DataTable({
+            "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+            "pageLength": tableData.pageLength || 10,
+            "ordering": true,
+            "autoWidth": false,
+            "processing": true,
+            "serverSide": true,
+            "order": [[0, "desc"]],
+            "searchHighlight": true,
+            "searchDelay": 350,
+            "ajax": {
+                "url": tableData.url,
+                "contentType": "application/json",
+                "type": "POST",
+                "data": function (d) {
+                    d.data = status;
+                    return JSON.stringify(d);
+                },
+                error: function (xhr, error, code) {
+                    console.log(xhr);
+                    console.log(code);
+                }
+            },
+            "columns": tableData.columns,
+            "createdRow": tableData.createdRow || function (row, data) {
+                let action_td = document.createElement('td');
+                $(action_td).addClass('text-center');
+                if (data['status'] === 'inactive') {
+                    $(action_td).append('<a href="javascript:void(0)" class="reactrec" data-toggle="tooltip" data-placement="top" title="Reactivate Record"><i class="fas fa-check h6 text-success"></i></a>');
+                } else {
+                    $(action_td).append('<a href="javascript:void(0)" class="editrec me-1" data-toggle="tooltip" data-placement="top" title="Edit Record"><i class="fa fa-eye h6 text-info" style="color: #000000;"></i></a>');
+                }
+                $(row).append(action_td);
+
+//                if (pageName === "Fixed Asset Requests" || pageName === "Fixed Asset Requests Admin" || pageName === "Admin Approved Fixed Asset Requests") {
+//                    setTableStatus($(row).find('td').eq(tableData.columns.length - 3));
+//                } else {
+                setTableStatus($(row).find('td').eq(tableData.columns.length - 2));
+//                }
+                $(row).data('id', data['id']);
+                $(row).data('tId', data['tId']);
+                //$(row).find('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+
+        // Listen for the 'init' event which fires when the DataTable is initialized
+        datatable.on('init.dt', function () {
+            // Count the number of rows where the 'action' column is 'recommended'
+            let recommendedRowsCount = 0;
+            let rejectedCount = 0;
+            let hodPendingCount = 0;
+            let adminPendingCount = 0;
+            let qoutationPendingCount = 0;
+            let qoutationApprovalPendingCount = 0;
+            let poPendingCount = 0;
+            let poApprovalPendingCount = 0;
+            let poSavedCount = 0;
+            let grnPendingCount = 0;
+            let grnCanceledCount = 0;
+            let grnApprovalPendingCount = 0;
+            let grnIssuedCount = 0;
+            let numberOfRows = datatable.rows().count();
+            datatable.rows().nodes().each(function (row) {
+
+                let rowData = datatable.row(row).data();
+                if (rowData.action === 'recommended') {
+                    adminPendingCount++;
+                }
+                if (rowData.action === 'rejected') {
+                    rejectedCount++;
+                }
+                if (rowData.action === 'hod_reject' || rowData.action === 'admin_rejected' || rowData.action === 'budget_rejected' || rowData.action === 'quotaion_rejected' || rowData.action === 'po_rejected' || rowData.action === 'grn_rejected') {
+                    rejectedCount++;
+                }
+                if (rowData.action === 'requested') {
+                    hodPendingCount++;
+                }
+                if (rowData.action === 'approval_pending') {
+                    adminPendingCount++;
+                }
+
+                if (rowData.action === 'initial_approved') {
+                    adminPendingCount++;
+                }
+
+                if (rowData.action === 'quotuion_approval_pending') {
+                    qoutationApprovalPendingCount++;
+                }
+                if (rowData.action === 'po_pending') {
+                    poPendingCount++;
+                }
+                if (rowData.action === 'po_approval_pending') {
+                    poPendingCount++;
+                }
+                if (rowData.action === 'po_saved' || rowData.action === 'grn_pending' || rowData.action === 'grn_approval_pending') {
+                    poSavedCount++;
+                }
+
+                if (rowData.action === 'grn_canceled') {
+                    grnCanceledCount++;
+                }
+
+                if (rowData.action === 'grn_issued') {
+                    grnIssuedCount++;
+                }
+            });
+
+            $("#all_count").text(numberOfRows);
+            $("#reco_count").text(recommendedRowsCount);
+            $("#rejected_count").text(rejectedCount);
+            $("#hodpending_count").text(hodPendingCount);
+            $("#admin_pending_count").text(adminPendingCount);
+            $("#qoutaion_pending_count").text(qoutationPendingCount);
+            $("#qoutaion_approval_pending_count").text(qoutationApprovalPendingCount);
+            $("#po_pending_count").text(poPendingCount);
+            $("#po_approval_pending_count").text(poApprovalPendingCount);
+            $("#po_saved_count").text(poSavedCount);
+            $("#grn_pending_count").text(grnPendingCount);
+            $("#grn_canceled_count").text(grnCanceledCount);
+            $("#grn_approval_pending_count").text(grnApprovalPendingCount);
+            $("#grn_issued_count").text(grnIssuedCount);
+            $("#reject_count").text(rejectedCount);
+
+        });
+
+        function setTableStatus(td) {
+            if ($(td).html().trim().startsWith('approved')) {
+                $(td).html('<small class="badge fs--1 badge-soft-success">Admin Approved</small>');
+            } else if ($(td).html() === 'rejected') {
+                $(td).html('<small class="badge fs--1 badge-soft-danger">Rejected</small>');
+            } else if ($(td).html() === 'pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">Pending</small>');
+            } else if ($(td).html() === 'recommended' || $(td).html() === 'forwarded') {
+                $(td).html('<small class="badge fs--1  badge-soft-warning">Recommended</small>');
+            } else if ($(td).html() === 'approval_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-success">Admin Pending</small>');
+            } else if ($(td).html() === 'admin_approved' || $(td).html() === 'budget_checked' || $(td).html() === 'budget_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">Budget Pending</small>');
+            } else if ($(td).html() === 'admin_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-success">HOD Approved</small>');
+            } else if ($(td).html() === 'budget_rejected') {
+                $(td).html('<small class="badge fs--1 badge-soft-danger">Budget Rejected</small>');
+            } else if ($(td).html() === 'requested' || $(td).html() === 'request_forwarded_admin_stage') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">Requested</small>');
+            } else if ($(td).html() === 'budget_approved' || $(td).html() === 'po_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">PO Pending</small>');
+            } else if ($(td).html() === 'quotuion_approval_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">Quotation Approval Pending</small>');
+            } else if ($(td).html() === 'initial_approved') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">Quotation Pending</small>');
+            } else if ($(td).html() === 'po_approval_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">PO Approval Pending</small>');
+            } else if ($(td).html() === 'po_saved') {
+                $(td).html('<small class="badge fs--1 badge-soft-success">PO Saved</small>');
+            } else if ($(td).html() === 'grn_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">GRN Pending</small>');
+            } else if ($(td).html() === 'grn_approval_pending') {
+                $(td).html('<small class="badge fs--1 badge-soft-warning">GRN Approval Pending</small>');
+            } else if ($(td).html() === 'grn_issued') {
+                $(td).html('<small class="badge fs--1 badge-soft-success">GRN Issued</small>');
+            } else if ($(td).html() === 'po_rejected') {
+                $(td).html('<small class="badge fs--1 badge-soft-danger">PO Rejected</small>');
+            } else if ($(td).html() === 'grn_rejected') {
+                $(td).html('<small class="badge fs--1 badge-soft-danger">GRN Rejected</small>');
+            } else if ($(td).html() === 'grn_canceled') {
+                $(td).html('<small class="badge fs--1 badge-soft-danger">GRN Canceled</small>');
+            }
+        }
+
+    </script>
+
+
+    <script>
+        // Get today's date
+        const today = new Date();
+
+        // Get year, month, and day
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Adding 1 because month is zero-based
+        const day = String(today.getDate()).padStart(2, '0');
+
+        // Construct the date string in "YYYY-MM-DD" format
+        const formattedDate = `${year}-${month}-${day}`;
+
+        // Display the date on the webpage
+        document.getElementById('currentDate').textContent = formattedDate;
+    </script>
+
+    <script>
+
+        // Access the Thymeleaf content in JavaScript
+        const uidLabel = document.getElementById('requestBy');
+        const uid = uidLabel.textContent.trim();
+        console.log(uid); // Log the retrieved content to the console
+
+//      convert to slim select
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let formData = {
+            url: window.location.origin + contextPath + 'fixed-asset-request',
+            customFields: $('#fixed-asset-request').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+
+
+        document.getElementById('submit_rq').addEventListener('click', function () {
+
+            ///////// VALIDATIONS //////////////////////////////
+            let requiredFields = document.querySelectorAll('[required]');
+            for (let i = 0; i < requiredFields.length; i++) {
+                if (requiredFields[i].value.trim() === '') {
+                    showError(`Please enter ${getFieldName(requiredFields[i])}.`);
+                    return; // Prevent form submission if any required field is empty
+                }
+            }
+
+//            // Validate asset field
+//            let assetRows = document.querySelectorAll('#multiasset tr');
+//            if (assetRows.length === 0) {
+//                showError('Please add at least one asset.');
+//                return; // Prevent form submission if no asset is added
+//            }
+
+            // If all required fields are filled, proceed with form submission
+
+            console.log('Form submitted successfully.');
+
+            function showError(message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Validation Error',
+                    text: message
+                });
+            }
+
+            function getFieldName(field) {
+                // Convert field ID to human-readable format (e.g., "requestId" to "Request Id")
+                return field.getAttribute('id').replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+            }
+            /////////////////////////////////////////////////////////////////////////////////
+
+
+//
+            let data = {};
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            let department = {
+                id: $('#department').val(),
+                text: $('#department').text()
+            };
+            data.department = department;
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            let asset = {
+                id: $('#asset').val(),
+                text: $('#asset').text()
+            };
+            data.asset = asset;
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+//            let requestBy = {
+//                id: $('#requestBy').val(),
+//                text: $($('#requestBy')).text()
+//            };
+//            data.requestBy = requestBy;
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+            let recommendTo = {
+                id: $('#recommendTo').val(),
+                text: $('#recommendTo').text()
+            };
+            data.recommendTo = recommendTo;
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+            data.justification = $('#justification').val();
+
+            data.quantity = $('#quantity').val();
+
+            data.budgetAvailability = $('#budgetAvailability').val();
+
+
+            let budgetLine = {
+                id: $('#budgetLine').val(),
+                text: $('#budgetLine').text()
+            };
+
+            if ($('#budgetAvailability').val() === "Yes") {
+                data.budgetLine = budgetLine;
+            } else {
+                data.budgetLine = null;
+            }
+
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+            console.log(data);
+
+            let jsonData = JSON.stringify(data);
+            console.log(jsonData);
+
+            let headers = {
+                'Content-Type': 'application/json'
+            };
+
+//            let multi_asset = [];
+
+
+
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This record will be saved !",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4bbf73',
+                cancelButtonColor: '#495057',
+                confirmButtonText: 'Yes, Continue!',
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    return fetch(formData.url, {
+                        method: 'POST',
+                        body: jsonData,
+                        headers: headers
+                    }).then(response => {
+                        //session timeout
+                        if (response.status === 302) {
+                            throw new Error("session Timed out !, Please login to continue !");
+                        }
+                        //unexpected Error
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).catch(error => {
+                        Swal.showValidationMessage('Request failed:' + error);
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+
+            }).then((result) => {
+                if (result.value) {
+                    if (result.value.status !== 'success') {
+                        Swal.fire('Error!', result.value.message, 'error');
+                    } else {
+                        Swal.fire('Successful!', result.message, 'success').then(() => {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        );
+
+
+        $(document).ready(function () {
+            $(document).on('click', '#addBtn', function () {
+                // Show the #fixed-asset-request section
+                $('#fixed-asset-request').show();
+                $('#tableSection').hide();
+                $('#navi-card').hide();
+            });
+
+            $(document).on('click', '#cancelBtn', function () {
+                // Show the #fixed-asset-request section
+                $('#fixed-asset-request').hide();
+                $('#tableSection').show();
+                location.reload();
+                $('#navi-card').show();
+            });
+
+            $(document).on('click', '#cancelBtn_edit', function () {
+                // Show the #fixed-asset-request_table section
+                $('#table_card').show();
+                $('#fixed-asset-request_edit').hide();
+                $('#addBtn').show();
+                $('#cancelBtn_edit').hide();
+                $('#printBtn').hide();
+                location.reload();
+
+            });
+
+
+
+            $('#page').find('#mainTable').on('click', '.editrec', function () {
+//            if (pageName === "Fixed Asset Requests Admin") {
+//                $('#saveBtnApproval').hide();
+//            }
+
+//                addLoader('#fixed-asset-request_edit');
+
+                $('#table_card').hide();
+                $('#fixed-asset-request_edit').show();
+                $('#addBtn').hide();
+                $('#cancelBtn_edit').show();
+                $('#printBtn').show();
+                $('#navi-card').hide();
+
+                let id = $(this).parents('tr').first().data('id');
+                request_table_id = id;
+
+                tId = $(this).parents('tr').first().data('tId');
+
+                fetch('fa_request/creation' + '/' + id)
+                        .then(resp => resp.json())
+                        .then(resp => {
+//                            obj.clearForm();
+//                            let asset_rowCount = JSON.stringify(resp.data.multiAsset);
+                            $('#requestId_edit').text(resp.data.requestId);
+                            $('#department_edit').text(resp.data.department.text);
+                            $('#endOn_edit').text(resp.data.entOn);
+                            $('#recommendedTo_edit').text(resp.data.recommendTo.text);
+                            $('#requestBy_edit').text(resp.data.requestBy.text);
+
+                            $('#asset_edit').text(resp.data.asset.text);
+                            $('#quantity_edit').text(resp.data.quantity);
+                            $('#budgetLine_edit').text(resp.data.budgetLine.text ? resp.data.budgetLine.text : 'No budget line');
+                            $('#budgetAvailability_edit').text(resp.data.budgetAvailability);
+                            $('#justification_edit').text(resp.data.justification);
+
+                            let procurement = document.createElement('div');
+
+                            let procurement_label = document.createElement('div');
+
+                            let pr_label = '<hr><h6 class="label"><b>Procurement:</b></h6><hr>';
+                            $(procurement_label).html(pr_label);
+
+
+                            // Create the table element and add classes
+                            let qout_template = document.createElement('table');
+                            qout_template.classList.add('table', 'table-sm', 'table-bordered');
+
+                            // Create the thead element
+                            let thead = document.createElement('thead');
+                            thead.classList.add('bg-200', 'text-900');
+
+                            // Define the headers
+                            let headers = ['Supplier', 'Item Name', 'Description', 'Unit Price', 'units', 'Tax', 'Total', 'Document']; // Replace with your actual headers
+
+                            // Create a table row element for the header
+                            let headerRow = document.createElement('tr');
+
+                            // Create and append the header cells
+                            headers.forEach(headerText => {
+                                let td = document.createElement('td');
+                                td.textContent = headerText;
+                                headerRow.appendChild(td);
+                            });
+
+                            // Append the row to the thead
+                            thead.appendChild(headerRow);
+
+                            // Append the thead to the table
+                            qout_template.appendChild(thead);
+
+                            let qoutations = document.createElement('tbody');
+
+
+
+
+                            //////////////////////////////////////////////////////recomended Quotation///////////////////////////////////////
+
+                            let quot_rec = document.createElement('div');
+
+                            if (resp.data && resp.data.recSuplier) {
+                                let quot_rec_html = '<span class="label">Recommended Quotation</span>\n\
+                                                <table class="table table-sm table-bordered">\n\
+                                                            <thead class="bg-200 text-900">\n\
+                                                                <tr>\n\
+                                                                    <td>Supplier</td>\n\
+                                                                    <td>Item Name</td>\n\
+                                                                    <td>Description</td>\n\
+                                                                    <td>Unit Price</td>\n\
+                                                                    <td>units</td>\n\
+                                                                    <td>Tax</td>\n\
+                                                                    <td>Total</td>\n\
+                                                                    <td>Document</td>\n\
+                                                                </tr>\n\
+                                                            </thead>\n\
+                                                            <tbody>\n\
+                                                                <tr>\n\
+                                                                <td>' + resp.data.recSuplier.supplier.text + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.itemName + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.description + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.unitPrice.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.units + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.tax.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.total.toFixed(2) + '</td>\n\
+                                                                <td style="text-align:center;"><a href="fareqs/' + resp.data.recSuplier.document + '" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">\n\
+                                                                                               <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>\n\
+                                                                                               <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>\n\
+                                                                                               </svg></a></td>\n\
+                                                                </tr>\n\
+                                                            </tbody>\n\
+                                                        </table>';
+
+                                $(quot_rec).html(quot_rec_html);
+                            }
+
+                            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+                            resp.data.quotation_data.forEach((quotation_data, index) => {
+                                let quot_tr = document.createElement('tr');
+
+                                let quot_supplier = '<td>' + quotation_data.supplier.text + '</td>';
+                                let quot_item_name = '<td>' + quotation_data.itemName + '</td>';
+                                let quot_description = '<td>' + quotation_data.description + '</td>';
+                                let quot_unit_price = '<td class="text-end">' + quotation_data.unitPrice.toFixed(2) + '</td>';
+                                let quot_units = '<td class="text-end"> ' + quotation_data.units + '</td>';
+                                let quot_tax = '<td class="text-end">' + quotation_data.tax.toFixed(2) + '</td>';
+                                let quot_total = '<td class="text-end">' + quotation_data.total.toFixed(2) + '</td>';
+                                let quot_document = '<td style="text-align:center;"><a href="fareqs/' + quotation_data.document + '" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">\n\
+                                                         <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>\n\
+                                                         <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>\n\
+                                                         </svg></a></td>';
+
+                                quot = quot_supplier + quot_item_name + quot_description + quot_unit_price + quot_units + quot_tax + quot_total + quot_document;
+                                $(quot_tr).html(quot);
+                                qoutations.appendChild(quot_tr);
+                                qout_template.appendChild(qoutations);
+
+                            });
+
+
+                            resp.data.audits.forEach((audits, index) => {
+                                let temp = document.createElement('div');
+                                temp.classList.add('row');
+                                let hod = '';
+                                if (audits.comment)
+                                    if (audits.action === "approval_pending" || audits.action === "admin_recommended") {
+                                        hod = '<div><hr></div>\n\
+                                                <div class="col">\n\
+                                                    <span class="label">Approved By:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                </div>\n\
+                                                <div class="col" style="padding-left: 250px;">\n\
+                                                    <span class="label">Date:</span>\n\
+                                                    <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                </div>\n\
+                                                <div class="row">\n\
+                                                    <div class="form-row col-12">\n\
+                                                        <span class="label">Comment:</span>\n\
+                                                        <span>' + (audits.comment ? audits.comment : 'No comment') + '</span>\n\
+                                                </div></div>';
+                                        ;
+
+                                        $(temp).html(hod);
+                                        $('#fa_request_form').append(temp);
+                                    }
+                                let qout_made = '';
+                                if (audits.action === "quotaion_checked") {
+                                    qout_made = '<div class="col">\n\
+                                                    <span class="label">Prepared By:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                </div>\n\
+                                                <div class="col" style="padding-left: 250px;">\n\
+                                                    <span class="label">Date:</span>\n\
+                                                    <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                </div>\n\
+                                                <div class="row">\n\
+                                                    <div class="form-row col-12">\n\
+                                                        <span class="label">Justification:</span>\n\
+                                                        <span>' + (audits.comment ? audits.comment : 'No comment') + '</span>\n\
+                                                </div></div><div><hr></div>';
+                                    ;
+                                    // Append to procurement
+                                    let qoutMadeTemp = document.createElement('div');
+                                    qoutMadeTemp.classList.add('row');
+                                    $(qoutMadeTemp).html(qout_made);
+                                    procurement.appendChild(procurement_label);
+                                    procurement.innerHTML += '<span class="label">Quotation Details</span>';
+                                    // Check if quotation_data exists in the response
+                                    if (resp.data.hasOwnProperty('quotation_data') && resp.data.quotation_data.length > 0) {
+                                        procurement.appendChild(qout_template);
+                                    }
+                                    procurement.appendChild(quot_rec);
+                                    procurement.appendChild(qoutMadeTemp);
+
+
+                                }
+
+
+                                let qout_approved = '';
+                                if (audits.action === "po_pending") {
+                                    qout_approved = '\n\
+                                                <div class="col">\n\
+                                                    <span class="label">Approved By:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                </div>\n\
+                                                <div class="col" style="padding-left: 250px;">\n\
+                                                    <span class="label">Date:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                </div>\n\
+                                                <div class="row">\n\
+                                                     <div class="form-row col-12">\n\
+                                                        <span class="label">Comment:</span>\n\
+                                                        <span>' + (audits.comment ? audits.comment : 'No comment') + '</span>\n\
+                                                </div></div>';
+                                    ;
+                                    // Append to procurement
+                                    let qoutApprovedTemp = document.createElement('div');
+                                    qoutApprovedTemp.classList.add('row');
+                                    $(qoutApprovedTemp).html(qout_approved);
+                                    procurement.appendChild(qoutApprovedTemp);
+
+                                }
+
+
+                                let po_approved = '';
+                                if (audits.action === "po_approval_pending") {
+                                    po_approved = '<div><hr></div>\n\
+                                                    <div class="row"><div class="col">\n\
+                                                        <h6 class="label"><b>PO Number : <span>' + resp.data.purchaseOder.poNo + '</span></b></h6>\n\
+                                                    </div></div>\n\
+                                                    <div><hr></div>\n\
+                                                    <span class="label">Approved Quotation</span>\n\
+                                                <table class="table table-sm table-bordered">\n\
+                                                            <thead class="bg-200 text-900">\n\
+                                                                <tr>\n\
+                                                                    <td>Supplier</td>\n\
+                                                                    <td>Item Name</td>\n\
+                                                                    <td>Description</td>\n\
+                                                                    <td>Unit Price</td>\n\
+                                                                    <td>units</td>\n\
+                                                                    <td>Tax</td>\n\
+                                                                    <td>Total</td>\n\
+                                                                    <td>Document</td>\n\
+                                                                </tr>\n\
+                                                            </thead>\n\
+                                                            <tbody>\n\
+                                                                <tr>\n\
+                                                                <td>' + resp.data.recSuplier.supplier.text + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.itemName + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.description + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.unitPrice.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.units + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.tax.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.total.toFixed(2) + '</td>\n\
+                                                                <td style="text-align:center;"><a href="fareqs/' + resp.data.recSuplier.document + '" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">\n\
+                                                                                               <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>\n\
+                                                                                               <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>\n\
+                                                                                               </svg></a></td>\n\
+                                                                </tr>\n\
+                                                            </tbody>\n\
+                                                        </table>\n\
+                                                    <div class="row">\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="itemName" class="fw-bold">PO Note: </label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.purchaseOder.note + '</label>\n\
+                                                        </div>\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="description" class="fw-bold">Expiery Date:</label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.purchaseOder.expiryDate + '</label>\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                    <hr>\n\
+                                                    <div class="row">\n\
+                                                        <div class="col">\n\
+                                                            <span class="label">PO Generated By:</span>\n\
+                                                            <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                        </div>\n\
+                                                        <div class="col" style="padding-left: 250px;">\n\
+                                                            <span class="label">PO Generated Date:</span>\n\
+                                                            <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                    <!--<div class="row">\n\
+                                                        <div class="col-12">\n\
+                                                            <span class="label">Comment:</span>\n\
+                                                            <span " class="mb-0 fw-semi-bold">' + audits.comment + '</span>\n\
+                                                        </div>\n\
+                                                    </div>-->';
+                                    //Append to procurement
+                                    let po_approvedTemp = document.createElement('div');
+                                    $(po_approvedTemp).html(po_approved);
+                                    procurement.appendChild(po_approvedTemp);
+                                }
+                                ;
+
+                                let po_saved = '';
+                                if (audits.action === "po_saved") {
+                                    po_saved = '<div><hr></div>\n\
+                                               <div class="row"> \n\
+                                                <div class="col">\n\
+                                                    <span class="label">PO Approved By:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                </div>\n\
+                                                <div class="col" style="padding-left: 250px;">\n\
+                                                    <span class="label">PO Approved Date:</span>\n\
+                                                    <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                </div>\n\
+                                                <!--<div class="row">\n\
+                                                    <div class="form-row col-12">\n\
+                                                        <span class="label">Comment:</span>\n\
+                                                        <span>' + (audits.comment ? audits.comment : 'No comment') + '</span>\n\
+                                                </div>--></div></div>';
+                                    //Append to procurement
+                                    let po_savedTemp = document.createElement('div');
+                                    $(po_savedTemp).html(po_saved);
+                                    procurement.appendChild(po_savedTemp);
+
+                                }
+                                ;
+
+
+                                let grn_approval_pending = '';
+                                if (audits.action === "grn_approval_pending") {
+                                    grn_approval_pending = '<div><hr></div>\n\
+                                                    <div class="row"><div class="col">\n\
+                                                        <h6 class="label"><b>GRN Number : <span>' + resp.data.GRN.GrnNo + '</span></b></h6>\n\
+                                                    </div></div>\n\
+                                                    <div><hr></div>\n\
+                                                    <span class="label">Approved Quotation</span>\n\
+                                                <table class="table table-sm table-bordered">\n\
+                                                            <thead class="bg-200 text-900">\n\
+                                                                <tr>\n\
+                                                                    <td>Supplier</td>\n\
+                                                                    <td>Item Name</td>\n\
+                                                                    <td>Description</td>\n\
+                                                                    <td>Unit Price</td>\n\
+                                                                    <td>units</td>\n\
+                                                                    <td>Tax</td>\n\
+                                                                    <td>Total</td>\n\
+                                                                    <td>Document</td>\n\
+                                                                </tr>\n\
+                                                            </thead>\n\
+                                                            <tbody>\n\
+                                                                <tr>\n\
+                                                                <td>' + resp.data.recSuplier.supplier.text + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.itemName + '</td>\n\
+                                                                <td>' + resp.data.recSuplier.description + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.unitPrice.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.units + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.tax.toFixed(2) + '</td>\n\
+                                                                <td class="text-end">' + resp.data.recSuplier.total.toFixed(2) + '</td>\n\
+                                                                <td style="text-align:center;"><a href="fareqs/' + resp.data.recSuplier.document + '" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">\n\
+                                                                                               <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>\n\
+                                                                                               <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>\n\
+                                                                                               </svg></a></td>\n\
+                                                                </tr>\n\
+                                                            </tbody>\n\
+                                                        </table>\n\
+                                                    <div class="row">\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="itemName" class="fw-bold">Invoice No: </label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.invoiceNo + '</label>\n\
+                                                        </div>\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="description" class="fw-bold">Asset Condition:</label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.GRN.assestCondition.text + '</label>\n\
+                                                        </div>\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="description" class="fw-bold">Serial Number:</label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.GRN.serialNumber + '</label>\n\
+                                                        </div>\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="description" class="fw-bold">Category :</label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.GRN.mainCategory.text + '</label>\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                    <div class="row">\n\
+                                                        <div class="col-md-3 mb-3">\n\
+                                                            <label for="description" class="fw-bold">Warranty :</label>\n\
+                                                            <label class="align-items-center d-flex">' + resp.data.GRN.warranty + '</label>\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                    <hr>\n\
+                                                    <div class="row">\n\
+                                                        <div class="col">\n\
+                                                            <span class="label">GRN Entered By:</span>\n\
+                                                            <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                        </div>\n\
+                                                        <div class="col" style="padding-left: 250px;">\n\
+                                                            <span class="label">GRN Entered Date:</span>\n\
+                                                            <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                        </div>\n\
+                                                    </div>\n\
+                                                    <!--<div class="row">\n\
+                                                        <div class="col-12">\n\
+                                                            <span class="label">Comment:</span>\n\
+                                                            <span " class="mb-0 fw-semi-bold">' + audits.comment + '</span>\n\
+                                                        </div>\n\
+                                                    </div>-->';
+                                    //Append to procurement
+                                    let grn_approval_pendingTemp = document.createElement('div');
+                                    $(grn_approval_pendingTemp).html(grn_approval_pending);
+                                    procurement.appendChild(grn_approval_pendingTemp);
+
+                                }
+                                ;
+
+                                let grn_issued = '';
+                                if (audits.action === "grn_issued") {
+                                    grn_issued = '<div><hr></div>\n\
+                                               <div class="row"> \n\
+                                                <div class="col">\n\
+                                                    <span class="label">GRN Approved By:</span>\n\
+                                                    <span class="mb-0 fw-semi-bold"> ' + audits.actionBy.text + ' </span>\n\
+                                                </div>\n\
+                                                <div class="col" style="padding-left: 250px;">\n\
+                                                    <span class="label">GRN Approved Date:</span>\n\
+                                                    <span " class="mb-0 fw-semi-bold">' + audits.entOn + '</span>\n\
+                                                </div>\n\
+                                                <!--<div class="row">\n\
+                                                    <div class="form-row col-12">\n\
+                                                        <span class="label">Comment:</span>\n\
+                                                        <span>' + (audits.comment ? audits.comment : 'No comment') + '</span>\n\
+                                                </div>--></div></div>';
+                                    //Append to procurement
+                                    let grn_issuedTemp = document.createElement('div');
+                                    $(grn_issuedTemp).html(grn_issued);
+                                    procurement.appendChild(grn_issuedTemp);
+
+                                }
+                                ;
+
+                            });
+
+
+                            $('#fa_request_form').append(procurement);
+
+//                            status = document.createElement('lable');
+
+//                            if (resp.data.faStatus === 'approved') {
+//                                status = ('<small class="badge fs--1 badge-soft-success">Approved</small>');
+//                            } else if (resp.data.faStatus === 'rejected') {
+//                                status = ('<small class="badge fs--1  badge-soft-danger">Rejected</small>');
+//                            } else if (resp.data.faStatus === 'pending') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Pending</small>');
+//                            } else if (resp.data.faStatus === 'recommended') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Recommended</small>');
+//                            } else if (resp.data.faStatus === 'approval_pending') {
+//                                status = ('<small class="badge fs--1 badge-soft-success">Admin Pending</small>');
+//                            } else if (resp.data.faStatus === 'forwarded') {
+//                                status = ('<small class="badge fs--1  badge-soft-warning">Recommended</small>');
+//                            } else if (resp.data.faStatus === 'admin_approved' || resp.data.faStatus === 'budget_checked') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Budget Pending</small>');
+//                            } else if (resp.data.faStatus === 'admin_pending') {
+//                                status = ('<small class="badge fs--1 badge-soft-success">HOD Approved</small>');
+//                            } else if (resp.data.faStatus === 'requested' || resp.data.faStatus === 'request_forwarded_admin_stage') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">requested</small>');
+//                            } else if (resp.data.faStatus === 'forwarded_admin_stage') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Recommended</small>');
+//                            } else if (resp.data.faStatus === 'budget_approved' || resp.data.faStatus === 'po_pending') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Budget Approved</small>');
+//                            } else if (resp.data.faStatus === 'budget_approved' || resp.data.faStatus === 'po_pending') {
+//                                status = ('<small class="badge fs--1 badge-soft-warning">Budget Approved</small>');
+//                            }
+//                            $('#faStatus_edit').append(status);
+
+
+
+                            if (formData.afterFieldSet) {
+                                formData.afterFieldSet(resp.data);
+                            }
+
+//                            removeLoader('#tableSection');
+//                            showForm();
+                            $('#saveBtn').data('mode', 'update');
+                            $('#saveBtn').html('<i class="feather icon-save"></i> Approve');
+                            $('#saveBtn').data('id', id);
+                        });
+
+
+
+            });
+
+
+            function addLoader(target) {
+                var $this = $(target);
+                let el = '<div class="div-loader"><div class="spinner-grow text-primary me-2" role="status"><span class="sr-only">Loading...</span></div></div>';
+                $this.append(el);
+            }
+            ;
+
+        });
+
+
+//        $('#bapprovedcrd').click(function () {
+//            status = 'approval_pending';
+//            datatable.ajax.reload();
+//        });
+
+//        $('#recommendedcrd').click(function () {
+//            status = 'recommended';
+//            datatable.ajax.reload();
+//        });
+
+//        $('#allcrd').click(function () {
+//            status = 'all';
+//            datatable.ajax.reload();
+//        });
+
+//        $('#budgetpendingcrd').click(function () {
+//            status = 'admin_approved';
+//            datatable.ajax.reload();
+//        });
+
+//        $('#rejectedcrd').click(function () {
+//            status = 'rejected';
+//            datatable.ajax.reload();
+//        });
+
+        $('#hodpendingcrd').click(function () {
+            status = 'hod_pending';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in Initiated Stage");
+
+        });
+        $('#adminpendingcrd').click(function () {
+            status = 'admin_pending';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in Procurement Queue Stage");
+        });
+        $('#qoutationApprovalPendingcrd').click(function () {
+            status = 'quotuion_approval_pending';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in Approval Pending Stage");
+        });
+        $('#po_pending_crd').click(function () {
+            status = 'po_pending';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in PO Pending Stage");
+        });
+        $('#po_saved_crd').click(function () {
+            status = 'po_saved';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in PO Issued Stage");
+        });
+
+        $('#grn_canceled_crd').click(function () {
+            status = 'grn_canceled';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in PO Canceled Stage");
+        });
+//        $('#grn_approval_pending_crd').click(function () {
+//            status = 'grn_approval_pending';
+//            datatable.ajax.reload();
+//        });
+        $('#grn_issued_crd').click(function () {
+            status = 'grn_issued';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in GRN Issued Stage");
+        });
+        $('#rejectgcrd').click(function () {
+            status = 'rejected';
+            datatable.ajax.reload();
+            $('#filter_name').text("Requests in Rejected Stage");
+        });
+
+        function printDiv(divId) {
+            // Clone the content of the div to be printed
+            var divToPrint = document.getElementById(divId).cloneNode(true);
+
+            // Find all tables within the cloned div
+            var tables = divToPrint.querySelectorAll('table');
+            tables.forEach(function (table) {
+                // Find the index of the column containing "Document"
+                var headers = table.querySelectorAll('thead th, thead td');
+                var docColumnIndex = -1;
+                headers.forEach(function (header, index) {
+                    if (header.textContent.trim().toLowerCase() === 'document') {
+                        docColumnIndex = index;
+                    }
+                });
+
+                if (docColumnIndex !== -1) {
+                    // Remove the header cell
+                    var headerToRemove = headers[docColumnIndex];
+                    headerToRemove.parentNode.removeChild(headerToRemove);
+
+                    // Remove the corresponding cells in each row
+                    var rows = table.querySelectorAll('tbody tr');
+                    rows.forEach(function (row) {
+                        var cells = row.querySelectorAll('td');
+                        var cellToRemove = cells[docColumnIndex];
+                        if (cellToRemove) {
+                            cellToRemove.parentNode.removeChild(cellToRemove);
+                        }
+                    });
+                }
+            });
+
+            var newWindow = window.open('', '', 'height=600,width=800');
+            newWindow.document.write('<html><head><title>Print</title>');
+
+            // Include necessary styles
+            var styles = document.querySelectorAll('style, link[rel="stylesheet"]');
+            styles.forEach(function (style) {
+                newWindow.document.write(style.outerHTML);
+            });
+
+            newWindow.document.write('<style>@page { margin: 0; } body { margin: 0; }</style>');
+            newWindow.document.write('</head><body>');
+            newWindow.document.write(divToPrint.innerHTML);
+            newWindow.document.write('</body></html>');
+            newWindow.document.close();
+
+            // Ensure the image is correctly loaded
+            newWindow.onload = function () {
+                newWindow.print();
+                newWindow.close();
+            };
+        }
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

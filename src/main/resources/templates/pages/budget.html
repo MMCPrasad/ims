@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <style>
+                        h6{
+                            margin-bottom: .5rem;
+                            font-family: inherit;
+                            font-weight: 500;
+                            line-height: 1.1;
+                            color: white;
+                            font-weight: 400;
+                            font-size: 1.2rem;
+                            text-align: left;
+                        }
+
+                        /*                        label{
+                                                    color: white;
+                                                }*/
+
+
+
+                        .cards .card-block-small {
+                            padding: 15px 20px;
+                        }
+                        .cards {
+                            position: relative;
+                            overflow: hidden;
+                            cursor: pointer;
+                            border-radius: 10px;
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+                            transition: transform 0.3s ease; /* Add a transition for the transform property */
+                        }
+
+                        .cards:hover {
+                            transform: translateY(-5px); /* Move the card up slightly on hover */
+                        }
+
+                        .cards::before {
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            transition: all 0.3s ease;
+                            opacity: 0;
+                            transform: translateY(100%);
+                            overflow: hidden;
+                            padding: 10px 0;
+                            background-color: rgba(255, 255, 255, 0.9); /* Add a background color for the "like" popup */
+                            border-radius: 10px; /* Match the border-radius of the card */
+                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Match the box-shadow of the card */
+                        }
+
+                        /*                        .cards:hover::before {
+                                                    opacity: 1;
+                                                    transform: translateY(-100%);  Move the "like" popup up 
+                                                }*/
+
+
+                        .cards i {
+                            position: absolute;
+                            bottom: 10px;
+                            left: -20px;
+                            transition: all 0.3s ease;
+                            transform-origin: bottom left;
+                            transform: scale(3.5) ;
+                            opacity: 0.5; /* Set the opacity to 50% */
+                        }
+
+                        .cards:hover i {
+                            transform: rotate(15deg) scale(5);
+                            opacity: 0.5; /* Set the opacity to 100% on hover */
+                        }
+
+                        .left-padding{
+                            padding-left: 10px;
+                        }
+
+                        .text-end {
+                            text-align: right;
+                            /*margin-right: 25%;*/
+                        }
+
+                        .colon {
+                            display: flex;
+                            justify-content: space-between;
+                            width: 75%; /* Adjust as needed */
+                            margin-left: 25%;
+                        }
+
+
+                    </style>
+
+                    <section class="navi-card card" style="padding: 0rem 1rem;" id="navi-card">
+                        <div class="row" style="margin-bottom: 1px;margin-top: 10px;">
+                            <div class="col-md-8">
+                                <div class-="card-header">
+                                    <h5 class="card-title mb-0">Budget</h5>
+                                </div>
+                            </div>
+                            <div class="col-md-2" style="text-align: right">
+                                <label for="financialYear_filter">Filter by Financial Year</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select id="financialYear_filter" class="form-select ajax-select" required=""
+                                        ajax="common/financial-year/select" refid="id" reftxt="text">
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row " style="margin-bottom: 1px;margin-top: 10px;">  
+
+                        </div>
+                        <div class="row">  
+                            <div class="col-md-4" style="margin-bottom: 1px;margin-top: 10px;">
+                                <div class="cards bg-c-info  text-white widget-visitor-card cardActive" id="allcrd" style="height: 150px;background: linear-gradient(to right, #007bff, #5ba9fd);">
+                                    <div class="card-block-small text-center">
+                                        <h4 id="Total">Total</h4>
+                                        <div class="left-padding">
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="allcrd_budget" class="colon">Budget<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="allcrd_budget" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="allcrd_utilization" class="colon">Utilization<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="allcrd_utilization" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="allcrd_available" class="colon">Available<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="allcrd_available" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        <i class="feather icon-bar-chart-2">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" style="margin-bottom: 1px;margin-top: 10px;">
+                                <div class="cards bg-c-yellow text-white widget-visitor-card" id="capexcrd" style="height: 150px; background: linear-gradient(to right, #0ac282, #0df3a3);">
+                                    <div class="card-block-small text-center" >
+                                        <h4 id="Capex">Capex</h4>
+                                        <div class="left-padding">
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="capexcrd_budget" class="colon">Budget<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="capexcrd_budget" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="capexcrd_utilization" class="colon">Utilization<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="capexcrd_utilization" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="capexcrd_available" class="colon">Available<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="capexcrd_available" class="mb-0 fw-semi-bold"></lable>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" style="margin-bottom: 1px;margin-top: 10px;">
+                                <div class="cards  bg-c-green text-white widget-visitor-card" id="opexcrd" style="height: 150px;    background: linear-gradient(to right, #fe9365, #feb798);">
+                                    <div class="card-block-small text-center">
+                                        <h4 id="Opex">Opex</h4>
+                                        <div class="left-padding">
+                                            <div class="row">
+                                                <div class="col-md-6 " style="text-align: right;">
+                                                    <label for="opexcrd_budget"  class="colon">Budget<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="opexcrd_budget" class="mb-0 fw-semi-bold" ></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="opexcrd_utilization" class="colon">Utilization<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="opexcrd_utilization" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6" >
+                                                    <label for="opexcrd_available" class="colon">Available<span>:</span></label>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <lable id="opexcrd_available" class="mb-0 fw-semi-bold"></lable>
+                                                    <!--                                                    <input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--                                        <i class="feather icon-award">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row " style="margin-bottom: 10px;margin-top: 10px;">  
+
+                        </div>
+
+
+
+
+                    </section>
+                    <hr>
+                    <div class="row" id="page">
+
+                    </div>
+                </div>
+
+                <div id="budget" style="display: none;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <label for="financialYear">Financial Year<span class="text-danger">*</span></label>
+                                                    <select id="financialYear" class="form-select ajax-select" required=""
+                                                            ajax="common/financial-year/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="businessUnit">Business Unit<span class="text-danger">*</span></label>
+                                                    <select id="businessUnit" class="form-select ajax-select" required=""
+                                                            ajax="common/department/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="budgetType">Budget Type<span class="text-danger">*</span></label>
+                                                    <select id="budgetType" class="form-select ajax-select" required=""
+                                                            ajax="common/budget-type/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-4">
+                                                    <label for="supplier">Supplier</label>
+                                                    <select id="supplier" class="form-select ajax-select"
+                                                            ajax="customer/supplier/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="budgetCategory">Item Category<span class="text-danger">*</span></label>
+                                                    <select id="budgetCategory" class="form-select ajax-select" required=""
+                                                            ajax="common/budget-category/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="currency">Currency<span class="text-danger">*</span></label>
+                                                    <select id="currency" class="form-select ajax-select" required=""
+                                                            ajax="common/budget-rate/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-4">
+                                                    <label for="description">Description</label>
+                                                    <textarea class="form-control" id="description" required=""></textarea>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="expectedMonthOfUtilization">Expected Month Of Utilization</label>
+                                                    <input type="month" class="form-control" id="expectedMonthOfUtilization" placeholder="">
+                                                </div>
+
+
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-2">
+                                                    <label for="unitPrice">Unit Price<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control number-format text-end" id="unitPrice" placeholder="" required="">
+                                                </div>
+                                                <div class="col-lg-1 col-md-2">
+                                                    <label for="quantity">Quantity<span class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control text-end" id="quantity" min="0" placeholder="" required="">
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label for="conversionRate">Rate</label>
+                                                    <input type="text" class="form-control number-format text-end" id="conversionRate" placeholder="" disabled>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label for="totalInLKR">Total In LKR<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control text-end" id="totalInLKR" placeholder="" disabled >
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="tax">Tax<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control number-format text-end" id="tax" placeholder="" required="">
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label for="budgetAmount">Budget Amount<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control number-format text-end" id="budgetAmount" placeholder="" disabled>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label for="utilizeAmount">Utilize Amount<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control number-format text-end" id="utilizeAmount" placeholder="" disabled="">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="availablAmount">Available Amount<span class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control text-end" id="availablAmount" placeholder="" disabled="">
+                                                </div>
+
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+    <script th:src="@{/js/budget.js?v=1}"></script>
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+
+        let tableData = {
+            columns: [
+                {"name": "ID", "data": "id", "visible": false},
+                {"name": "Budget Code", "data": "budgetCode"},
+                {"name": "Financial Year", "data": "financialYear"},
+//                {"name": "Expected Month Of Utilization", "data": "expectedMonthOfUtilization"},
+                {"name": "Budget Type", "data": "budgetType"},
+                {"name": "Budget Item", "data": "budgetCategory"},
+                {"name": "Description", "data": "description"},
+                {"name": "Unit", "data": "businessUnit"},
+                {"name": "Budget Amount", "data": "budgetAmount", "className": "text-end"},
+                {"name": "Status", "data": "status"}
+            ],
+            url: window.location.origin + contextPath + 'budget/datatable',
+            tableSize: 'col-12'
+        };
+
+        let formData = {
+            url: window.location.origin + contextPath + 'budget/budget',
+            customFields: $('#budget').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+        let page = new initiatePage($('#page'), 'Budget', tableData, formData);
+
+//        function formatAmount(input) {
+//            // Remove non-numeric characters and leading zeros
+//            const numericInput = input.replace(/[^0-9]/g, '').replace(/^0+/, '');
+//
+//            // Convert to a number and format with two decimal places
+//            const formattedAmount = (parseFloat(numericInput) / 100).toFixed(2);
+//
+//            return formattedAmount;
+//        }
+
+//// Function to add comma separators to a number
+//        function addCommas(num) {
+//            const parts = num.toString().split('.');
+//            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+//            return parts.join('.');
+//        }
+//
+//// Get all elements with the class name "number-format"
+//        const numberFormatInputs = document.querySelectorAll('.number-format');
+//
+//// Add event listener to each input element with the class name "number-format"
+//        numberFormatInputs.forEach(input => {
+//            input.addEventListener('input', function () {
+//                // Get the input value
+//                const inputValue = this.value;
+//
+//                // Format the amount
+//                let formattedValue = formatAmount(inputValue);
+//
+//                // Check if the input field has the class name "number-format" and add commas if necessary
+//                if (this.classList.contains('number-format')) {
+//                    formattedValue = addCommas(formattedValue);
+//                }
+//
+//                // Set the formatted value back to the input field
+//                this.value = formattedValue;
+//            });
+//        });
+
+
+
+        $('#unitPrice').change(function () {
+            calculate();
+
+        });
+
+        $('#quantity').change(function () {
+            calculate();
+
+        });
+
+        $('#tax').change(function () {
+            calculate();
+
+        });
+
+//        $('#currency').change(function () {
+//            calculate();
+//
+//        });
+
+        function calculate() {
+            var unit_price = parseFloat(document.getElementById("unitPrice").value) || 0;
+            var quantity = document.getElementById("quantity").value || 0;
+            var tax = parseFloat(document.getElementById("tax").value) || 0;
+            var rate = parseFloat(document.getElementById("conversionRate").value) || 0;
+
+            var totalAmount = unit_price * quantity * rate;
+            var budgetAmount = totalAmount + tax;
+
+
+
+            // Set the value of #totalInLKR input field
+            document.getElementById("totalInLKR").value = totalAmount;
+            document.getElementById("budgetAmount").value = budgetAmount;
+
+
+
+        }
+
+        $(document).ready(function () {
+            $(document).on('click', '#addBtn', function () {
+//                $('#tableSection').hide();
+                $('#navi-card').hide();
+            });
+
+            $(document).on('click', '#cancelBtn', function () {
+
+//                $('#tableSection').show();
+                $('#navi-card').show();
+//                location.reload();
+            });
+
+            $('#page').find('#mainTable').on('click', '.editrec', function () {
+                $('#navi-card').hide();
+            });
+
+            $(document).on('click', '#saveBtn', function () {
+
+//                $('#tableSection').show();
+                $('#navi-card').show();
+//                location.reload();
+            });
+
+
+
+
+        });
+
+        let mode = 'all';
+        let year_filter = 'none';
+
+        $('#capexcrd').click(function () {
+            mode = 'Capex';
+            year_filter = document.getElementById("financialYear_filter").value;
+            let additionalData = {
+                mode: mode, // Assuming this is your filter year data
+                year_filter: year_filter // Additional data you want to send
+                        // Add more key-value pairs as needed
+            };
+            page.setAdditionData({data: JSON.stringify(additionalData)});
+
+            page.dataTable.ajax.reload();
+        });
+
+        $('#opexcrd').click(function () {
+            mode = 'Opex';
+            year_filter = document.getElementById("financialYear_filter").value;
+            let additionalData = {
+                mode: mode, // Assuming this is your filter year data
+                year_filter: year_filter // Additional data you want to send
+                        // Add more key-value pairs as needed
+            };
+            page.setAdditionData({data: JSON.stringify(additionalData)});
+
+            page.dataTable.ajax.reload();
+        });
+
+        $('#allcrd').click(function () {
+             mode = 'all';
+            year_filter = document.getElementById("financialYear_filter").value;
+            let additionalData = {
+                mode: mode, // Assuming this is your filter year data
+                year_filter: year_filter // Additional data you want to send
+                        // Add more key-value pairs as needed
+            };
+            page.setAdditionData({data: JSON.stringify(additionalData)});
+            
+            page.dataTable.ajax.reload();
+        });
+
+
+        let filter_year = 0;
+
+        $('#financialYear_filter').change(function () {
+            year_filter = document.getElementById("financialYear_filter").value;
+            let additionalData = {
+                mode: mode, // Assuming this is your filter year data
+                year_filter: year_filter // Additional data you want to send
+                        // Add more key-value pairs as needed
+            };
+            page.setAdditionData({data: JSON.stringify(additionalData)});
+
+            page.dataTable.ajax.reload();
+        });
+
+
+    </script>
+
+    <script>
+        $('#currency').change(function () {
+            let val = $(this).val();
+
+            if (val !== null) {
+                $.ajax({
+                    url: 'budget/budgetrate/' + val,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+                        let data = resp.data;
+                        console.log(data);
+                        $('#conversionRate').val(data.rate);
+                        calculate();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            } else {
+                $('#conversionRate').val(0);
+                calculate();
+            }
+        });
+
+    </script>
+
+
+    <script>
+
+        $.ajax({
+            url: 'budget/dashbordval',
+            type: 'GET',
+            dataType: 'json',
+            success: function (resp) {
+
+                function twodecimal(number) {
+                    var number = parseFloat(number);
+                    number = number.toFixed(2);
+                    return number;
+                }
+
+                let data = resp;
+                console.log(data);
+
+                $('#opexcrd_budget').text(twodecimal(data.opex_budget));
+                $('#capexcrd_budget').text(twodecimal(data.capex_budget));
+                $('#allcrd_budget').text(twodecimal(data.total_budget));
+
+                $('#opexcrd_available').text(twodecimal(data.capex_available_amt));
+                $('#capexcrd_available').text(twodecimal(data.opex_available_amt));
+                $('#allcrd_available').text(twodecimal(data.total_available_amt));
+
+                $('#opexcrd_utilization').text(twodecimal(data.capex_utilize_amt));
+                $('#capexcrd_utilization').text(twodecimal(data.opex_utilize_amt));
+                $('#allcrd_utilization').text(twodecimal(data.total_utilize_amt));
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

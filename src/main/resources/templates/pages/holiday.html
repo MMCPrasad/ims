@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-3">
+                                                        <label for="code">  Code</label>
+                                                        <input  class="form-control"  id="code" placeholder="" >
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="country">Country<span class="text-danger">*</span> </label>
+                                                        <select id="country" class="form-select ajax-select" ajax="common/country/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label" for="weekend1">Weekend 1</label>
+                                                        <select class="form-select  ajax-select" id="weekend1"
+                                                                required="">
+                                                            <option value="mon">Monday</option>
+                                                            <option value="tue">Tuesday</option>
+                                                            <option value="wed">Wednesday</option>
+                                                            <option value="thu">Thursday</option>
+                                                            <option value="fri">Friday</option>
+                                                            <option value="sat">Saturday</option>
+                                                            <option value="sun">Sunday</option>
+
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label" for="weekend2">Weekend 2</label>
+                                                        <select class="form-select  ajax-select" id="weekend2"
+                                                                required="">
+                                                            <option value="mon">Monday</option>
+                                                            <option value="tue">Tuesday</option>
+                                                            <option value="wed">Wednesday</option>
+                                                            <option value="thu">Thursday</option>
+                                                            <option value="fri">Friday</option>
+                                                            <option value="sat">Saturday</option>
+                                                            <option value="sun">Sunday</option>
+
+                                                        </select>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-8">
+                                                            <div class="col-lg-12 col-md-12 dataArray" id="holiday" func="dynamicHoli"></div>
+                                                            <div class="col-md-12 mb-5 mt-2">
+                                                                <a href="javascript:void(0)" id="addHoliBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center">
+                                                                    <i class="fas fa-plus"></i>Add Holiday
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Country", "data": "country"},
+                    {"name": "Weekend 1", "data": "weekend1"},
+                    {"name": "Weekend 2", "data": "weekend2"},
+
+                    {
+                        "name": "Status", "data": "status", "width": "50px"
+                    }
+                ],
+                url: window.location.origin + contextPath + 'common/holiday/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'holiday',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+
+                afterSaveScreen: function () {
+                    $("#country").append('<option value="2">Sri Lanka</option>');
+
+                }
+            };
+
+            new initiatePage($('#page'), 'Holidays', tableData, formData);
+
+
+ function dynamicHoli(arryObj) {
+                let temp = document.createElement("div");
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<input type="date" class="dataArrayObjectElement form-control" name="date"    placeholder="">'
+                                                            
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+               
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $('#holiday').append(temp);
+            }
+
+
+            $('#addHoliBtn').click(function () {
+                dynamicHoli();
+            });
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+
+
+</html>

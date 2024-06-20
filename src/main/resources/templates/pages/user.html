@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr" >
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .cropit-preview {
+                background-color: #f8f8f8;
+                background-size: cover;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                margin-top: 7px;
+                width: 240px;
+                height: 240px;
+            }
+
+            .cropit-preview-image-container {
+                cursor: move;
+            }
+        </style>
+        <link th:href="@{/css/select2.css}" rel="stylesheet" id="style-default">
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container-fluid p-0 pt-2">
+
+
+                        <div class="row" id="page">
+
+                        </div>
+
+                        <div id="temp" style="display: none">
+                            <div class="row" id="fields">
+
+                                <div class="col-lg-3">
+                                    <div class="text-center mb-3 col-12">
+                                        <img alt="Employee Photo" src="img/team/avatar.png" onerror="this.onError=null;this.src='img/team/avatar.png';"  class="rounded-circle img-responsive mt-2" width="160" height="160" id="img_preview">
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-primary btn-sm" id="imgUploadBtn">
+                                                    <i class="feather icon-upload"></i> Upload
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-12" style="display: none">
+                                                <div class="form-group">
+                                                    <label for="img">Image</label>
+                                                    <input type="file" class="form-control" id="img" autocomplete="off" accept="image/*" preview="img_preview">
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-9">
+                                    <div class="row">
+                                        <div class="mb-3 col-lg-6">
+                                            <label class="col-form-label">Username <span class="text-danger">*</span></label>
+                                            <input required="required" type="text" autocomplete="off" class="form-control" id="username">
+                                        </div>
+                                        <div class="mb-3 col-lg-6">
+                                            <label class="col-form-label">Name <span class="text-danger">*</span></label>
+                                            <input required="required" type="text" autocomplete="off" class="form-control" id="name">
+                                        </div>
+                                        <div class="mb-3 col-lg-6">
+                                            <label class="col-form-label">email <span class="text-danger">*</span></label>
+                                            <input required="required" type="text" autocomplete="off" class="form-control" id="email">
+                                        </div>
+                                        <div class="mb-3 col-lg-6">
+                                            <label class="col-form-label">Roles <span class="text-danger">*</span></label>
+                                            <select class="form-select ajax-select" id="roles" ajax="common/user-role/select" multiple=""></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div th:replace="~{./ui/footer.html}"></div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/image-crop-modal.html}"></div>
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+        <script th:src="@{/js/jquery.cropit.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Username", "data": "username", render: (data, type, row) => {
+                            return '<div class="d-flex align-items-center">'
+                                    + '<div class="avatar avatar-2xl">'
+                                    + '<img class="rounded-circle" src="user-images/' + row.img + '" onerror="this.onError=null;this.src=\'img/team/avatar.png\';" alt="">'
+                                    + '</div>'
+                                    + '<h6 class="mb-0 ps-2 name">' + data + '</h6>'
+                                    + '</div>';
+                        }},
+                    {"name": "Name", "data": "name", className: 'align-middle'},
+                    {"name": "email", "data": "email", className: 'align-middle'},
+                    {"name": "Status", "data": "status", "width": "50px"}
+                ],
+                url: window.location.origin + contextPath + 'user/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'user',
+                customFields: $('#temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterFieldSet: function (data) {
+                    $(document).find('#img_preview').attr('src', 'user-images/' + data.img);
+                }
+            };
+
+            new initiatePage($('#page'), 'Users', tableData, formData);
+
+            $('#cropit-image').change(function () {
+                $('#imageCropModal').modal('show');
+            });
+
+//image cropper
+            $(function () {
+                $('.image-editor').cropit({
+                    imageState: {
+                        src: 'images/ite.png'
+                    }
+                });
+
+                $('.rotate-cw').click(function () {
+                    $('.image-editor').cropit('rotateCW');
+                });
+                $('.rotate-ccw').click(function () {
+                    $('.image-editor').cropit('rotateCCW');
+                });
+
+                $('.export').click(function () {
+                    var imageData = $('.image-editor').cropit('export');
+                    window.open(imageData);
+                });
+            });
+
+            $('#saveCroppedImg').click(function () {
+                var imageData = $('.image-editor').cropit('export');
+                $("#img_preview").attr('src', imageData);
+                $('#img').data('file', dataURItoBlob(imageData));
+                $('#imageCropModal').modal('hide');
+            });
+
+            function dataURItoBlob(dataURI) {
+                var byteString = atob(dataURI.split(',')[1]);
+                var ab = new ArrayBuffer(byteString.length);
+                var ia = new Uint8Array(ab);
+                for (var i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                return new Blob([ab], {type: 'image/png', name: 'image.png'});
+            }
+
+            $('#imgUploadBtn').click(function () {
+                $('#cropit-image').click();
+            });
+
+        </script>
+
+    </body>
+
+
+</html>

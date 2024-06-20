@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="teller_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="code"> Code </label>
+                                                                <input class="form-control" id="code" placeholder="" >
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="transactionType"> Transaction Type<span
+                                                                        class="text-danger">*</span></label>
+                                                                <select id="transactionType" class="form-select ajax-select"
+                                                                        ajax="common/teller-transaction/select" refid="id" 
+                                                                        reftxt="text"></select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="debitAccount">Debit Account <span
+                                                                        class="text-danger">*</span></label>
+                                                                <select id="debitAccount" class="form-select ajax-select"
+                                                                        ajax="common/account/select" refid="id" 
+                                                                        reftxt="text"></select>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="creditAccount">Credit Account <span
+                                                                        class="text-danger">*</span></label>
+                                                                <select id="creditAccount" class="form-select ajax-select" 
+                                                                        ajax="common/account/select" refid="id" 
+                                                                        reftxt="text"></select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="valueDate"> Value Date </label>
+                                                                <input type="date" class="form-control" id="valueDate"
+                                                                       placeholder="">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="narration"> Narration </label>
+                                                                <input class="form-control" id="narration" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="tellerId">Teller ID</label>
+                                                                <select id="tellerId" class="form-select ajax-select"
+                                                                        ajax="common/teller-id/select" refid="id" reftxt="text"
+                                                                        required=""></select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="currency">Currency</label>
+                                                                <select id="currency" class="form-select ajax-select"
+                                                                        ajax="common/currency/select" refid="id"
+                                                                        reftxt="text"></select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="transactionCodeDebit"> Debit Transaction Code
+                                                                </label>
+                                                                <input class="form-control" id="transactionCodeDebit" disabled=""
+                                                                       placeholder="">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="transactionCodeCredit"> Credit Transaction Code
+                                                                </label>
+                                                                <input class="form-control" id="transactionCodeCredit" disabled=""
+                                                                       placeholder="">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="postingDate"> Posting Date<span
+                                                                        class="text-danger">*</span></label>
+                                                                <input class="form-control" id="postingDate" disabled
+                                                                       placeholder="">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="amount"> Amount </label>
+                                                                <input type="text" class="form-control "
+                                                                       style="text-align: right;" id="amount" placeholder="">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <div class="row pt-3">
+                                                            <div class="col-md-12">
+                                                                <label for="signature"> Signature<span class="text-danger">*</span> </label>
+                                                                <img id="signature" src="/account-documents/" alt="Signature Preview" style="max-width: 100%;">
+                                                            </div>
+                                                        </div>
+
+                                                        <br>
+                                                            <div class="row ">
+                                                                <hr class="w-100">
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <label style="font-size: 18px; font-weight: bold;">Posting Restriction</label>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <label for="creditPostingRestriction"> Credit Account </label>
+                                                                        <input class="form-control" id="creditPostingRestriction" style="border: none; outline: none; background-color: transparent;" placeholder="" disabled="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <label for="debitPostingRestriction"> Debit Account </label>
+                                                                        <input class="form-control" id="debitPostingRestriction" style="border: none; outline: none; background-color: transparent;" placeholder="" disabled="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <br>
+                                                                <div class="row">
+                                                                    <hr class="w-100">
+                                                                </div>
+
+
+                                                                <div class="row">
+                                                                    <label style="font-size: 18px; font-weight: bold;"> Account Note </label>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <label for="creditNote"> Credit Account </label>
+                                                                            <input class="form-control" id="creditNote" placeholder=""  style="border: none; outline: none; background-color: transparent;"disabled="">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <label for="debitNote"> Debit Account </label>
+                                                                            <input class="form-control" id="debitNote" placeholder=""  style="border: none; outline: none; background-color: transparent;" disabled="">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+
+
+
+
+
+
+                                                                </div>
+
+
+
+
+                                                                <!-- <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <label for="units"> Units </label>
+                                                                        <input class="form-control" id="units" placeholder="">
+                                                                    </div>
+                    
+                                                                    <div class="col-md-4">
+                                                                        <label for="payeeName"> Payee Name </label>
+                                                                        <input class="form-control" id="payeeName" placeholder="">
+                                                                    </div>
+                    
+                                                                </div>
+                    
+                                                                <div class="row">
+                    
+                    
+                                                                    <div class="col-md-4">
+                                                                        <label for="kycDetails"> KYC Details </label>
+                                                                        <input class="form-control" id="kycDetails" placeholder="">
+                                                                    </div>
+                                                                </div> -->
+
+
+                                                                <div class="row mt-3">
+                                                                    <div class="col-md-8">
+                                                                        <div class="col-lg-12 col-md-12 dataArray" id="denomination1"
+                                                                             func="dynamicDenomination"></div>
+                                                                        <div class="col-md-12 mb-5 mt-2">
+
+                                                                            <a href="javascript:void(0)" id="addDenomi"
+                                                                               class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center">
+                                                                                <i class="fas fa-plus"></i>Denomination
+                                                                            </a>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row ">
+                                                                    <div class="col-md-12 offset-md-8">
+                                                                        <div class="col-md-1"><b>
+                                                                                <label for="subTotal"> Sub Total</label></b>
+                                                                        </div>
+                                                                        <div class="col-md-3"><b>
+                                                                                <input class="form-control uneditable" id="subTotal"></b>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                </form>
+                                                                </div>
+
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                                </div>
+
+                                                                </div>
+
+                                                                <div th:replace="~{./ui/footer.html}">Side</div>
+                                                                </div>
+                                                                </div>
+                                                                </main>
+
+
+                                                                <div th:replace="~{./ui/scripts.html}"></div>
+                                                                <script th:src="@{/vendors/select2/select2.min.js}"></script>
+                                                                
+                                                                
+                                                                <script th:src="@{/js/view-page.js?v=1}"></script>
+
+
+
+                                                                <script>
+
+
+                                                                    $.fn.dataTable.ext.errMode = 'none';
+
+                                                                    $(document).find('.ajax-select').each(function () {
+                                                                        convertToSelect2(this);
+                                                                    });
+
+                                                                    let tableData = {
+                                                                        columns: [
+                                                                            {"name": "ID", "data": "id", "visible": false},
+                                                                            {"name": " Code", "data": "code"},
+                                                                            {"name": "Teller ID", "data": "tellerId"},
+                                                                            {"name": "Amount", "data": "amount"},
+                                                                            {"name": "Status", "data": "status", "width": "50px", render: function (data, type, row) {
+                                                                                    let bannerClass, bannerText;
+                                                                                    if (data === "approved") {
+                                                                                        bannerClass = "success";
+                                                                                        bannerText = "Approved";
+                                                                                    } else if (data === "rejected") {
+                                                                                        bannerClass = "danger";
+                                                                                        bannerText = "Rejected";
+                                                                                    } else if (data === "pending") {
+                                                                                        bannerClass = "warning";
+                                                                                        bannerText = "Pending";
+                                                                                    } else if (data === "active") {
+                                                                                        bannerClass = "success";
+                                                                                        bannerText = "Active";
+                                                                                    }
+                                                                                    return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                                                                                }}
+                                                                        ],
+                                                                        url: window.location.origin + contextPath + 'common/teller/datatable',
+                                                                        tableSize: 'col-12'
+                                                                    };
+
+                                                                    let formData = {
+                                                                        url: window.location.origin + contextPath + 'teller',
+                                                                        customFields: $('#teller_Temp').children(),
+                                                                        formSize: 'col-12',
+                                                                        contentType: 'json',
+
+                                                                        afterSaveScreen: function () {
+                                                                            $('#postingDate').val(getCurrentDate());
+                                                                            $("#currency").append('<option value="1">Sri Lankan Rupee</option>');
+                                                                        }
+
+                                                                    };
+
+                                                                    new viewPage($('#page'), 'Teller', tableData, formData);
+
+
+
+                                                                    function dynamicDenomination(arryObj) {
+                                                                        let temp = document.createElement('div');
+                                                                        $(temp).addClass(' input-group mb-2 dataArrayObject');
+                                                                        $(temp).html('<select class=" form-control ajax-select cash-note" name="cashOptions">'
+                                                                                + '<option value="5000">5000</option>'
+                                                                                + '<option value="1000">1000</option>'
+                                                                                + '<option value="500">500</option>'
+                                                                                + '<option value="100">100</option>'
+                                                                                + '<option value="50">50</option>'
+                                                                                + '<option value="20">20</option>'
+                                                                                + '</select>'
+                                                                                + '<input type="text" class="form-control quantityInput" placeholder="Quantity" name="quantity">'
+                                                                                + '<input type="text" class="form-control totalInput"  name="total" disabled>'
+                                                                                + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                                        convertToSelect2($(temp).find('select')[0]);
+                                                                        convertToSelect2($(temp).find('select')[1]);
+                                                                        $(temp).find('.select2').attr('style', 'width:40% !important')
+                                                                        if (arryObj) {
+                                                                            Object.keys(arryObj).forEach(function (key) {
+                                                                                setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                                            });
+                                                                        }
+                                                                        $('#denomination1').append(temp);
+
+                                                                        // Event listener for calculating total
+                                                                        $(temp).find('[name="cashOptions"], [name="quantity"]').on('change input', function () {
+                                                                            let cashValue = parseInt($(temp).find('[name="cashOptions"]').val());
+                                                                            let quantity = parseInt($(temp).find('[name="quantity"]').val());
+                                                                            if (!isNaN(cashValue) && !isNaN(quantity)) {
+                                                                                $(temp).find('[name="total"]').val(cashValue * quantity);
+                                                                                calculateSubTotal();
+                                                                            } else {
+                                                                                $(temp).find('[name="total"]').val('');
+                                                                                calculateSubTotal();
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                    $('#addDenomi').click(function () {
+                                                                        dynamicDenomination();
+                                                                    });
+
+                                                                    $(document).on('click', '.removeElementBtn', function () {
+                                                                        $(this).parent().remove();
+                                                                    });
+
+
+                                                                    // fetching nominee data
+                                                                    $('#transactionType').change(function () {
+
+                                                                        let val = $(this).val();
+                                                                        if (val != null) {
+                                                                            $.ajax({
+                                                                                url: 'common/teller-transaction/' + val,
+                                                                                type: 'GET',
+                                                                                dataType: 'json',
+                                                                                success: function (resp) {
+                                                                                    let data = resp.data;
+                                                                                    // Handle successful response
+                                                                                    $('#transactionCodeCredit').val(data.transactionCodeCredit.text);
+                                                                                    $('#transactionCodeDebit').val(data.transactionCodeDebit.text);
+
+
+                                                                                },
+                                                                                error: function (xhr, status, error) {
+                                                                                    console.error(xhr.responseText);
+                                                                                }
+                                                                            });
+                                                                        }
+
+                                                                    });
+
+
+
+                                                                    //debit account data
+                                                                    $('#debitAccount').change(function () {
+
+                                                                        let val = $(this).val();
+                                                                        if (val != null) {
+                                                                            $.ajax({
+                                                                                url: 'common/account/' + val,
+                                                                                type: 'GET',
+                                                                                dataType: 'json',
+                                                                                success: function (resp) {
+                                                                                    let data = resp.data;
+                                                                                    $('#debitPostingRestriction').val(data.postingRestriction);
+                                                                                    $('#debitNote').val(data.note);
+                                                                                    $('#signature').attr('src', '/account-documents/' + data.signature);
+
+
+
+                                                                                },
+                                                                                error: function (xhr, status, error) {
+                                                                                    console.error(xhr.responseText);
+                                                                                }
+                                                                            });
+                                                                        }
+
+                                                                    });
+
+
+                                                                    //debit account data
+                                                                    $('#creditAccount').change(function () {
+
+                                                                        let val = $(this).val();
+                                                                        if (val != null) {
+                                                                            $.ajax({
+                                                                                url: 'common/account/' + val,
+                                                                                type: 'GET',
+                                                                                dataType: 'json',
+                                                                                success: function (resp) {
+                                                                                    let data = resp.data;
+                                                                                    $('#creditPostingRestriction').val(data.postingRestriction);
+                                                                                    $('#creditNote').val(data.note);
+
+
+                                                                                },
+                                                                                error: function (xhr, status, error) {
+                                                                                    console.error(xhr.responseText);
+                                                                                }
+                                                                            });
+                                                                        }
+
+                                                                    });
+
+
+
+
+                                                                    function calculateSubTotal() {
+                                                                        let subTotal = 0;
+                                                                        $('.totalInput').each(function () {
+                                                                            let total = parseInt($(this).val());
+                                                                            if (!isNaN(total)) {
+                                                                                subTotal += total;
+                                                                            }
+                                                                        });
+                                                                        $('#subTotal').val(subTotal);
+                                                                    }
+
+
+
+                                                                    function getCurrentDate() {
+                                                                        const now = new Date();
+                                                                        const year = now.getFullYear();
+                                                                        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                                                        const day = now.getDate().toString().padStart(2, '0');
+                                                                        return `${year}-${month}-${day}`;
+                                                                    }
+
+
+
+
+
+                                                                    function formatAmount(input) {
+                                                                        // Remove non-numeric characters and leading zeros
+                                                                        const numericInput = input.replace(/[^0-9]/g, '').replace(/^0+/, '');
+
+                                                                        // Convert to a number and format with two decimal places
+                                                                        const formattedAmount = (parseFloat(numericInput) / 100).toFixed(2);
+
+                                                                        return formattedAmount;
+                                                                    }
+
+                                                                    // Function to add comma separators to a number
+                                                                    function addCommas(num) {
+                                                                        const parts = num.toString().split('.');
+                                                                        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                                                        return parts.join('.');
+                                                                    }
+
+                                                                    // Get all elements with the class name "number-format"
+                                                                    const numberFormatInputs = document.querySelectorAll('.number-format');
+
+                                                                    // Add event listener to each input element with the class name "number-format"
+                                                                    numberFormatInputs.forEach(input => {
+                                                                        input.addEventListener('input', function () {
+                                                                            // Get the input value
+                                                                            const inputValue = this.value;
+
+                                                                            // Format the amount
+                                                                            let formattedValue = formatAmount(inputValue);
+
+                                                                            // Check if the input field has the class name "number-format" and add commas if necessary
+                                                                            if (this.classList.contains('number-format')) {
+                                                                                formattedValue = addCommas(formattedValue);
+                                                                            }
+
+                                                                            // Set the formatted value back to the input field
+                                                                            this.value = formattedValue;
+                                                                        });
+                                                                    });
+
+                                                                </script>
+
+
+
+
+
+
+                                                                </body>
+
+
+                                                                </html>

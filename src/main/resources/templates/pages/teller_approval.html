@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+    <style>
+        .align-right {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="approval">
+
+                    </div>
+                </div>
+
+
+                <div id="teller_Temp" style="display: none">
+                    <!-- content -->
+                    <!-- add all content here -->
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+
+                                    <div class="card-body">
+                                        <!--             ..................................................................................................-->
+                                        <form>
+
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="code"> Code </label>
+                                                            <input class="form-control" id="code" placeholder="" disabled="">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="transactionType"> Transaction Type<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="transactionType" class="form-select ajax-select"
+                                                                ajax="common/teller-transaction/select" refid="id" disabled=""
+                                                                reftxt="text"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="debitAccount">Debit Account <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="debitAccount" class="form-select ajax-select"
+                                                                ajax="common/account/select" refid="id" disabled=""
+                                                                reftxt="text"></select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="creditAccount">Credit Account <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="creditAccount" class="form-select ajax-select"
+                                                                ajax="common/account/select" refid="id" disabled=""
+                                                                reftxt="text"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="valueDate"> Value Date </label>
+                                                            <input type="date" class="form-control" id="valueDate" disabled=""
+                                                                placeholder="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="narration"> Narration </label>
+                                                            <input class="form-control" id="narration" placeholder=" " disabled="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="tellerId">Teller ID</label>
+                                                            <select id="tellerId" class="form-select ajax-select"
+                                                                ajax="common/teller-id/select" refid="id" reftxt="text" disabled=""
+                                                                required=""></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="currency">Currency</label>
+                                                            <select id="currency" class="form-select ajax-select"
+                                                                ajax="common/currency/select" refid="id" disabled=""
+                                                                reftxt="text"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="transactionCodeDebit"> Debit Transaction Code
+                                                            </label>
+                                                            <input class="form-control" id="transactionCodeDebit" disabled=""
+                                                                placeholder="">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="transactionCodeCredit"> Credit Transaction Code
+                                                            </label>
+                                                            <input class="form-control" id="transactionCodeCredit" disabled=""
+                                                                placeholder="">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="postingDate"> Posting Date<span
+                                                                    class="text-danger">*</span></label>
+                                                            <input class="form-control" id="postingDate" disabled
+                                                                placeholder="">
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="amount"> Amount </label>
+                                                            <input type="text" class="form-control number-format "
+                                                                style="text-align: right;" id="amount" placeholder="" disabled="">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="col-md-4">
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="signature"> Signature<span class="text-danger">*</span> </label>
+                                                            <input type="file"  class="form-control"  id="signature" >
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <br>
+                                                <div class="row ">
+                                                    <hr class="w-100">
+                                                </div>
+
+                                                    <div class="row">
+                                                 <label style="font-size: 18px; font-weight: bold;">Posting Restriction</label>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="creditPostingRestriction"> Credit Account </label>
+                                                                <input class="form-control" id="creditPostingRestriction" placeholder="" disabled="">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="debitPostingRestriction"> Debit Account </label>
+                                                                <input class="form-control" id="debitPostingRestriction" placeholder="" disabled="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        
+                                                        <br>
+                                                <div class="row">
+                                                    <hr class="w-100">
+                                                </div>
+
+
+                                                    <div class="row">
+                                                        <label style="font-size: 18px; font-weight: bold;"> Account Note </label>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="creditNote"> Credit Account </label>
+                                                                <input class="form-control" id="creditNote" placeholder="" disabled="">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="debitNote"> Debit Account </label>
+                                                                <input class="form-control" id="debitNote" placeholder="" disabled="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
+
+
+
+                                            <!-- <div class="row">
+                                                <div class="col-md-4">
+                                                    <label for="units"> Units </label>
+                                                    <input class="form-control" id="units" placeholder="">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="payeeName"> Payee Name </label>
+                                                    <input class="form-control" id="payeeName" placeholder="">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-4">
+                                                    <label for="kycDetails"> KYC Details </label>
+                                                    <input class="form-control" id="kycDetails" placeholder="">
+                                                </div>
+                                            </div> -->
+
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-8">
+                                                    <div class="col-lg-12 col-md-12 dataArray" id="denomination1"
+                                                        func="dynamicDenomination"></div>
+                                                    <div class="col-md-12 mb-5 mt-2">
+
+                                                        <a href="javascript:void(0)" id="addDenomi"
+                                                            class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center">
+                                                            <i class="fas fa-plus"></i>Denomination
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row ">
+                                                <div class="col-md-12 offset-md-8">
+                                                    <div class="col-md-1"><b>
+                                                            <label for="subTotal"> Sub Total</label></b>
+                                                    </div>
+                                                    <div class="col-md-3"><b>
+                                                            <input class="form-control uneditable" id="subTotal" ></b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                              <div class="row pt-3">
+                                                <div class="col-md-4">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control " id="comment" name="comment" rows="4"
+                                                        cols="50"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modBy">Mod By:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modBy" class="form-control"
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modOn">Mod On:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modOn" class="form-control "
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+        </div>
+    </main>
+
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+    
+    <script th:src="@{/js/product-approval.js?v=1}"></script>
+    
+    
+
+    <script>
+
+
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let tableData = {
+            columns: [
+                { "name": "ID", "data": "id", "visible": false },
+                { "name": " Code", "data": "code" },
+                { "name": "Teller ID", "data": "tellerId" },
+                { "name": "Amount", "data": "amount" },
+                { "name": "Status", "data": "status", "width": "50px" }
+            ],
+            url: window.location.origin + contextPath + 'tellerApproval/datatable',
+            tableSize: 'col-12'
+        };
+
+        let formData = {
+            url: window.location.origin + contextPath + 'teller',
+            customFields: $('#teller_Temp').children(),
+            formSize: 'col-12',
+            contentType: 'json',
+
+            afterSaveScreen: function () {
+                $('#postingDate').val(getCurrentDate());
+                $("#currency").append('<option value="1">Sri Lankan Rupee</option>');
+            }
+
+        };
+
+
+  new productIntiate($('#approval'), 'Teller Approval', 'tellerApproval', tableData, formData);
+
+
+
+
+        function dynamicDenomination(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass(' input-group mb-2 dataArrayObject');
+            $(temp).html('<select class=" form-control ajax-select cash-note" name="cashOptions">'
+                + '<option value="5000">5000</option>'
+                + '<option value="1000">1000</option>'
+                + '<option value="500">500</option>'
+                + '<option value="100">100</option>'
+                + '<option value="50">50</option>'
+                + '<option value="20">20</option>'
+                + '</select>'
+                + '<input type="text" class="form-control quantityInput" placeholder="Quantity" name="quantity">'
+                + '<input type="text" class="form-control totalInput"  name="total" disabled>'
+                + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+            convertToSelect2($(temp).find('select')[0]);
+            convertToSelect2($(temp).find('select')[1]);
+            $(temp).find('.select2').attr('style', 'width:40% !important')
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#denomination1').append(temp);
+
+            // Event listener for calculating total
+            $(temp).find('[name="cashOptions"], [name="quantity"]').on('change input', function () {
+                let cashValue = parseInt($(temp).find('[name="cashOptions"]').val());
+                let quantity = parseInt($(temp).find('[name="quantity"]').val());
+                if (!isNaN(cashValue) && !isNaN(quantity)) {
+                    $(temp).find('[name="total"]').val(cashValue * quantity);
+                    calculateSubTotal();
+                } else {
+                    $(temp).find('[name="total"]').val('');
+                    calculateSubTotal();
+                }
+            });
+        }
+        $('#addDenomi').click(function () {
+            dynamicDenomination();
+        });
+
+        $(document).on('click', '.removeElementBtn', function () {
+            $(this).parent().remove();
+        });
+
+
+    
+
+    </script>
+
+
+
+
+
+
+</body>
+
+
+</html>

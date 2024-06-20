@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="acc_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+                                                <div class="row">
+                                                     <div class="col-md-4">
+                                                        <label for="accountNo"> Account No<span class="text-danger">*</span></label>
+                                                        <input class="form-control"  id="accountNo" placeholder="">
+                                                    </div>
+                                                    
+                                                      <div class="col-md-4">
+                                                        <label for="product">Product<span class="text-danger">*</span></label>
+                                                        <select id="product" class="form-select ajax-select" ajax="account/select"   refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+                                                    
+                                                      <div class="col-md-4">
+                                                        <label for="category"> Category<span class="text-danger">*</span></label>
+                                                        <input class="form-control"  id="category" placeholder="">
+                                                    </div>
+                                                    
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="currency"> Currency </label>
+                                                        <input class="form-control"  id="currency"disabled placeholder="">
+                                                    </div>
+                                                    
+                                                     <div class="col-md-4">
+                                                        <label for="accountName"> Account Name<span class="text-danger">*</span></label>
+                                                        <input class="form-control"  id="accountName"required="" placeholder="">
+                                                    </div>
+                                                    
+                                                     <div class="col-md-4">
+                                                        <label for="shortTile"> Short Tile <span class="text-danger">*</span> </label>
+                                                        <input class="form-control"  id="shortTile" required="" placeholder="">
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                
+                                                <div class="row">
+                                                      <div class="col-md-4">
+                                                        <label for="curdate"> Opening Date</label>
+                                                        <input  class="form-control"  id="curdate"  disabled placeholder="">
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="accountstatus"> Account Status<span class="text-danger">*</span></label>
+                                                        <select class="form-select  ajax-select" id="accountstatus" required="">
+                                                            <option value="active" selected="">Active</option>
+                                                            <option value="dormant">Dormant </option>
+                                                            <option value="inactive">Inactive </option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                      <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span> </label>
+                                                        <select id="branch" class="form-select ajax-select" ajax="common/branch/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="note"> Memo <span class="text-danger">*</span> </label>
+                                                        <input class="form-control"  id="note" placeholder="">
+                                                    </div>
+                                                </div>
+                                                
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+
+
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Account No", "data": "accountNo"},
+                    {"name": "Account Name", "data": "accountName"},
+                    {"name": "Category", "data": "category"},
+                    {"name": "Product", "data": "product"},
+                    {"name": "Acc Balance", "data": "accountbalance"},
+                    //  {"name": "Status", "data": "status", "width": "50px"}
+
+                    {"name": "Status", "data": "approvalStatus", "width": "50px", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "approved") {
+                                bannerClass = "success";
+                                bannerText = "Approved";
+                            } else if (data === "rejected") {
+                                bannerClass = "danger";
+                                bannerText = "Rejected";
+                            } else if (data === "pending") {
+                                bannerClass = "warning";
+                                bannerText = "Pending";
+                            } else if (data === "active") {
+                                bannerClass = "success";
+                                bannerText = "Active";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }}
+
+
+
+                ],
+                url: window.location.origin + contextPath + 'gl-acc/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'gl-acc',
+                customFields: $('#acc_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+                afterSaveScreen: function () {
+                    //alert();
+                    $("#accountstatus").val("active").change();
+                    $('#curdate').val(getCurrentDate());
+                    $("#currency").val("LKR");
+
+                }
+            };
+
+            new initiatePage($('#page'), 'GL Account', tableData, formData);
+            
+            
+            function getCurrentDate() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                const day = now.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+         
+        </script>
+        
+
+        
+
+
+        
+
+
+
+
+    </body>
+
+
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+
+    <style>
+
+        .align-right {
+            text-align: right;
+        }
+        h6 {
+            margin-bottom: .5rem;
+            font-family: inherit;
+            font-weight: 500;
+            line-height: 1.1;
+            color: white;
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .cards .card-block-small {
+            padding: 15px 20px;
+        }
+
+        .cards {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            /* Add a transition for the transform property */
+        }
+
+        .cards:hover {
+            transform: translateY(-5px);
+            /* Move the card up slightly on hover */
+        }
+
+        .cards::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(100%);
+            overflow: hidden;
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* Add a background color for the "like" popup */
+            border-radius: 10px;
+            /* Match the border-radius of the card */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            /* Match the box-shadow of the card */
+        }
+
+        /*                        .cards:hover::before {
+                                    opacity: 1;
+                                    transform: translateY(-100%);  Move the "like" popup up 
+                                }*/
+
+
+        .cards i {
+            position: absolute;
+            bottom: 10px;
+            left: -20px;
+            transition: all 0.3s ease;
+            transform-origin: bottom left;
+            transform: scale(3.5);
+            opacity: 0.5;
+            /* Set the opacity to 50% */
+        }
+
+        .cards:hover i {
+            transform: rotate(15deg) scale(5);
+            opacity: 0.5;
+            /* Set the opacity to 100% on hover */
+        }
+
+        .text-color-black {
+            color: black;
+        }
+
+        .seperator {
+            border-top: 2px solid rgba(153, 153, 153, 0.3) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+
+
+
+                <div>
+                    <section class="navi-card" style="padding: 0rem 1rem;" id="navi-card">
+                        <div class="row " style="margin-bottom: 1px;margin-top: 10px;">
+
+                        </div>
+
+                        <div class="row " style="margin-bottom: 1px;margin-top: 10px;">
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="cards bg-c-yellow text-white widget-visitor-card" id="payment_initiatecrd"
+                                     style="height: 100px; background:#7FD8D1;">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="payment_initiate_count">0</h4>
+                                        <h6 class="text-color-black">Payment Initiated</h6>
+                                        <!--                                        <i class="feather icon-wifi">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>    
+                                        </i>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="cards bg-c-yellow text-white widget-visitor-card"
+                                     id="qoutationApprovalPendingcrd" style="height: 100px; background: #E39CE3 ;">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="qoutaion_approval_pending_count">0</h4>
+                                        <h6 class="text-color-black">Pending Approval</h6>
+                                        <!--                                        <i class="feather icon-wifi">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>    
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="cards bg-c-yellow text-white widget-visitor-card"
+                                     id="qoutationApprovalPendingcrd"
+                                     style="height: 100px; background: rgb(200, 83, 103);">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="qoutaion_approval_pending_count">0</h4>
+                                        <h6 class="text-color-black">Approval Reject</h6>
+                                        <!--                                        <i class="feather icon-wifi">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>    
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="cards  bg-c-green text-white widget-visitor-card" id="adminpendingcrd"
+                                     style="height: 100px;    background: rgb(56, 173, 255);">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="admin_pending_count">0</h4>
+                                        <h6 class="text-color-black">Finance Queue</h6>
+                                        <!--                                        <i class="feather icon-award">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="cards  bg-c-green text-white widget-visitor-card" id="adminpendingcrd"
+                                     style="height: 100px;    background: #FFA64D ;">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="admin_pending_count">0</h4>
+                                        <h6 class="text-color-black">Pending Finance Approval</h6>
+                                        <!--                                        <i class="feather icon-award">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="cards bg-c-pink  text-white widget-visitor-card" id="completedcrd"
+                                     style="height: 100px;background: rgb(170, 170, 170);">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="completed_count">0</h4>
+                                        <h6 class="text-color-black">Completed Payments</h6>
+                                        <!--                                        <i class="feather icon-sun">
+    
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>    
+                                        </i>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="cards  bg-c-green text-white widget-visitor-card" id="adminpendingcrd"
+                                     style="height: 100px;    background: #FF6666 ;">
+                                    <div class="card-block-small text-center">
+                                        <h4 class="text-color-black" id="admin_pending_count">0</h4>
+                                        <h6 class="text-color-black">Finance Reject</h6>
+                                        <!--                                        <i class="feather icon-award">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                                                                                </i>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row " style="margin-bottom: 1px;margin-top: 10px;">
+
+                        </div>
+
+                        <hr>
+
+                    </section>
+
+
+                    <div class="row" id="payment">
+
+                    </div>
+                </div>
+
+
+
+
+                <div id="payment_form" style="display: none">
+                    <!-- content -->
+                    <!-- add all content here -->
+
+                    <div class="container-fluid">
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <!-- form part -->
+                                                <div class="col-md-7">
+                                                    <div class="row pt-3">
+
+                                                        <div class="col-md-4">
+                                                            <label for="date">Date<span
+                                                                    class="text-danger">*</span></label>
+                                                            <input type="date" class="form-control " id="date"
+                                                                   placeholder="">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="pdu">Payment Debited Unit<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="pdu" refid="id" reftxt="text"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/department/select">
+                                                            </select>
+                                                        </div>
+
+
+
+                                                        <div class="col-md-4">
+                                                            <label for="payeeSelector"> Payee Type</label>
+                                                            <select id="payeeSelector" class="form-control ajax-select">
+                                                                </option>
+                                                                <option value="registered">Registered </option>
+                                                                <option value="nonRegistered">Non-Registered </option>
+                                                            </select>
+
+                                                        </div>
+
+                                                      
+
+                                                    </div>
+
+                                                    <div class="row pt-3" id="registered" style="display: none;">
+
+
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label for="regPayee">Payee<span
+                                                                            class="text-danger">*</span></label>
+                                                                    <select id="regPayee" refid="id" reftxt="text"
+                                                                            class="form-select ajax-select"
+                                                                            ajax="common/customer/select">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-8" id="regpayeedetails"></div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                    
+                                                    <div class="row pt-3" id="unregistered" style="display: none;">
+                                                           <div class="col-md-4">
+                                                            <label for="paymentType">Payment Type<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="paymentType" refid="id" reftxt="text"
+                                                                class="form-select ajax-select"
+                                                                ajax="common/payment-type/select">
+                                                            </select>
+                                                        </div> 
+                                                        
+                                                         <div class="col-md-4">
+                                                            <label for="unregPayeeName">Payee Name</label>
+                                                            <input type="text" class="form-control" id="unregPayeeName">
+                                                        </div>
+                                                        
+                                                    </div>
+
+
+                                                    <div class="row pt-3" id="unRegFT" style="display: none;">
+
+                                                        <div class="col-md-4">
+                                                            <label for="unregPayeeAcc">Payee Account Number</label>
+                                                            <input type="text" class="form-control" id="unregPayeeAcc">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="unregPayeeBank">Payee Bank<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="unregPayeeBank" refid="id" reftxt="text"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/bank/select">
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                    
+                                                    <div class="row pt-3" id="unRegCheque" > 
+                                                         <div class="col-md-4">
+                                                            <label for="unRegChequeInFvr">Cheque In Favor</label>
+                                                            <input type="text" class="form-control" id="unRegChequeInFvr">
+                                                        </div>
+                                                    </div>
+                                                    
+
+                                                    <div class="row pt-3">
+
+                                                        <div class="col-md-4 ">
+                                                            <label for="invoiceNo" class="form-label mb-0">Invoice
+                                                                No</label>
+
+                                                            <input type="text" id="invoiceNo" class="form-control mt-1">
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="budgeted" class="pr-3">Budgeted:</label>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="budgeted" id="budgetedYes" value="yes">
+                                                                <label class="form-check-label" for="budgetedYes">Yes</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" type="radio" name="budgeted" id="budgetedNo" value="no">
+                                                                <label class="form-check-label" for="budgetedNo">No</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row pt-3" id="budgetRow" style="display: none;">
+
+                                                        <div class="col-md-4">
+                                                            <label for="budgetType">Budget Type<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="budgetType" refid="id" reftxt="text"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/budget-type/select">
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="budget">Budget<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="budget" refid="id" reftxt="text"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/budget/select">
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4 ">
+                                                            <label for="avilableAmount"
+                                                                   class="form-label mb-0 text-end">Available Amount</label>
+                                                            <input type="text" id="avilableAmount"
+                                                                   class="form-control mt-1 align-right" disabled="">
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <hr class="seperator mt-3">
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-4">
+                                                            <label>Payment Details</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="paymentFields">
+                                                            <!-- payments added here -->
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row ">
+                                                        <div class="col-md-2">
+                                                            <a id="addpayment" class="btn btn-primary">Add</a>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-4">
+                                                            <label>Supplier Documents</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="documentFields">
+                                                            <!-- payments added here -->
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row ">
+                                                        <div class="col-md-2">
+                                                            <a id="addDocument" class="btn btn-primary">Add</a>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="invoiceComment">Comment for Invoice</label>
+                                                            <textarea class="form-control" id="invoiceComment"
+                                                                      rows="2"></textarea>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="row pt-3">
+                                                        <div class="col-md-6">
+                                                            <label for="recommendTo">Recommend To<span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="recommendTo" refid="id" reftxt="text"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/user/select">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="recommendComment">Recommend Comment<span
+                                                                    class="text-danger">*</span></label>
+                                                            <textarea class="form-control" id="recommendComment"
+                                                                      rows="2"></textarea>
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                                <!-- old transaction table -->
+                                                <div class="col-md-5" style="border-left: 1px solid black">
+
+                                                    <div class="card-header">
+                                                        <h4>Payment History</h4>
+                                                    </div>
+                                                    <div class="card-body" id="transactionTableCard">
+                                                        <div class="table-responsive scrollbar">
+                                                            <table class="table table-sm  table-bordered"
+                                                                   id="transactionTable">
+                                                                <thead class="bg-200 text-900">
+                                                                    <tr>
+                                                                        <th>ID</th>
+                                                                        <th>Invoice Number</th>
+                                                                        <th>Date</th>
+                                                                        <th>Amount</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <div class="row mt-3">
+
+                                                    </div>
+
+                                                </div>
+
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div th:replace="~{./ui/footer.html}">Side</div>
+    </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script th:src="@{/js/payment.js?v=1}"></script>
+
+<script th:inline="none">
+
+
+
+    $.fn.dataTable.ext.errMode = 'none';
+    $(document).find('.ajax-select').each(function () {
+        convertToSelect2(this);
+    });
+    let tableData = {
+        columns: [
+            {"name": "ID", "data": "id", "visible": false},
+            {"name": "Payment Id", "data": "paymentId"},
+            {"name": "Budget Type", "data": "budgetType"},
+            {"name": "Payee", "data": "payee"},
+            {"name": "Budget", "data": "budget"},
+            {"name": "PDU", "data": "pdu"},
+            {"name": "Status", "data": "status"},
+        ],
+        url: window.location.origin + contextPath + 'common/payment-initiate/datatable',
+        tableSize: 'col-12'
+    };
+    let formData = {
+        url: window.location.origin + contextPath + '',
+        customFields: $('#payment_form').children(),
+        formSize: 'col-12',
+        contentType: 'json',
+        afterSaveScreen: function () {
+
+        }
+    };
+    new payment($('#payment'), 'Payment Requisition', tableData, formData);
+
+
+    $('#payeeSelector').change(function () {
+        var selectedValue = $(this).val();
+        $('#registered').hide();
+        $('#unregistered').hide();
+
+        if (selectedValue === 'registered') {
+            $('#registered').show();
+        } else if (selectedValue === 'nonRegistered') {
+            $('#unregistered').show();
+        }
+    });
+    
+    $('#paymentType').change(function () {
+       
+        var selectedValue = $('#paymentType').text();
+        $('#unRegFT').hide();
+        $('#unRegCheque').hide();
+
+        if (selectedValue === 'cheque') {
+            $('#unRegCheque').show();
+        } else if (selectedValue === 'fund transfer') {
+            $('#unRegFT').show();
+        }
+    });
+
+
+    var selectedPayee = '0';
+    var trasnsactioTable = $('#transactionTable').DataTable({
+        "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+        "pageLength": 10,
+        "ordering": true,
+        "autoWidth": false,
+        "processing": true,
+        "serverSide": true,
+        "order": [[0, "desc"]],
+        "searchDelay": 350,
+        "ajax": {
+            "url": 'payment-initiate/t-datatable',
+            "contentType": "application/json",
+            "type": "POST",
+            "data": function (d) {
+                d.data = selectedPayee;
+                return JSON.stringify(d);
+            },
+            error: function (xhr, error, code) {
+                console.log(xhr);
+                console.log(code);
+            }
+        },
+        "columns": [
+            {"data": "id", "title": "ID", "visible": false},
+            {"data": "invoiceNo", "title": "Invoice No"},
+            {"data": "date", "title": "Date "},
+            {"data": "total", "title": "Amount", "className": "align-right",
+                "render": function (data, type, row) {
+                    return formatAmount(data);
+                }},
+            {"data": "status", "title": "Status", "width": "50px", render: function (data, type, row) {
+                    let bannerClass, bannerText;
+                    if (data === "approved") {
+                        bannerClass = "success";
+                        bannerText = "Approved";
+                    } else if (data === "rejected") {
+                        bannerClass = "danger";
+                        bannerText = "Rejected";
+                    } else if (data === "pending") {
+                        bannerClass = "warning";
+                        bannerText = "Pending";
+                    } else if (data === "active") {
+                        bannerClass = "success";
+                        bannerText = "Active";
+                    }
+                    return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                }}
+        ]
+    });
+
+
+    $('input[name="budgeted"]').change(function () {
+            if ($('#budgetedYes').is(':checked')) {
+                $('#budgetRow').show();
+            } else {
+                $('#budgetRow').hide();
+            }
+        });
+
+
+
+    $('#regPayee').change(function () {
+
+        let val = $(this).val();
+        selectedPayee = val;
+        trasnsactioTable.ajax.reload();
+
+
+        // Clear existing details before fetching new details
+        $('#regpayeedetails').empty();
+
+        $.ajax({
+            url: 'customer/supplier/' + val,
+            type: 'GET',
+            dataType: 'json',
+            success: function (resp) {
+                let data = resp.data;
+
+                // Handle successful response
+
+                // Create new elements to show account details
+                let accountInfoHtml = `
+            <div class="row pt-3">
+                <div class="col-md-12">
+                    <label for="regAccName">Account Name:</label>
+                    <span id="regAccName">${data.accountName}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="regAccNo">Account Number:</label>
+                    <span id="regAccNo">${data.accountNo || ''}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="regBank">Bank:</label>
+                    <span id="regBank">${data.bankBranch.text || ''}</span>
+                </div>
+            </div>
+        `;
+
+                // Append the new elements to the #regpayeedetails div
+                $('#regpayeedetails').append(accountInfoHtml).show();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+
+    document.getElementById('addpayment').addEventListener('click', function () {
+        addRow();
+    });
+
+    function addRow() {
+        const qoutFields = document.querySelector('.paymentFields');
+        let table = qoutFields.querySelector('table');
+
+        // Create table if it doesn't exist
+        if (!table) {
+            table = document.createElement('table');
+            table.classList.add('table', 'table-sm', 'table-bordered');
+            table.innerHTML = `
+    <thead class="bg-200 text-900">
+        <tr>
+            <td class="col-md-5">Description</td>
+            <td class="col-md-1">Quantity</td>
+            <td class="col-md-2">UNit Price</td>
+            <td class="col-md-3">Line Total</td>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3" class="text-end">Subtotal</td>
+        <td><input type="number" class="form-control text-end" id="subtotal" disabled></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="text-end">Tax</td>
+        <td><input type="number" class="form-control text-end" id="tax" ></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="3" class="text-end">Total</td>
+        <td><input type="number" class="form-control text-end" id="total" disabled></td>
+        <td></td>
+    </tr>
+</tfoot>
+`;
+            qoutFields.appendChild(table);
+        }
+
+        const tbody = table.querySelector('tbody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+<td><input type="text" class="form-control description" placeholder="Enter description"></td>
+<td><input type="text" class="form-control quantity text-end" ></td>
+<td><input type="text" class="form-control unit_price text-end" ></td>
+<td><input type="text" class="form-control line_total text-end" disabled></td>
+<td><a class="btn btn-danger" onclick="removeRow(this)"><i class="fas fa-trash-alt"></i></a></td>
+`;
+        row.querySelectorAll('.ajax-select').forEach(function (element) {
+            convertToSelect2(element);
+        });
+        tbody.appendChild(row);
+
+        // Add event listeners for quantity and unit price inputs in the new row
+        const quantityInput = row.querySelector('.quantity');
+        const unitPriceInput = row.querySelector('.unit_price');
+        const lineTotalInput = row.querySelector('.line_total');
+        const tax = row.querySelector('.tax');
+
+        quantityInput.addEventListener('input', updateLineTotal);
+        unitPriceInput.addEventListener('input', updateLineTotal);
+        tax.addEventListener('input', updateTotal());
+
+        // Update subtotal, tax, and total
+        updateSubtotal();
+        updateTotal();
+    }
+
+    function updateLineTotal() {
+        const row = this.parentNode.parentNode;
+        const quantity = parseFloat(row.querySelector('.quantity').value);
+        const unitPrice = parseFloat(row.querySelector('.unit_price').value);
+        const lineTotal = quantity * unitPrice;
+        row.querySelector('.line_total').value = isNaN(lineTotal) ? '' : lineTotal.toFixed(2);
+        updateSubtotal();
+    }
+
+    function updateSubtotal() {
+        let subtotal = 0;
+        const table = document.querySelector('.paymentFields table');
+        if (table) {
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const lineTotal = parseFloat(row.querySelector('.line_total').value);
+                if (!isNaN(lineTotal)) {
+                    subtotal += lineTotal;
+                }
+            });
+        }
+        document.getElementById('subtotal').value = isNaN(subtotal) ? '' : subtotal.toFixed(2);
+
+    }
+
+    function updateTotal() {
+        const taxPercentage = 0;
+        taxPercentage = parseFloat(document.getElementById('tax').value);
+        const subtotalValue = parseFloat(document.getElementById('subtotal').value);
+
+        const taxValue = isNaN(subtotalValue) || isNaN(taxPercentage) ? 0 : subtotalValue * (taxPercentage / 100);
+        const totalValue = isNaN(subtotalValue) ? 0 : subtotalValue + taxValue;
+
+        document.getElementById('total').value = totalValue.toFixed(2);
+    }
+
+
+
+    function removeRow(button) {
+        const row = button.parentNode.parentNode;
+        const table = row.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+
+        // Remove table if no rows are left
+        if (table.querySelectorAll('tbody tr').length === 0) {
+            table.parentNode.removeChild(table);
+        }
+        // Update subtotal, tax, and total after removing row
+        updateSubtotal();
+    }
+
+
+
+    document.getElementById('addDocument').addEventListener('click', function () {
+        addDocumentRow();
+    });
+
+    function addDocumentRow() {
+        const qoutFields = document.querySelector('.documentFields');
+        let table = qoutFields.querySelector('table');
+
+        // Create table if it doesn't exist
+        if (!table) {
+            table = document.createElement('table');
+            table.classList.add('table', 'table-sm', 'table-bordered');
+            table.innerHTML = `
+    <thead class="bg-200 text-900">
+        <tr>
+            <td class="col-md-5">Document Name</td>
+            <td class="col-md-7">File</td>
+        </tr>
+    </thead>
+    <tbody></tbody>
+`;
+            qoutFields.appendChild(table);
+        }
+
+        const tbody = table.querySelector('tbody');
+        const row = document.createElement('tr');
+        row.innerHTML = `
+<td><input type="text" class="form-control documentName" placeholder="Enter document name"></td>
+<td><input type="file" class="form-control document"></td>
+<td><a class="btn btn-danger" onclick="removeRow(this)"><i class="fas fa-trash-alt"></i></a></td>
+`;
+        row.querySelectorAll('.ajax-select').forEach(function (element) {
+            convertToSelect2(element);
+        });
+        tbody.appendChild(row);
+    }
+
+
+    $('#budget').change(function () {
+        let val = $(this).val();
+
+        $.ajax({
+            url: 'common/budget/' + val,
+            type: 'GET',
+            dataType: 'json',
+            success: function (resp) {
+                let data = resp.data;
+                $('#avilableAmount').val(formatAmount(data.availablAmount));
+
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    function formatAmount(amount) {
+        return parseFloat(amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+
+
+
+    $('#indidious').change(function () {
+        
+    })
+
+
+</script>
+
+
+</body>
+
+</html>

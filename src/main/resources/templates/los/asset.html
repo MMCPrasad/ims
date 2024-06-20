@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            /*.select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 24px;
+            }*/
+            .thumbnails {
+                display: flex;
+                margin: 1rem auto 0;
+                padding: 0;
+                justify-content: center;
+            }
+
+
+            .thumbnail {
+                width: 70px;
+                height: 70px;
+                overflow: hidden;
+                list-style: none;
+                margin: 0 0.2rem;
+                cursor: pointer;
+                opacity: 0.3;
+            }
+
+
+            .thumbnail img {
+                width: 100%;
+                height: auto;
+            }
+            .thumbnail.is-active {
+                opacity: 1;
+            }
+
+        </style>
+
+
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+                    <div id="asset_temp" style="display: none">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-xl-12 col-xxl-12 h-100 m-0 p-0">
+
+                                    <div class="row m-2">
+
+                                        <div class="col-lg-12">
+                                            <div class="row">
+
+                                                <div class="col-md-3 mb-1" id="show_assetCode" style="display:none;">
+                                                    <label>Asset Code </label>
+                                                    <input  id="assetCode" name="assetCode" class="form-control" disabled="" >
+                                                </div>
+
+                                                <div class="col-md-3  mb-1" >
+                                                    <label>Vehicle Condition <span class="text-danger">*</span></label> 
+                                                    <select class="form-select ajax-select" id="vCondition" ajax="common/vcondition/select" refid="id" reftxt="text" ></select>
+                                                </div>                                                                                             
+                                                <div class="col-md-3 mb-1" id="show_RegNo" style="display:none;">
+                                                    <label>Reg NO <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="regNo" name="regNo"  class="form-control">
+                                                </div>
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label>CR NO  <span class="text-danger">*</span></label>
+                                                    <input type="text" id="crNo" name="crNo" class="form-control" >
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>LOT NO <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="lotNo" name="lotNo"  class="form-control" >
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Vehicle Type <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="vehicleType" ajax="common/vtype/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Body Type <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="bType" ajax="common/body-type/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Make <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="vMake" ajax="common/vmake/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Model <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="vModel" ajax="common/vmodel/select" refid="id" reftxt="text" ></select>
+                                                </div>
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Country of Origin <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="country" ajax="common/country/select" refid="id" reftxt="text" ></select>
+                                                </div>
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label>YOM <span class="text-danger">*</span></label>
+                                                    <input type="date"  id="yom" name="yom"  class="form-control" >
+                                                </div> 
+                                                <div class="col-md-3 mb-1">
+                                                    <label>CR Status <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="crStatus" ajax="common/cr-status/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Fuel Type <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="fuelType" ajax="common/fuel-type/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Engine Capacity(cc) <span class="text-danger">*</span></label>
+                                                    <input type="number"  id="engineCapacity" name="engineCapacity"  class="form-control" >
+                                                </div> 
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Transmission <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="vTransmission" ajax="common/vtransmission/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Engine No <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="engineNo" name="engineNo"  class="form-control" >
+                                                </div> 
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Chassis No <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="chassisNo" name="chassisNo"  class="form-control" >
+                                                </div> 
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Engine Condition <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="engineCondition" ajax="common/engine-condition/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Body Condition <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="bodyCondition" ajax="common/vcondition/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Body Color <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="vehicleColor" ajax="common/vcolor/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Mileage(KM) <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="mileage" name="mileage" style="text-align: right;" class="form-control number-format" >
+                                                </div>
+
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label for="dateOfRegistration">Date of First Registration <span class="text-danger">*</span></label>
+                                                    <input type="date"  id="dateOfRegistration" name="dateOfRegistration"  class="form-control" >
+                                                </div>
+
+                                                <div class="col-md-3 mb-1">
+                                                    <label for="dateOfLastRegistration">Date of Last Registration <span class="text-danger">*</span></label>
+                                                    <input type="date"  id="dateOfLastRegistration" name="dateOfLastRegistration"  class="form-control" >
+                                                </div>
+                                                <div class="col-md-3 mb-1">
+                                                    <label>Marketing Manager <span class="text-danger">*</span></label>                                                   
+                                                    <select class="form-select ajax-select" id="accountOfficer" ajax="common/account-officer/select" refid="id" reftxt="text" ></select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control" placeholder="Type your comment here." id="comment" name="comment"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="text-secondary-emphasis mt-4 mx-2 text-uppercase text-700 fw-bold">Valuation</div>
+                                    <hr class="mt-0">
+                                        <div class="row m-2">
+
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-1">
+                                                        <label>Valuer <span class="text-danger">*</span></label>
+                                                        <select class="form-select ajax-select" id="valuer" ajax="common/customer/select" refid="id" reftxt="text" ></select>
+                                                    </div>
+                                                    <div class="col-md-3 mb-1">
+                                                        <label>Currency <span class="text-danger">*</span></label>
+                                                        <select class="form-select ajax-select" id="currency" ajax="common/currency/select" refid="id" reftxt="text" ></select>
+                                                    </div>
+                                                    <div class="col-md-3 mb-1">
+                                                        <label for="marketValue">Market Value(MV) <span class="text-danger">*</span></label>
+                                                        <input type="text"  id="marketValue" name="marketValue" style="text-align: right;" class="form-control number-format" placeholder="Select Currency" >
+                                                    </div>
+
+                                                    <div class="col-md-3 mb-1">
+                                                        <label for="forcedSaleValue">Forced Sale Value(FSV) <span class="text-danger">*</span></label>
+                                                        <input type="text"  id="forcedSaleValue" name="forcedSaleValue number-format"  style="text-align: right;" class="form-control number-format" placeholder="Select Currency" >
+                                                    </div>
+                                                    <div class="col-md-3 mb-1">
+                                                        <label for="valuationDate">Valuation Date <span class="text-danger">*</span></label>
+                                                        <input type="date"  id="valuationDate" name="valuationDate"  class="form-control" >
+                                                    </div>
+                                                    <div class="col-md-3 mb-1">
+                                                        <label>Original Valuation </label>
+                                                        <input type="file" id="valuation"  class="form-control" >
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                        <div class="text-secondary-emphasis mt-4 mx-2 text-uppercase text-700 fw-bold">Attachment</div>
+                                        <hr class="mt-0">
+                                            <div class="row m-2">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+
+                                                        <div id="dynamicFieldsContainer" class="mt-3">
+                                                            <div class="row">
+
+
+                                                                <div class="col-md-6 mb-3" id="dynamicFieldForImageGallary" style="display:none;">
+                                                                    <div id="main-carousel" class="splide" aria-label="My Awesome Gallery">
+                                                                        <div class="splide__track">
+                                                                            <ul class="splide__list" id="ulCollectionOfMainImages">
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <ul id="thumbnails" class="thumbnails">                                                         
+                                                                    </ul>
+                                                                </div>
+
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label class="form-label" for="documents">Vehicle Image</label>
+                                                                    <div class="col-lg-12 dataArray" id="documents" func="addDocument"></div>
+                                                                    <div class="col-12">
+                                                                        <button id="addDocumentBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Images</button>
+                                                                    </div>
+                                                                </div>                                                                 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+  <h4 class="sub-title m-t-20">Attachments</h4>
+                <div class="row">
+                    <div class="col-lg-6" id="imgSec">
+
+                    </div>
+
+
+                    <div class="col-lg-6">
+                        <div class="row" id="detail">
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Front <span class="text-danger">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="front_img" autocomplete="off" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Selfie</label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="selfie_img" autocomplete="off" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Rear <span class="text-danger">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="rear_img" autocomplete="off" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Inside <span class="text-danger">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="inside_img" autocomplete="off" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Millage</label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="millage_img" autocomplete="off" accept="image/*">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Chassis NO </label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="chassis_img" autocomplete="off"  accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Engine </label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="engine_img" autocomplete="off"  accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Certificate of Registration <span class="text-danger">*</span></label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="cr_doc" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-4">
+                                <label class="col-sm-12 col-form-label">Customer NIC </label>
+                                <div class="col-sm-12">
+                                    <input type="file" class="form-control" id="nic_img" autocomplete="off" >
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                                            
+                                            
+                                            
+                                            
+
+
+
+                                            </div>
+                                            </div>
+                                            </div>
+
+                                            </div>
+                                            </div>
+
+
+
+                                            <div th:replace="~{./ui/footer.html}">Side</div>
+                                            </div>
+
+
+
+                                            </div>
+                                            </main>
+
+                                            <div th:replace="~{./ui/scripts.html}"></div>
+                                            <script th:src="@{/vendors/select2/select2.min.js}"></script>
+                                            <script th:src="@{/js/jquery.cropit.js}"></script>
+
+                                            <script>
+
+
+
+                                                $.fn.dataTable.ext.errMode = 'none';
+                                                $(document).find('.ajax-select').each(function () {
+                                                    convertToSelect2(this);
+                                                });
+                                                let tableData = {
+                                                    columns: [
+                                                        {"name": "ID", "data": "id", "visible": false},
+
+                                                        {"name": "Asset Code", "data": "assetCode"},
+                                                        {"name": "Vehicle Type", "data": "vhicle_type"},
+                                                        {"name": "Marketing Manager", "data": "account_officer"},
+                                                         {"name": "Valuer", "data": "valuer_name"},
+
+                                                        {"name": "Status", "data": "status", "width": "50px"}
+                                                    ],
+                                                    url: window.location.origin + contextPath + 'common/assetCon/datatable',
+                                                    tableSize: 'col-12'
+                                                };
+                                                let formData = {
+                                                    url: window.location.origin + contextPath + 'assetCon',
+                                                    customFields: $('#asset_temp').children(),
+                                                    formSize: 'col-12',
+                                                    contentType: 'multipart'
+                                                };
+                                                new initiatePage($('#page'), 'Asset', tableData, formData);
+
+
+                                                $(document).on('click', '.removeElementBtn', function () {
+                                                    $(this).parent().remove();
+                                                });
+
+
+
+                                                function addDocument(arryObj) {
+                                                    let temp = document.createElement('div');
+                                                    $(temp).addClass('input-group mb-2 gap-3 dataArrayObject');
+                                                    $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/vehicle-image-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType"></select>'
+                                                            + '<input type="file" class="form-control dataArrayObjectElement docClass" placeholder="Document" name="document">'
+//                                                            + '<input class="form-control dataArrayObjectElement" placeholder="Type your comment here." id="comment" name="comment">'
+                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                    convertToSelect2($(temp).find('select')[0]);
+                                                    $(temp).find('.select2').attr('style', 'width: 50% !important;');
+//                                                    $(temp).find('.docClass').attr('style', 'width: 25% !important;');
+
+                                                    if (arryObj) {
+                                                        $(temp).find('[name="document"]').attr('type', 'text');
+                                                        Object.keys(arryObj).forEach(function (key) {
+                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                        });
+                                                        let link = $(temp).find('[name="document"]').val();
+                                                        let imageName = $(temp).find('[name="docType"]').text();
+
+                                                        $(temp).find('[name="document"]').replaceWith('<a target="_blank" href="vehicle-documents/' + link + '" data-gallery="gallery-2"> <img class="img-fluid rounded" src="vehicle-documents/' + link + '" alt="Document Preview" width="50" /> </a>');
+                                                        $('#ulCollectionOfMainImages').append('<li class="splide__slide"> <div class="card bg-dark text-white"> <img class="card-img img-fluid" src="vehicle-documents/' + link + '" alt="Card image"> <div class="card-img-overlay d-flex flex-column justify-content-end align-items-center">  <p class="badge bg-primary">' + imageName + '</p> </div> </li>');
+                                                        $('#thumbnails').append('<li class="thumbnail"> <img class="img-fluid" src="vehicle-documents/' + link + '" alt=""/> </li>');
+                                                        $('#dynamicFieldForImageGallary').show();
+                                                    }
+
+                                                    imageGalleryFunction();
+                                                    $('#documents').append(temp);
+                                                }
+
+
+
+                                                $('#addDocumentBtn').click(function () {
+                                                    addDocument();
+                                                });
+
+
+
+
+                                                //fetching data from the selected product and populating it
+                                                $('#vCondition').change(function () {
+                                                    let val = $(this).val();
+
+                                                    $.ajax({
+                                                        url: 'common/vcondition/' + val,
+                                                        type: 'GET',
+                                                        dataType: 'json',
+                                                        success: function (resp) {
+                                                            let data = resp.data;
+                                                            // Handle successful response
+                                                            console.log(data);
+                                                            if (data.description.toLowerCase() === "brand new" || data.description.toLowerCase() === "unregistered") {
+                                                                $('#show_RegNo').hide();
+                                                            } else {
+                                                                $('#show_RegNo').show();
+                                                            }
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            // Handle errors
+                                                            console.error(xhr.responseText);
+                                                        }
+                                                    });
+                                                });
+
+
+
+
+                                                $('#currency').change(function () {
+                                                    let val = $(this).val();
+                                                    $.ajax({
+                                                        url: 'common/currency/' + val,
+                                                        type: 'GET',
+                                                        dataType: 'json',
+                                                        success: function (resp) {
+                                                            let data = resp.data;
+                                                            document.getElementById("marketValue").placeholder = data.code;
+                                                            document.getElementById("forcedSaleValue").placeholder = data.code;
+                                                        },
+                                                        error: function (xhr, status, error) {
+                                                            // Handle errors
+                                                            console.error(xhr.responseText);
+                                                        }
+                                                    });
+                                                });
+
+
+
+                                                //            number formating
+                                                var numberFormatInputs = document.querySelectorAll('.number-format');
+                                                numberFormatInputs.forEach(function (input) {
+                                                    input.addEventListener('input', function () {
+                                                        var unformattedValue = this.value.replace(/[^0-9\.]/g, ''); // Remove non-numeric characters
+                                                        var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+
+                                                        this.value = formattedValue;
+                                                        var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                                                        this.setSelectionRange(cursorPosition, cursorPosition);
+                                                    });
+                                                });
+
+
+
+                                                function imageGalleryFunction() {
+                                                    var splide = new Splide('#main-carousel', {
+                                                        pagination: false,
+                                                    });
+                                                    var thumbnails = document.getElementsByClassName('thumbnail');
+                                                    var current;
+                                                    for (var i = 0; i < thumbnails.length; i++) {
+                                                        initThumbnail(thumbnails[ i ], i);
+                                                    }
+                                                    function initThumbnail(thumbnail, index) {
+                                                        thumbnail.addEventListener('click', function () {
+                                                            splide.go(index);
+                                                        });
+                                                    }
+                                                    splide.on('mounted move', function () {
+                                                        var thumbnail = thumbnails[ splide.index ];
+
+                                                        if (thumbnail) {
+                                                            if (current) {
+                                                                current.classList.remove('is-active');
+                                                            }
+                                                            thumbnail.classList.add('is-active');
+                                                            current = thumbnail;
+                                                        }
+                                                    });
+                                                    splide.mount();
+                                                }
+
+
+                                                $(document).on('click', '.editrec', function () {
+                                                    $('#show_assetCode').show();
+                                                });
+
+                                                $(document).on('click', '#addBtn', function () {
+                                                    $('#show_assetCode').hide();
+                                                });
+
+                                                $(document).on('click', '#cancelBtn', function () {
+                                                    $('#thumbnails').html("");
+                                                    $('#dynamicFieldForImageGallary').hide();
+                                                });
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                   let main_slider;
+            let thumb_slidr;
+            function setSlider() {
+                let splide_div = document.createElement('div');
+                $(splide_div).addClass('splide');
+                $(splide_div).html('<div class="splide__track"><ul class="splide__list"></ul></div>');
+
+                let thumbs = $(splide_div)[0].cloneNode(true);
+                $(splide_div).addClass('main-slider');
+                $(thumbs).addClass('thumbnail-slider');
+
+                $('#imgSec').append(splide_div);
+                $('#imgSec').append('<br>');
+                $('#imgSec').append(thumbs);
+
+                main_slider = new Splide(splide_div, {
+                    type: 'fade',
+                    rewind: true,
+                    pagination: false,
+                    arrows: false,
+                    fixedHeight: 450,
+                    cover: true,
+                });
+
+                thumb_slidr = new Splide(thumbs, {
+                    fixedWidth: 100,
+                    fixedHeight: 60,
+                    gap: 10,
+                    rewind: true,
+                    pagination: false,
+                    cover: true,
+                    isNavigation: true,
+                    breakpoints: {
+                        600: {
+                            fixedWidth: 60,
+                            fixedHeight: 44,
+                        },
+                    },
+                });
+
+                main_slider.sync(thumb_slidr);
+                main_slider.mount();
+                thumb_slidr.mount();
+
+            }
+
+            setSlider();
+
+            $(document).on('change', '#detail input[type="file"]', function (event) {
+                let label = $(this).parents('.form-group').find('label').text().replace('*', '').trim();
+                alert(label);
+                label = (label == 'Certificate of Registration') ? 'CR' : label;
+
+                if (['CR', 'Original Valuation'].includes(label)) {
+                    return;
+                }
+
+                main_slider.remove('.spl_' + label);
+                thumb_slidr.remove('.spl_' + label);
+
+                let selectedFile = event.target.files[0];
+                if (!selectedFile) {
+                    return;
+                }
+                let reader = new FileReader();
+
+                reader.onload = function (event) {
+                    addToSlider(event.target.result, label);
+                };
+                reader.readAsDataURL(selectedFile);
+
+            });
+
+            function addToSlider(src, label) {
+                 alert(src + label);
+                const slide1 = document.createElement('li');
+                const slide2 = document.createElement('li');
+                $(slide1).html('<div class="splide__slide__container"><img src="' + src + '" style="display:none"></div><div class="text-center">' + label + '</div>');
+                $(slide2).html('<div class="splide__slide__container"><img src="' + src + '" style="display:none"></div><div class="text-center">' + label + '</div>');
+                $(slide1).addClass('splide__slide spl_' + label);
+                $(slide2).addClass('splide__slide spl_' + label);
+                main_slider.add(slide1);
+                thumb_slidr.add(slide2);
+                main_slider.refresh();
+                thumb_slidr.refresh();
+                main_slider.sync(thumb_slidr);
+            }
+                      
+                          $('#condition').change(function () {
+                if (['Brand New (U/R)', 'Reconditioned (U/R)'].includes($(this).val())) {
+                    $('#eng,#reg,#cr_no,#lot_no,#date_of_first_reg,#date_of_last_reg,#cr_status').each(function () {
+                        $(this).parents('.form-group').first().hide();
+                        $(this).removeAttr('required');
+                    });
+                    $('#front_img,#rear_img,#inside_img,#cr_doc').each(function () {
+                        $(this).removeAttr('required');
+                        $(this).parents('.form-group').first().find('span').hide();
+                    });
+                } else {
+                    $('#eng,#reg,#cr_no,#lot_no,#date_of_first_reg,#date_of_last_reg,#cr_status').each(function () {
+                        $(this).parents('.form-group').first().show();
+                        $(this).attr('required', true);
+                    });
+                    $('#front_img,#rear_img,#inside_img,#cr_doc').each(function () {
+                        $(this).attr('required', true);
+                        $(this).parents('.form-group').first().find('span').show();
+                    });
+                }
+            });
+
+            setTimeout(function () {
+                document.getElementById('prov').addEventListener('keydown', function (event) {
+                    const key = event.key;
+                    if (key === 'Backspace' || key === 'Delete') {
+                        return;
+                    }
+                    if (!/^[a-zA-Z]$/.test(key)) {
+                        event.preventDefault();
+                    }
+                });
+            }, 5000);                            
+                                                
+                                                
+                                                
+                                            </script>
+                                            </body>
+
+                                            </html>

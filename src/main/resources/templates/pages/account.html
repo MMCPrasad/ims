@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="acc_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="product">Product<span class="text-danger">*</span></label>
+                                                        <select id="product" class="form-select ajax-select" ajax="account/select"   refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="category"> Category </label>
+                                                        <input class="form-control"  id="category" disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span> </label>
+                                                        <select id="branch" class="form-select ajax-select" ajax="common/branch/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+                                                </div>
+
+                                                <!--  ......................................................................................................-->
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="customerId">Customer <span class="text-danger">*</span></label>
+                                                        <select id="customerId" class="form-select ajax-select" ajax="common/customer/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="currency"> Currency </label>
+                                                        <input class="form-control"  id="currency"disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="postingRestriction"> Posting Restriction</label>
+                                                        <select class="form-select ajax-select" id="postingRestriction" >
+                                                            <option value="Credit" >Credit</option>
+                                                            <option value="Debit">Debit</option>
+                                                            <option value="All">All</option>
+
+                                                        </select>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <!--                        ..................................................................................-->
+                                                <div class="row">
+
+
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="form-label" for="mobiles">Joint Customer</label>
+                                                        <div class="col-lg-12 dataArray" id="jointCustomer" func="addjointcustomer"></div>
+                                                        <div class="col-12">
+                                                            <button id="addjointBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Joint Customer</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!--         ..................................................................................................................................-->
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="accountNo"> Account No<span class="text-danger">*</span></label>
+                                                        <input class="form-control"  id="accountNo"disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="accountName"> Account Name<span class="text-danger">*</span></label>
+                                                        <input class="form-control"  id="accountName"required="" placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="accountOfficer"> Account Officer<span class="text-danger">*</span></label>
+                                                        <select id="accountOfficer" class="form-select ajax-select" ajax="common/account-officer/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+                                                </div>
+
+                                                <!--           .......................................................................................................................................-->
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="shortTile"> Short Tile <span class="text-danger">*</span> </label>
+                                                        <input class="form-control"  id="shortTile" required="" placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="interestBasis"> Interest Basis </label>
+                                                        <input class="form-control"  id="interestBasis" disabled placeholder="">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="taxCode">   Tax Code</label>
+                                                        <input class="form-control"  id="taxCode"disabled placeholder="">
+                                                    </div>
+
+                                                </div>
+
+                                                <!--                         .............................................................................-->
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="allowdhequedeposit"> Allow Cheque Deposit</label>
+                                                        <select class="form-select ajax-select" id="allowdhequedeposit" >
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="curdate"> Opening Date</label>
+                                                        <input  class="form-control"  id="curdate"  disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="statementType"> Statement Type<span class="text-danger">*</span></label>
+                                                        <select id="statementType" class="form-select ajax-select" ajax="common/statement-type/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+                                                </div>
+
+                                                <!--                ......................................................................................................-->
+                                                <div class="row">
+
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="accountstatus"> Account Status<span class="text-danger">*</span></label>
+                                                        <select class="form-select  ajax-select" id="accountstatus" required="">
+                                                            <option value="active" selected="">Active</option>
+                                                            <option value="dormant">Dormant </option>
+                                                            <option value="inactive">Inactive </option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="signature"> Signature<span class="text-danger">*</span> </label>
+                                                        <input type="file"  class="form-control"  id="signature"required="" >
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label class="form-label" for="InterestRate">Interest Rate (%)</label>
+                                                        <input type="number" class="form-control" id="InterestRate"disabled placeholder=""   min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+
+                                                </div>
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="note"> Memo <span class="text-danger">*</span> </label>
+                                                        <input class="form-control"  id="note" placeholder="">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <hr class="w-100">
+                                                </div>
+
+
+                                                <div id="dynamicFieldsContainer" class="mt-3">
+                                                    <div class="row">
+                                                        <div class="col-md-12 mb-3">
+                                                            <label class="form-label" for="mobiles">Documents</label>
+                                                            <div class="col-lg-12 dataArray" id="documents" func="addDocument"></div>
+                                                            <div class="col-12">
+                                                                <button id="addDocumentBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Document</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+                                                <!--                                                    ............................................................................................................-->
+                                                <div class="row mt-3">
+                                                    <hr class="w-100">
+                                                </div>
+
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label class="form-label" for="mobiles">Benifisary</label>
+                                                        <div class="col-lg-12 dataArray" id="accountBenifisary" func="addbenifisary"></div>
+                                                        <div class="col-12">
+                                                            <button id="addbenifisaryBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Benifisary</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--....................................................................................................................................-->
+
+
+
+
+
+
+
+
+
+                                                <div class="row mt-3">
+                                                    <hr class="w-100">
+                                                </div>
+
+                                                <!--                          .........................................................................................................-->
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label for="accountbalance">  Account Balance</label>
+                                                        <input class="form-control"  id="accountbalance"  disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="floatbalance">     Float Balance</label>
+                                                        <input class="form-control"   id="floatbalance"disabled placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label" for="accruedInterest">Accrued Interest</label>
+                                                        <input type="number" class="form-control" id="accruedInterest" disabled placeholder="" min="0" oninput="if(value < 0) value = '';">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label" for="drAmount">DR Amount</label>
+                                                        <input type="number" class="form-control" id="drAmount" disabled placeholder="" min="0" oninput="if(value < 0) value = '';">
+                                                    </div>
+                                                </div>
+
+                                                <!--                       ....................................................................-->
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label" for="crAmount">CR Amount</label>
+                                                        <input type="number" class="form-control" id="crAmount"disabled  placeholder="" min="0" oninput="if(value < 0) value = '';">
+                                                    </div>
+
+
+
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+
+
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Account No", "data": "accountNo"},
+                    {"name": "Customer", "data": "customerId"},
+                    {"name": "Product", "data": "product"},
+                    {"name": "Acc Balance", "data": "accountbalance"},
+                    //  {"name": "Status", "data": "status", "width": "50px"}
+
+                    {"name": "Status", "data": "approvalStatus", "width": "50px", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "approved") {
+                                bannerClass = "success";
+                                bannerText = "Approved";
+                            } else if (data === "rejected") {
+                                bannerClass = "danger";
+                                bannerText = "Rejected";
+                            } else if (data === "pending") {
+                                bannerClass = "warning";
+                                bannerText = "Pending";
+                            } else if (data === "active") {
+                                bannerClass = "success";
+                                bannerText = "Active";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }}
+
+
+
+                ],
+                url: window.location.origin + contextPath + 'common/account/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'account',
+                customFields: $('#acc_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+                    //alert();
+                    $("#accountstatus").val("active").change();
+                    $('#curdate').val(getCurrentDate());
+
+                }
+            };
+
+            new initiatePage($('#page'), 'Account', tableData, formData);
+
+            // Get the current date in the format YYYY-MM-DD
+            function getCurrentDate() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                const day = now.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            // Set the placeholder of the input field to today's date
+            //document.getElementById('openingdate').value = getCurrentDate();
+//            alert(getCurrentDate());
+//           $('#kasun').val(getCurrentDate());
+
+
+            function showJointCustomerDiv() {
+                document.querySelector('.jointCustomerDiv').style.display = 'flex';
+            }
+
+            function hideJointCustomerDiv() {
+                document.querySelector('.jointCustomerDiv').style.display = 'none';
+            }
+        </script>
+        <script>
+            $('#product').change(function () {
+                // alert(123)
+                let val = $(this).val();
+
+                $.ajax({
+                    url: 'acc-product/' + val,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+                        let data = resp.data;
+                        // Handle successful response
+                        console.log(data);
+
+
+                        $('#InterestRate').val(data.interestRate);
+                        $('#currency').val(data.currency.text);
+                        $('#category').val(data.category.text);
+                        $('#interestBasis').val(data.interestBasis.text);
+                        $('#taxCode').val(data.taxCode.text);
+
+                        if (data.documents) {
+                            let documents = data.documents;
+                            for (let i = 0; i < documents.length; i++) {
+                                let includes = false;
+                                $("#documents").find('.dataArrayObject').each(function () {
+                                    if ($(this).find('select').first().val() == documents[i].id) {
+                                        includes = true;
+                                        console.log(includes);
+                                    }
+                                });
+                                if (!includes) {
+                                    documentName(documents[i]);
+                                }
+                            }
+
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+
+
+            // Function to enable input fields
+            function enableInputFields() {
+                $('#product, #branch, #customerId, #accountName').prop('disabled', false);
+            }
+
+// Function to disable input fields
+            function disableInputFields() {
+                $('#product, #branch, #customerId, #accountName').prop('disabled', true);
+            }
+
+// Click event handler for edit button
+            $(document).on('click', '.editrec', function () {
+                disableInputFields();
+            });
+
+// Click event handler for Save button
+            $(document).on('click', '#saveBtn', function () {
+                enableInputFields();
+            });
+
+// Click event handler for Cancel button
+            $(document).on('click', '#cancelBtn', function () {
+                enableInputFields();
+            });
+
+
+        </script>
+        <script>
+            document.getElementById("accountbalance").addEventListener("input", function () {
+                // Get the entered value
+                let enteredValue = this.value;
+
+                // Remove any non-numeric characters
+                enteredValue = enteredValue.replace(/[^0-9.]/g, '');
+
+                // Format the value
+                let formattedValue = parseFloat(enteredValue).toFixed(2) + "/=";
+
+                // Set the formatted value as the input value
+                this.value = formattedValue;
+
+                // Right-align the text
+                this.style.textAlign = "right";
+            });
+        </script>
+
+
+        <script>
+
+            function documentName(arryObj) {
+                let temp = document.createElement('div');
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/customer-document-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType" required=""></select>'
+                        + '<input type="text" class="form-control dataArrayObjectElement" placeholder="Comment" name="comment" required="">'
+                        + '<input type="file" class="form-control dataArrayObjectElement" placeholder="Document" name="document" required="">'
+                        );
+                convertToSelect2($(temp).find('select')[0]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                setFieldData($(temp).find('[name="docType"]'), arryObj.docType);
+                $(temp).find('[name="docType"]').val(arryObj.docType.id).change();
+
+
+
+                $('#documents').append(temp);
+            }
+
+
+
+            function addDocument(arryObj) {
+                let temp = document.createElement('div');
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/customer-document-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType" required=""></select>'
+                        + '<input type="text" class="form-control dataArrayObjectElement" placeholder="Comment" name="comment" required="">'
+                        + '<input type="file" class="form-control dataArrayObjectElement" placeholder="Document" name="document" required="">'
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                convertToSelect2($(temp).find('select')[0]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    $(temp).find('[name="document"]').attr('type', 'text');
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                    let link = $(temp).find('[name="document"]').val();
+                    $(temp).find('[name="document"]').replaceWith('<div class="file-el border  px-2  d-flex flex-between-center bg-white dark__bg-1000 my-1"><span class="fs-1 far fa-file"></span><span class="ms-2"><a href="' + link + '" target="_blank">Click to View</a></span></div>');
+                }
+                $('#documents').append(temp);
+            }
+
+            $('#addDocumentBtn').click(function () {
+                addDocument();
+            });
+
+            function removeField(button) {
+                button.parentNode.parentNode.remove();
+            }
+
+
+
+
+
+
+
+            function addSignatureImage(arryObj) {
+                let temp = document.createElement('div');
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html(
+                        +'<input type="file" class="form-control dataArrayObjectElement" placeholder="Document" name="document" required="">'
+                        + '<input type="text" class="form-control dataArrayObjectElement" placeholder="Comment" name="comment" required="">'
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                convertToSelect2($(temp).find('select')[0]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    $(temp).find('[name="document"]').attr('type', 'text');
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $('#image').append(temp);
+            }
+
+            $('#addImgBtn').click(function () {
+                addSignatureImage();
+            });
+
+            function removeField(button) {
+                button.parentNode.parentNode.remove();
+            }
+
+
+            //adding benifisary dynamic
+            function addbenifisary(arryObj) {
+                let temp = document.createElement('div');
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<select name="benifisary" class="form-select ajax-select dataArrayObjectElement" ajax="customer/beneficiary/select" refid="id" reftxt="text" placeholder="Benifisary" ></select>'
+                        + ' <input type="text" class="form-control dataArrayObjectElement" name="percentage" id="percentage" placeholder="Percentage" min="0" max="100">'
+                        + ' <input type="text" class="form-control dataArrayObjectElement " name="benAcc" placeholder="Account Number">'
+                        + ' <select name="benBank" class="form-select ajax-select dataArrayObjectElement" ajax="common/bank/select" refid="id" reftxt="text" placeholder="Benifisary Bank" ></select>'
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                convertToSelect2($(temp).find('select')[0]);
+                convertToSelect2($(temp).find('select')[1]);
+                $(temp).find('.select2').attr('style', 'width:25% !important');
+                if (arryObj) {
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $(temp).find('select').first().change(function () {
+                    
+                     let val = $(this).val();
+
+                $.ajax({
+                    url: 'common/customer/' + val,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+                        let data = resp.data;
+                        // Handle successful response
+                        console.log(data);
+                        
+                        
+                     $('[name="benAcc"]').val(data.accountNo);
+                     $('[name="benBank"]').val(data.bankBranch.text);
+
+                        }
+                    });
+                    
+                });
+                $('#accountBenifisary').append(temp);
+            }
+            $('#addbenifisaryBtn').click(function () {
+                addbenifisary();
+            });
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+            //            number formating
+            var numberFormatInputs = document.querySelectorAll('.number-format');
+            numberFormatInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    var unformattedValue = this.value.replace(/[^0-9\.]/g, ''); // Remove non-numeric characters
+                    var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+
+                    this.value = formattedValue;
+                    var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                    this.setSelectionRange(cursorPosition, cursorPosition);
+                });
+            });
+
+
+        </script>
+
+
+
+
+        <script>
+            function addjointcustomer(arryObj) {
+
+                let temp = document.createElement('div');
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/customer/select" placeholder="Joint customer"  name="customer" required=""></select>'
+                        + '<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/relation-type/select" placeholder="Relation Type"  name="relationType" required=""></select>'
+
+                        + '<input type="hidden" class="form-control dataArrayObjectElement" placeholder="Id" name="id">'
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                convertToSelect2($(temp).find('select')[0]);
+                convertToSelect2($(temp).find('select')[1]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    console.log(arryObj);
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $('#jointCustomer').append(temp);
+            }
+
+            $('#addjointBtn').click(function () {
+                addjointcustomer();
+            });
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+
+
+        </script>
+
+
+
+
+    </body>
+
+
+</html>

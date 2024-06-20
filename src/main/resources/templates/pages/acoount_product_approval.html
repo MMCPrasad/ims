@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+            <div th:replace="~{./ui/sidebar.html}"></div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="approval"></div>
+                </div>
+
+                <div id="product_temp" style="display: none">
+                    <!-- content -->
+                    <!-- add all content here -->
+
+                    <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+                                        <div class="card-body">
+
+
+                                            <form>
+                                                <div class="row">
+                                                    <!-- Product Code -->
+                                                    <div class="col-md-3">
+                                                        <label for="productCode">Product Code</label>
+                                                        <input class="form-control" id="productCode" placeholder="1258EZ" disabled="">
+                                                    </div>
+                                                    <!-- Sys Description -->
+                                                    <div class="col-md-3">
+                                                        <label for="productCode">Module</label>
+                                                        <input class="form-control" id="sysDescription"  
+                                                               value="Fixed Deposit" disabled="">
+                                                    </div>
+                                                    <!-- Category -->
+                                                    <div class="col-md-3">
+                                                        <label for="category">Category<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="category" class="form-select ajax-select"
+                                                                ajax="common/category/select" refid="id" reftxt="text"  disabled=""
+                                                                required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="currency">Currency<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="currency" class="form-select ajax-select"
+                                                                ajax="common/currency/select" refid="id" reftxt="text"  disabled=""
+                                                                required=""></select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Description -->
+                                                <div class="col-md-12 mt-3">
+                                                    <label for="description">Description<span
+                                                            class="text-danger">*</span></label>
+                                                    <textarea class="form-control" id="description" rows="3"  disabled=""
+                                                              required></textarea>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback"> </div>
+                                                </div>
+
+
+                                                <div class="row mt-3">
+                                                    <!-- Interest Basis -->
+                                                    <div class="col-md-3">
+                                                        <label for="interestBasis">Interest Basis<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="interestBasis" class="form-select ajax-select"  disabled=""
+                                                                ajax="common/interest-basis/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Minimum Balance -->
+                                                    <div class="col-md-3">
+                                                        <label for="minBalance">Minimum Balance<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control number-format " required=""  disabled=""
+                                                               style="text-align: right;" id="minBalance" placeholder="">
+                                                    </div>
+
+                                                    <!-- Minimum Balance Charge -->
+                                                    <div class="col-md-3">
+                                                        <label for="minBalanceCharge">Minimum Balance Charge<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="minBalanceCharge" class="form-select ajax-select"  disabled=""
+                                                                required="" ajax="common/charges/select" refid="id"
+                                                                reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="taxCode">Tax Code</label>
+                                                        <select id="taxCode" class="form-select ajax-select"  disabled=""
+                                                                ajax="common/tax-master/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div class="row mt-3">
+
+
+                                                    <!-- Interest Rate -->
+                                                    <div class="col-md-3">
+                                                        <label for="interestRate">Interest Rate (%)<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="number" class="form-control align-right"  disabled=""
+                                                               id="interestRate" required="" placeholder="" min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+
+
+                                                    <!-- Effective Date -->
+                                                    <div class="col-md-3">
+                                                        <label for="effectiveDate">Effective Date</label>
+                                                        <input type="date" class="form-control" id="effectiveDate"  disabled=""
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Expiry Date</label> 
+                                                        <input type="date" class="form-control" id="expiryDate"  disabled=""
+                                                               placeholder="">
+                                                    </div>
+
+
+                                                </div>
+                                                
+                                                 <div class="row pt-3">
+                                                    <div class="col-md-4">
+                                                        <label for="comment">Comment</label>
+                                                        <textarea class="form-control " id="comment" name="comment"
+                                                            rows="4" cols="50"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modBy">Mod By:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modBy" class="form-control"
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+    
+    
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modOn">Mod On:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modOn" class="form-control "
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+
+
+                                                
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+
+    <!-- <script src="js/fd-approvals.js"></script> -->
+
+    <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+
+
+
+
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let tableData = {
+            columns: [
+                { "name": "ID", "data": "id", "visible": false },
+                { "name": "Code", "data": "productCode" },
+                { "name": "Description", "data": "description" },
+                { "name": "Module", "data": "sysDescription" },
+                { "name": "Approval Status", "data": "approvalStatus", "width": "50px" }
+            ],
+            url: window.location.origin + contextPath + 'accProductApproval/datatable',
+            tableSize: 'col-12'
+        };
+        let formData = {
+            url: window.location.origin + contextPath + 'acc-product',
+            customFields: $('#product_temp').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+
+        new productIntiate($('#approval'), 'Account Product Approval','accProductApproval', tableData, formData);
+        
+        
+        
+          //join customer dynamic fields
+        function dynamicJoint(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/customer/select" placeholder="Joint Customer"  name="customer" disabled></select>'
+                + '<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/relation-type/select" placeholder="Relation Type"  name="relationType" disabled></select>');
+            convertToSelect2($(temp).find('select')[0]);
+            convertToSelect2($(temp).find('select')[1]);
+            $(temp).find('.select2').attr('style', 'width:25% !important')
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#jointCustomer').append(temp);
+        }
+        
+        
+        
+          //adding benifisary dynamic
+        function dynamicBeni(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<select name="benifisary" class="form-select ajax-select dataArrayObjectElement" ajax="common/customer/select" refid="id" reftxt="text" placeholder="Benifisary" disabled></select>'
+                + ' <input type="number" class="form-control dataArrayObjectElement" name="percentage" placeholder="Percentage" disabled>'
+                + ' <input type="number" class="form-control dataArrayObjectElement " name="benAcc" placeholder="Account Number" disabled>'
+                + ' <select name="benBank" class="form-select ajax-select dataArrayObjectElement" ajax="common/bank/select" refid="id" reftxt="text" placeholder="Benifisary Bank" disabled></select>');
+            convertToSelect2($(temp).find('select')[0]);
+            convertToSelect2($(temp).find('select')[1]);
+            $(temp).find('.select2').attr('style', 'width:25% !important')
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#benifisary').append(temp);
+        }
+        
+
+
+    </script>
+</body>
+
+</html>

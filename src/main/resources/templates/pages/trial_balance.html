@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="code"> Code<span class="text-danger">*</span></label>
+                                                        <input  class="form-control"  id="code" placeholder="" required="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="accountCategory">Account Category<span class="text-danger">*</span> </label>
+                                                        <select id="accountCategory" class="form-select ajax-select" ajax="common/account-category/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="accoutNo">Account No <span class="text-danger">*</span></label>
+                                                        <select id="accoutNo" class="form-select ajax-select" ajax="common/account/select"
+                                                                refid="id" reftxt="text" ></select>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="accountDescription"> Account Description<span class="text-danger">*</span></label>
+                                                        <input  class="form-control"  id="accountDescription" placeholder="" required="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="creditBalance"> Credit Balance</label>
+                                                        <input  class="form-control number-format" style="text-align: right;" id="creditBalance" placeholder="" >
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="debitBalance"> Debit Balance</label>
+                                                        <input  class="form-control number-format" style="text-align: right;" id="debitBalance" placeholder="" >
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Account Category", "data": "accountCategory"},
+                    {"name": "Account No", "data": "accountNo"},
+                    {"name": "Description", "data": "accountDescription"},
+                    {"name": "Status", "data": "status", "width": "50px"}
+                ],
+                url: window.location.origin + contextPath + 'common/trial-balance/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/trial-balance',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+
+                afterSaveScreen: function () {
+
+
+                }
+            };
+
+
+            new initiatePage($('#page'), 'Trial Balance', tableData, formData);
+
+
+
+
+            //            number formating
+             function formatAmount(input) {
+                // Remove non-numeric characters and leading zeros
+                const numericInput = input.replace(/[^0-9]/g, '').replace(/^0+/, '');
+
+                // Convert to a number and format with two decimal places
+                const formattedAmount = (parseFloat(numericInput) / 100).toFixed(2);
+
+                return formattedAmount;
+            }
+
+// Function to add comma separators to a number
+            function addCommas(num) {
+                const parts = num.toString().split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return parts.join('.');
+            }
+
+// Get all elements with the class name "number-format"
+            const numberFormatInputs = document.querySelectorAll('.number-format');
+
+// Add event listener to each input element with the class name "number-format"
+            numberFormatInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    // Get the input value
+                    const inputValue = this.value;
+
+                    // Format the amount
+                    let formattedValue = formatAmount(inputValue);
+
+                    // Check if the input field has the class name "number-format" and add commas if necessary
+                    if (this.classList.contains('number-format')) {
+                        formattedValue = addCommas(formattedValue);
+                    }
+
+                    // Set the formatted value back to the input field
+                    this.value = formattedValue;
+                });
+            });
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+
+
+</html>

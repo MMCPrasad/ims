@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+
+
+            .po-table thead th {
+                background-color: #2c7be5;
+                color: white; /* Optional: Set text color to white for better readability */
+            }
+
+            .table-borderless th,
+            .table-borderless td{
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            .seperator {
+                border-top: 2px solid rgba(153, 153, 153, 0.3) !important;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="po">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none;">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid" id="print" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body" style="padding-left: 100px; padding-right: 100px; ">
+                                            <form >
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <img src="img/logos/accelution.jpg" alt="logo" height="40">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h5 class=" font-size-12 text-center text-dark" id="">Accelution Pvt LTD</h5>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h3 class="text-end" style="font-weight: bold; color: #2c7be5;">Good Received Note</h3>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="seperator">
+
+                                                    <table class="table grn-details table-borderless">
+                                                        <tr>
+                                                            <td><strong>GRN No:</strong>xxxx</td>
+                                                            <td><strong>GRN Date:</strong> xxxx</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Serial No:</strong> xxxxx</td>
+                                                            <td><strong>From:</strong> xxxx</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Invoice No:</strong> xxxx</td>
+                                                            <td><strong>Asset Condition:</strong> good</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Warranty:</strong> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Comment:</strong>xxxxxxxxxxxxxxxxxxxxxxxx</td>
+
+                                                        </tr>
+                                                    </table>
+
+                                                    <table class="table table-bordered mt-3 po-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>PO No. / Date</th>
+                                                                <th>Request No</th>
+                                                                <th>Item Name</th>
+                                                                <th>Item Description</th>
+                                                                <th>Location</th>
+                                                                <th>Total Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>xxxxx / xxx</td>
+                                                                 <td>xxxxxxx</td>
+                                                                 <td>test item name</td>
+                                                                 <td>test item description</td>
+                                                                 <td>test item department</td>
+                                                                 <td>xxxxxx</td>
+                                                            </tr>
+                                                            <!-- Repeat rows as needed -->
+                                                        </tbody>
+<!--                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="8"><strong>Grand Total</strong></td>
+                                                                <td><strong>7600.00</strong></td>
+                                                            </tr>
+                                                        </tfoot>-->
+                                                    </table>
+
+                                                    <div class="signature-section">
+                                                        <div>
+                                                            <p>Authorized: Yes</p>
+                                                            <p>Inspection Required: Yes</p>
+                                                        </div>
+                                                        <div>
+                                                            <p>Received by: <span id="received-by">STORE MANAGER</span></p>
+                                                        </div>
+                                                        <div>
+                                                            <p>INSPECTED BY: H.O.D</p>
+                                                            <p>ACCOUNT MANAGER</p>
+                                                        </div>
+                                                    </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/grn-view.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Supplier", "data": "supplier"},
+                    {"name": "Item Name", "data": "itemName"},
+                    {"name": "Item Description", "data": "description"},
+                    {"name": "Item Quantity", "data": "quantity"},
+                    {"name": "Unit Price", "data": "unitPrice"},
+                ],
+                url: window.location.origin + contextPath + 'po-creation/datatable',
+                tableSize: 'col-12'
+            };
+            let formData = {
+                url: window.location.origin + contextPath + 'poApproval',
+                customFields: $('#fd_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+
+                }
+            };
+            new grnView($('#po'), 'Goods Receieved Note View', tableData, formData);
+
+
+
+
+
+
+        </script>
+
+
+
+    </body>
+
+</html>

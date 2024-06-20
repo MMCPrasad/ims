@@ -1,0 +1,31 @@
+<div class="modal fade" id="imageCropModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Resize Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <div class="image-editor justify-content-center">
+                        <div>
+                            <input type="file" class="cropit-image-input" id="cropit-image" style="display: none">
+                        </div>
+                        <div class="cropit-preview mb-2"></div>
+                        <div>
+                            <input type="range" class="form-range cropit-image-zoom-input">
+                        </div>
+
+                        <br>
+                        <button class="rotate-ccw btn btn-sm btn-outline-info"><i class="feather icon-corner-up-left mr-1"></i>Rotate</button>
+                        <button class="rotate-cw btn btn-sm btn-outline-info"><i class="feather icon-corner-up-right mr-1"></i>Rotate</button>
+                    </div>
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveCroppedImg">Save Image</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="approval">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fund_transfer_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="p-4">
+
+                                        <form>
+                                            <div class="row">
+                                                <h5>Transaction Information</h5>
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <!-- transaction id -->
+                                                <div class="col-md-4">
+                                                    <label for="ftId">Fund Transfer ID</label>
+                                                    <input class="form-control" id="ftId" placeholder="FT12" disabled="">
+                                                </div>
+
+                                                <!-- transaction type -->
+                                                <div class="col-md-4">
+                                                    <label for="transactionType">Transaction Type<span class="text-danger">*</span></label>
+                                                    <select id="transactionType" class="form-select ajax-select" required="" disabled=""
+                                                            ajax="common/transaction-type/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="postingDate"> Posting Date<span class="text-danger">*</span></label>
+                                                    <input  class="form-control"  id="postingDate"   placeholder="" disabled="">
+                                                </div>
+                                            </div>
+
+
+                                            <br>
+                                                <div class="row pt-3">
+                                                    <hr class="w-100">
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <h5>Debit Details</h5>
+                                                </div>
+                                                <div class="row mt-3">
+                                                    <!-- debit account -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitAccount">Debit Account</label>
+                                                        <select id="debitAccount" class="form-select ajax-select" disabled=""
+                                                                ajax="common/account/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- debit currency -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitCurrency">Debit Currency</label>
+                                                        <select id="debitCurrency" class="form-select ajax-select" disabled=""
+                                                                ajax="common/currency/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- debit amount -->
+                                                    <div class="col-md-3">
+                                                        <label type="number" for="debitAmount">Debit
+                                                            Amount</label>
+                                                        <input type="text" class="form-control number-format" disabled=""
+                                                               style="text-align: right;" id="debitAmount" />
+                                                    </div>
+
+                                                    <!-- debit value date -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitValueDate">Debit Value Date</label>
+                                                        <input type="date" class="form-control" id="debitValueDate" disabled="" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <!-- debit charge code -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitChargeCode">Debit Charge Code</label>
+                                                        <select id="debitChargeCode" class="form-select ajax-select" disabled=""
+                                                                ajax="common/charges/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- debit charge type -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitChargeType">Debit Charge Type</label>
+                                                        <select class="form-select form-control ajax-select" id="debitChargeType" disabled="">
+                                                            <option selected value="debitWithCharge">Debit with
+                                                                Charge</option>
+                                                            <option value="waive">Waive</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="dTransactionCode">Debit Transaction Code</label>
+                                                        <input type="text" class="form-control" id="dTransactionCode" disabled="" />
+                                                    </div>
+
+                                                    <!-- debit narration -->
+                                                    <div class="col-md-3">
+                                                        <label for="debitNarration">Debit Naration</label>
+                                                        <input class="form-control" id="debitNarration" disabled="" />
+                                                    </div>
+                                                </div>
+
+                                                <br>
+                                                    <div class="row pt-3">
+                                                        <hr class="w-100">
+                                                    </div>
+
+
+                                                    <div class="row mt-3">
+                                                        <h5>Credit Details</h5>
+                                                    </div>
+
+                                                    <div class="row mt-3">
+                                                        <!-- credit account -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditAccount">Credit Account</label>
+                                                            <select id="creditAccount" class="form-select ajax-select" disabled=""
+                                                                    ajax="common/account/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- credit currency -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditCurrency1">Credit Currency</label>
+                                                            <select id="creditCurrency1" class="form-select ajax-select" disabled=""
+                                                                    ajax="common/currency/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- credit amount -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditAmount">Credit Amount</label>
+                                                            <input type="text" class="form-control number-format" disabled=""
+                                                                   style="text-align: right;" id="creditAmount" />
+                                                        </div>
+
+                                                        <!-- credit value date -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditValueDate">Credit Value Date</label>
+                                                            <input type="date" class="form-control" id="creditValueDate" disabled=""/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mt-3">
+                                                        <!-- credit charge code -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditChargeCode">Credit Charge Code</label>
+                                                            <select id="creditChargeCode" class="form-select ajax-select" disabled=""
+                                                                    ajax="common/charges/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- credit charge type -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditChargeType">Credit Charge Type</label>
+                                                            <select class="form-select form-control ajax-select" id="creditChargeType" disabled="">
+                                                                <option selected value="creditLessCharge">Credit
+                                                                    less Charge</option>
+                                                                <option value="waive">Waive</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label for="cTransactionCode">Credit Transaction Code</label>
+                                                            <input type="text" class="form-control" id="cTransactionCode" disabled="" />
+                                                        </div>
+
+                                                        <!-- credit narration -->
+                                                        <div class="col-md-3">
+                                                            <label for="creditNarration">Credit Naration</label>
+                                                            <input class="form-control" id="creditNarration" disabled=""/>
+                                                        </div>
+                                                    </div>
+
+                                                    <br>
+                                                        <div class="row pt-3">
+                                                            <hr class="w-100">
+                                                        </div>
+
+                                                        <div class="row mt-3">
+                                                            <!-- memo -->
+                                                            <div class="col-md-6">
+                                                                <label for="memo">Memo</label>
+                                                                <input class="form-control" id="memo" disabled="" />
+                                                            </div>
+                                                        </div>
+                                                        
+                                                         <div class="row pt-3">
+                                                <div class="col-md-4">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control " id="comment" name="comment" rows="4"
+                                                        cols="50"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modBy">Mod By:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modBy" class="form-control"
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modOn">Mod On:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modOn" class="form-control "
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+                                                        </form>
+
+
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+
+                                                        </div>
+
+                                                        <div th:replace="~{./ui/footer.html}">Side</div>
+                                                        </div>
+                                                        </div>
+                                                        </main>
+
+                                                        <div th:replace="~{./ui/scripts.html}"></div>
+                                                        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+                                                        
+                                                        <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+                                                        <script>
+
+                                                            $.fn.dataTable.ext.errMode = 'none';
+
+                                                            $(document).find('.ajax-select').each(function () {
+                                                                convertToSelect2(this);
+                                                            });
+
+                                                            let tableData = {
+                                                                columns: [
+                                                                    {"name": "ID", "data": "id", "visible": false},
+                                                                    {"name": "Fund Transfer ID", "data": "ftId"},
+                                                                    {"name": "Transaction type", "data": "transactionType"},
+                                                                    {"name": "Credit Account", "data": "cAccount"},
+                                                                    {"name": "Debit Account", "data": "dAccount"},
+                                                                    {"name": "Status", "data": "status", "width": "50px"}
+                                                                ],
+                                                                url: window.location.origin + contextPath + 'ft-approval/datatable',
+                                                                tableSize: 'col-12'
+                                                            };
+
+                                                            let formData = {
+                                                                url: window.location.origin + contextPath + 'fund-transfer',
+                                                                customFields: $('#fund_transfer_Temp').children(),
+                                                                formSize: 'col-12',
+                                                                contentType: 'json',
+                                                                afterSaveScreen: function () {
+                                                                    $("#creditCurrency1").append('<option value="1">Sri Lankan Rupee</option>');
+                                                                    $("#debitCurrency").append('<option value="1">Sri Lankan Rupee</option>');
+                                                                    $('#postingDate').val(getCurrentDate());
+
+                                                                }
+                                                            };
+
+                                                            new productIntiate($('#approval'), 'Fund Transfer Approval','ft-approval', tableData, formData);
+
+
+                                                            $('#transactionType').change(function () {
+                                                                let val = $(this).val();
+                                                                $.ajax({
+                                                                    url: 'common/transaction-type/' + val,
+                                                                    type: 'GET',
+                                                                    dataType: 'json',
+                                                                    success: function (resp) {
+                                                                        let data = resp.data;
+                                                                        console.log(data);
+                                                                        $('#cTransactionCode').val(data.transactionCr.text);
+                                                                        $('#dTransactionCode').val(data.transactionDr.text);
+
+
+                                                                    }
+                                                                });
+                                                            });
+                                                            //            number formating
+                                                            var numberFormatInputs = document.querySelectorAll('.number-format');
+                                                            numberFormatInputs.forEach(function (input) {
+                                                                input.addEventListener('input', function () {
+                                                                    var unformattedValue = this.value.replace(/[^0-9\.]/g, ''); // Remove non-numeric characters
+                                                                    var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+
+                                                                    this.value = formattedValue;
+                                                                    var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                                                                    this.setSelectionRange(cursorPosition, cursorPosition);
+                                                                });
+                                                            });
+
+                                                            function getCurrentDate() {
+                                                                const now = new Date();
+                                                                const year = now.getFullYear();
+                                                                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                                                                const day = now.getDate().toString().padStart(2, '0');
+                                                                return `${year}-${month}-${day}`;
+                                                            }
+
+
+
+
+
+                                                        </script>
+
+
+                                                        </body>
+
+
+                                                        </html>

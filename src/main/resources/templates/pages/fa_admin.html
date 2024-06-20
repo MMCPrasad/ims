@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+    <style>
+        /* CSS to hide the button */
+        #addBtn {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="page">
+
+                    </div>
+                </div>
+
+                <div id="fixed-asset-request" style="display: none;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="request_id">Reference No</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <lable id="requestId" class="mb-0 fw-semi-bold"></label>                                                
+                                                </div>
+                                            </div>
+
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="department">Department</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <lable id="department" class="mb-0 fw-semi-bold"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="asset">Asset<span class="text-danger">*</span></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <table class="table table-sm table-bordered" >
+                                                        <thead class="bg-200 text-900">
+                                                            <tr>
+                                                                <td style="padding-left: 0.5rem" class="col-md-4">Asset</td>
+                                                                <td style="width:15%">Quantity</td>
+                                                                <td>Budget</td>
+                                                                <td>Budget Line</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="padding-left: 0.5rem"><span id="asset"></span></td>
+                                                                <td class="text-end"><span id="quantity" ></span></td>
+                                                                <td>
+                                                                    <span id="budgetAvailability"></span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span id="budgetLine"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row padding_bottom_5" >
+                                                <div class="col-md-2">
+                                                    <label for="justification">Justification</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <span id="justification" ></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="recommendTo">Requested Date</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <!--<input id="entOn" type="text" class="form-control uneditable" disabled>-->
+                                                    <lable id="entOn" class="mb-0 fw-semi-bold"></lable>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="requestBy">Request By</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <lable id="requestBy" class="mb-0 fw-semi-bold"></lable>                                                           
+                                                </div>
+                                            </div>
+
+                                            <div id="approvals">
+
+                                            </div>
+
+                                            <div id="admin_fields">
+                                                <div class="row padding_bottom_5">
+                                                    <div class="row padding_bottom_5" id="reco_lable_for_initial_approval">
+                                                        <span><label class="fs-1">Seeking approval to proceed with the request</label></span>
+                                                        <div><hr></div>
+                                                    </div>
+
+                                                    <!--<p class="card-title mb-0">HOD section</p>-->
+                                                    <div class="col-md-2" >
+                                                        <label for="action">Action</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <select id="action" class="form-select ajax-select" onchange="handleBudgetAvailabilityChange()">
+                                                            <!--<option>Approve</option>-->
+                                                            <option>Reject</option>
+                                                            <option>Recommend</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <!--                                            <div id="recommend">
+                                                                                                <div class="row padding_bottom_5">
+                                                                                                    <div class="col-md-2" >
+                                                                                                        <label for="recommendTo">Recommend TO<span class="text-danger">*</span></label>
+                                                                                                    </div>
+                                                                                                    <div class="col-md-4">
+                                                                                                        <select id="recommendTo" class="form-select ajax-select"
+                                                                                                                ajax="common/user/select" refid="id"
+                                                                                                                reftxt="text" required=""  ></select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                
+                                                                                            </div>-->
+
+
+
+                                            </div>
+
+                                            <div id="quatation_fields" style="display: none">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label for="hodMessage">Quotation Details</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="qout_fields">
+                                                        <!-- quation added here -->
+                                                    </div>
+                                                </div>
+                                                <div class="row padding_bottom_5">
+                                                    <div class="col-md-2">
+                                                        <a id="add_quaot" class="btn btn-primary">Add</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div id="recommend">
+                                                <div class="row padding_bottom_5">
+                                                    <div class="col-md-2" >
+                                                        <label for="recommendTo">Recommend To</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <select id="recommendTo" class="form-select ajax-select"
+                                                                ajax="common/user/select" refid="id"
+                                                                reftxt="text" required=""  ></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row padding_bottom_5">
+                                                <div class="col-md-2">
+                                                    <label for="hodMessage">Comment</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" id="comment"></textarea>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+    <script th:src="@{/js/approval-pages.js?v=1}"></script>
+
+    <script>
+        function handleBudgetAvailabilityChange() {
+            var action = document.getElementById("action");
+            var recommendTo = document.getElementById("recommendTo");
+            var recommend = document.getElementById("recommend");
+            var quatationFields = document.getElementById("quatation_fields");
+
+            if (action.value === "Recommend") {
+                removeRecoLable(quatationFields);
+                recommendTo.disabled = false;
+                recommendTo.setAttribute("required", ""); // Add the required attribute
+                recommend.style.display = 'block'; // Show the recommend element
+            } else {
+                // Check the visibility of quatation_fields and show recommendTo if visible
+                if (quatationFields.style.display !== 'none') {
+                    recommendTo.disabled = false;
+                    recommendTo.setAttribute("required", ""); // Add the required attribute
+                    recommend.style.display = 'block'; // Show the recommend element
+                    removeRecoLable(quatationFields);
+                } else {
+                    recommendTo.disabled = true;
+                    recommendTo.removeAttribute("required"); // Remove the required attribute
+                    clearSelectOptions(recommendTo);
+                    recommend.style.display = 'none'; // Hide the recommend element
+                    removeRecoLable(quatationFields);
+                }
+
+            }
+        }
+
+        function removeRecoLable(quatationFields) {
+            var reco_lable = document.getElementById('reco_lable_for_initial_approval');
+            
+            if (quatationFields.style.display == 'none') {
+                reco_lable.style.display = "block";
+            } else {
+                reco_lable.style.display = "none";
+            }
+        }
+
+
+        function clearSelectOptions(selectElement) {
+            selectElement.innerHTML = "";
+        }
+    </script>
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        document.addEventListener('input', function (event) {
+            if (event.target.matches('.unit_price, .units, .tax')) {
+                const row = event.target.closest('tr');
+                const unitPrice = parseFloat(row.querySelector('.unit_price').value) || 0;
+                const units = parseFloat(row.querySelector('.units').value) || 0;
+                const tax = parseFloat(row.querySelector('.tax').value) || 0;
+                const total = (unitPrice * units) + tax;
+                row.querySelector('.total').value = total.toFixed(2);
+            }
+        });
+
+        //adding multiple quatations
+
+        document.getElementById('add_quaot').addEventListener('click', function () {
+            addRow();
+        });
+
+        function addRow() {
+            const qoutFields = document.querySelector('.qout_fields');
+            let table = qoutFields.querySelector('table');
+
+            // Create table if it doesn't exist
+            if (!table) {
+                table = document.createElement('table');
+                table.classList.add('table', 'table-sm', 'table-bordered');
+                table.innerHTML = `
+                <thead class="bg-200 text-900">
+                    <tr>
+                        <td class="col-md-2">Supplier</td>
+                        <td class="col-md-2">Item Name</td>
+                        <td class="col-md-2">Description</td>
+                        <td class="col-md-2">Unit Price</td>
+                        <td class="col-md-1">Units</td>
+                        <td class="col-md-1">Tax</td>
+                        <td class="col-md-2">Total</td>
+                        <td class="col-md-1">Document</td>
+                        <td class="col-md-2">Recommended Quotation</td>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            `;
+                qoutFields.appendChild(table);
+            }
+
+            const tbody = table.querySelector('tbody');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td><select class="form-select ajax-select supplier" ajax="customer/supplier/select" refid="id" reftxt="text" required=""></select></td>
+            <td><input type="text" class="form-control item_name" placeholder="Enter Item Name"></td>
+            <td><input type="text" class="form-control description" placeholder="Enter Descition"></td>
+            <td><input type="text" class="form-control unit_price text-end" placeholder="Enter unit price"></td>
+            <td><input type="number" class="form-control units text-end" min="0" placeholder="Enter units"></td>
+            <td><input type="text" class="form-control tax text-end" placeholder="Enter tax"></td>
+            <td><input type="text" class="form-control total text-end" placeholder="Total" disabled></td>
+            <td><input type="file" class="form-control document"></td>
+            <td class="d-flex justify-content-center"><input type="radio" name="recommended_quotation"></td>
+            <td><a class="btn btn-danger" onclick="removeRow(this)"><i class="fas fa-trash-alt"></i></a></td>
+        `;
+            row.querySelectorAll('.ajax-select').forEach(function (element) {
+                convertToSelect2(element);
+            });
+            tbody.appendChild(row);
+        }
+
+        function removeRow(button) {
+            const row = button.parentNode.parentNode;
+            const table = row.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+
+            // Remove table if no rows are left
+            if (table.querySelectorAll('tbody tr').length === 0) {
+                table.parentNode.removeChild(table);
+            }
+        }
+
+
+        ////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+//        document.getElementById("action").addEventListener("change", function () {
+//            var recommendDiv = document.getElementById("recommend");
+//            if (this.value === "Recommend") {
+//                recommendDiv.style.display = "block";
+//            } else {
+//                recommendDiv.style.display = "none";
+//            }
+//        });
+
+
+
+
+
+
+        let tableData = {
+            columns: [
+                {"name": "ID", "data": "id", "visible": false},
+                {"name": "table_id", "data": "tId", "visible": false},
+                {"name": "Request ID", "data": "requestId"},
+                {"name": "Requested By", "data": "requestBy"},
+                {"name": "Requested On", "data": "entOn"},
+                {"name": "Department", "data": "department"},
+                {"name": "Status", "data": "action", "width": "50px"}
+            ],
+            url: window.location.origin + contextPath + 'fa_request/datatable_admin',
+            tableSize: 'col-12'
+        };
+
+        let formData = {
+            url: window.location.origin + contextPath + 'fa_request',
+            customFields: $('#fixed-asset-request').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+        new initiatePage2($('#page'), 'Fixed Asset Requests Admin', tableData, formData);
+
+
+    </script>
+
+</body>
+
+</html>

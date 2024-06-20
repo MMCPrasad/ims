@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+            <div th:replace="~{./ui/sidebar.html}"></div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="approval"></div>
+                </div>
+
+                <div id="fd_Temp" style="display: none">
+                    <!-- content -->
+                    <!-- add all content here -->
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <label for="product">Product</label>
+                                                    <select id="product" class="form-select ajax-select"
+                                                        ajax="common/product/select" refid="id" reftxt="text" disabled
+                                                        aria-readonly="true" required="">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="fdCode">FD Code</label>
+                                                    <input class="form-control " id="fdCode" disabled
+                                                        placeholder="1258EZ">
+                                                </div>
+
+
+
+                                                <div class="col-md-4">
+                                                    <label for="currency">Currency</label>
+                                                    <input class="form-control " disabled id="currency" placeholder="">
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row mt-3">
+                                                <!-- Interest Basis -->
+                                                <div class="col-md-8">
+                                                    <label for="customer">Customer</label>
+                                                    <select id="customer" class="form-select ajax-select" disabled
+                                                        ajax="common/customer/select" refid="id" reftxt="text"
+                                                        aria-readonly="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="row">
+                                                        <div class="col-md-3 "> <label class="form-label"
+                                                                for="mobiles">Joint Customer</label></div>
+                                                        <div class="col-md-3 "> <label class="form-label"
+                                                                for="mobiles">Relation Type</label></div>
+                                                        <div class="col-lg-12 dataArray" id="jointCustomer" disabled
+                                                            func="dynamicJoint"></div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-3">
+
+                                                <div class="col-md-3">
+                                                    <label for="fdAmount">Amount</label>
+                                                    <input type="text" class="form-control  " style="text-align: right;"
+                                                        id="fdAmount" placeholder="" disabled>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label> Effective Date</label>
+                                                    <input type="date" class="form-control " id="effectiveDate"
+                                                        placeholder="" readonly disabled>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="tenor">Tenor</label>
+                                                    <input type="text" disabled class="form-control  " id="tenor"
+                                                        placeholder="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="maturityDate">Maturity Date</label>
+                                                    <input type="date" class="form-control  " id="maturityDate" disabled
+                                                        placeholder="" readonly>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row mt-3">
+
+                                                <div class="col-md-3">
+                                                    <label for="productRate">Product Rate (%)</label>
+                                                    <input type="text" disabled class="form-control  " id="productRate"
+                                                        placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="spread">Spread</label>
+                                                    <input type="text" class="form-control  " id="spread" disabled
+                                                        placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="fdRate">FD Rate (%)</label>
+                                                    <input type="text" class="form-control  " id="fdRate" disabled
+                                                        placeholder="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="taxRate">Tax rate (%)</label>
+                                                    <input type="text" class="form-control  " disabled id="taxRate"
+                                                        placeholder="">
+                                                </div>
+
+
+                                            </div>
+
+                                            <br>
+
+                                            <div class="row pt-3">
+                                                <hr class="w-100">
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label for="interestPaymentMethod">Interest Payment
+                                                        Method</label>
+                                                    <select id="interestPaymentMethod" class="form-select ajax-select"
+                                                        ajax="common/payment-type/select" refid="id" reftxt="text"
+                                                        disabled>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="rollOver">Roll Over</label>
+                                                    <select class="form-select  ajax-select" id="rollOver" required=""
+                                                        disabled>
+                                                        <option value="yes">Yes</option>
+                                                        <option value="no">No</option>
+
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label class="form-label" for="rollOverMethod">Roll Over
+                                                        Method</label>
+                                                    <select class="form-select  ajax-select" id="rollOverMethod"
+                                                        disabled>
+                                                        <option value="capital only">Capital Only</option>
+                                                        <option value="capital with interest">Capital with Interest
+                                                        </option>
+
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-3">
+                                                    <label for="settlementAccount">Settlement Account</label>
+                                                    <input type="number" class="form-control  " id="settlementAccount"
+                                                        placeholder="" disabled>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="bank">Bank</label>
+                                                    <select id="bank" class="form-select ajax-select"
+                                                        ajax="common/bank/select" refid="id" reftxt="text" disabled>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="branch">Branch</label>
+                                                    <select id="branch" class="form-select ajax-select"
+                                                        ajax="common/bank-branch/select" refid="id" reftxt="text"
+                                                        disabled>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label for="accountName">Account Name</label>
+                                                    <input type="text" class="form-control  " id="accountName"
+                                                        placeholder="" disabled>
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-3">
+                                                    <label for="introducer">Introducer</label>
+                                                    <select id="introducer" class="form-select ajax-select"
+                                                        ajax="common/customer/select" refid="id" reftxt="text" disabled>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="commisionRate">Commision Rate (%)</label>
+                                                    <input type="number" class="form-control " id="commisionRate"
+                                                        placeholder="" disabled>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="commisionAmount">Commision Amount</label>
+                                                    <input type="text" class="form-control  " disabled
+                                                        style="text-align: right;" id="commisionAmount" placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="form-label" for="operatingInstruction">Operating
+                                                        Instruction</label>
+                                                    <select class="form-select  ajax-select" id="operatingInstruction"
+                                                        required="" disabled>
+                                                        <option value="sole" selected>Sole</option>
+                                                        <option value="either">Either</option>
+                                                        <option value="all">All</option>s
+
+                                                    </select>
+                                                </div>
+
+
+                                            </div>
+
+                                            <br>
+                                            <div class="row pt-3">
+                                                <hr class="w-100">
+                                            </div>
+
+
+                                            <div class="col-md-12 mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-3 "> <label class="form-label"
+                                                            for="mobiles">Benifisary </label></div>
+                                                    <div class="col-md-3 "> <label class="form-label"
+                                                            for="mobiles">Precentage </label></div>
+                                                    <div class="col-md-3 "> <label class="form-label"
+                                                            for="mobiles">Account Number </label></div>
+                                                    <div class="col-md-3 "> <label class="form-label" for="mobiles">
+                                                            Benifisary Bank</label></div>
+                                                    <div class="col-lg-12 dataArray" id="accountBenifisary" disabled
+                                                        func="dynamicBeni"></div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                            <div class="row  pt-3">
+                                                <hr class="w-100">
+                                            </div>
+
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-3">
+                                                    <label for="nominee">Nominee</label>
+                                                    <select id="nominee" class="form-select ajax-select"
+                                                        ajax="common/customer/select" refid="id" reftxt="text" disabled>
+                                                    </select>
+                                                </div>
+
+
+                                                <div class="col-md-3">
+                                                    <label for="nomineeNic">Nominee NIC</label>
+                                                    <input type="text" class="form-control " id="nomineeNic"
+                                                        placeholder="" disabled>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="nomineeAcc">Nominee Account</label>
+                                                    <input type="text" class="form-control " disabled id="nomineeAcc"
+                                                        placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="nomineeBank">Nominee Bank</label>
+                                                    <select id="nomineeBank" class="form-select ajax-select"
+                                                        ajax="common/bank/select" refid="id" reftxt="text" disabled>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row mt-3">
+                                                <!-- <div class="col-md-4">
+                                                        <label for="documents">Documents</label>
+                                                        <input type="text" class="form-control " id="documents"
+                                                            placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for=""></label>
+                                                    </div> -->
+                                            </div>
+
+                                            <br>
+                                            <div class="row pt-3">
+                                                <hr class="w-100">
+                                            </div>
+
+
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label for="accruedInterest">Accrued Interest</label>
+                                                    <input type="text" class="form-control  " id="accruedInterest "
+                                                        disabled style="text-align: right;" placeholder="">
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="taxAmount">Tax Amount</label>
+                                                    <input type="text" class="form-control " id="taxAmount" disabled
+                                                        placeholder="">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-4">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control " id="comment" name="comment" rows="4"
+                                                        cols="50"></textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modBy">Mod By:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modBy" class="form-control"
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modOn">Mod On:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modOn" class="form-control "
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+
+    <!-- <script src="js/fd-approvals.js"></script> -->
+
+    <script th:src="@{/js/fd-approval.js?v=1}"></script>
+
+
+
+
+
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let tableData = {
+            columns: [
+                { "name": "ID", "data": "id", "visible": false },
+                { "name": "Code", "data": "fdCode" },
+                { "name": "Product", "data": "product" },
+                { "name": "Customer Name", "data": "customer" },
+                { "name": "Approval Status", "data": "approvalStatus", "width": "50px" }
+            ],
+            url: window.location.origin + contextPath + 'fdApproval/datatable',
+            tableSize: 'col-12'
+        };
+        let formData = {
+            url: window.location.origin + contextPath + 'fd-creation',
+            customFields: $('#fd_Temp').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+
+        new approvalInitiate($('#approval'), 'Fixed Deposit Approval', tableData, formData);
+
+
+
+        //join customer dynamic fields
+        function dynamicJoint(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/customer/select" placeholder="Joint Customer"  name="customer" disabled></select>'
+                + '<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/relation-type/select" placeholder="Relation Type"  name="relationType" disabled></select>');
+            convertToSelect2($(temp).find('select')[0]);
+            convertToSelect2($(temp).find('select')[1]);
+            $(temp).find('.select2').attr('style', 'width:25% !important')
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#jointCustomer').append(temp);
+        }
+
+
+
+        //adding benifisary dynamic
+        function dynamicBeni(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<select name="benifisary" class="form-select ajax-select dataArrayObjectElement" ajax="common/customer/select" refid="id" reftxt="text" placeholder="Benifisary" disabled></select>'
+                + ' <input type="number" class="form-control dataArrayObjectElement" name="percentage" placeholder="Percentage" disabled>'
+                + ' <input type="number" class="form-control dataArrayObjectElement " name="benAcc" placeholder="Account Number" disabled>'
+                + ' <select name="benBank" class="form-select ajax-select dataArrayObjectElement" ajax="common/bank/select" refid="id" reftxt="text" placeholder="Benifisary Bank" disabled></select>');
+            convertToSelect2($(temp).find('select')[0]);
+            convertToSelect2($(temp).find('select')[1]);
+            $(temp).find('.select2').attr('style', 'width:25% !important')
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#benifisary').append(temp);
+        }
+
+
+
+    </script>
+</body>
+
+</html>

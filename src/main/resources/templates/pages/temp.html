@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+    <style>
+        /* CSS to hide the button */
+        #addBtn {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="page">
+                        <div class="col-12" id="tableSection">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0"></h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive scrollbar">
+                                        <table class="table table-sm data-table table-bordered" id="mainTable">
+                                            <thead class="bg-200 text-900">
+                                                <tr><th>Request Id</th>
+                                                    <th>Requested By</th>
+                                                    <th>Request On</th>
+                                                    <th>Department</th>
+                                                    <th>Approval Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="text-align:right">
+                                    <button class="btn btn-primary" id="addBtn"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+    <script th:src="@{/js/approval-pages.js?v=1}"></script>
+    
+    
+    <script th:inline="none">
+       
+
+    let a =[[1,5]];
+        
+        $('#page').find('#mainTable').DataTable({
+            "aLengthMenu": [[5, 10, 25, -1], [5, 10, 25, "All"]],
+            "pageLength": tableData.pageLength || 10,
+            "ordering": true,
+            "autoWidth": false,
+            "processing": true,
+            "serverSide": true,
+            "order": [[0, "desc"]],
+            "searchHighlight": true,
+            "searchDelay": 350,
+        });
+
+
+    </script>
+
+</body>
+
+</html>

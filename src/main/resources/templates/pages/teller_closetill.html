@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="teller">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="tellerId"> Teller ID </label>
+                                                        <input class="form-control" id="tellerId" disabled="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span>
+                                                        </label>
+                                                        <select id="branch" class="form-select ajax-select"
+                                                                ajax="common/branch/select" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="customerId">User </label>
+                                                        <select id="customerId" class="form-select ajax-select"
+                                                                ajax="common/account-officer/select" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="currency">Currency</label>
+                                                        <select id="currency" class="form-select ajax-select"
+                                                                ajax="common/currency/select" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="tillAccount">Till Account <span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="tillAccount" class="form-select ajax-select"
+                                                                ajax="common/account/select" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="dateClose"> Close Date </label>
+                                                        <input type="date" class="form-control " id="dateClose">
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="timeClose"> Close Time </label>
+                                                        <input type="time" class="form-control " id="timeClose">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="closingBalance">Closing Balance </label>
+                                                        <input type="text" class="form-control number-format "
+                                                               style="text-align: right;" id="closingBalance" placeholder="">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="tellerStatus">Select Status</label>
+                                                        <select class="form-control ajax-select" id="tellerStatus">
+                                                            <option value="open">Open</option>
+                                                            <option value="close">Close</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+        <script th:src="@{/js/teller.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Teller Id", "data": "tellerId"},
+                    {"name": "User", "data": "customerId"},
+                    {"name": "Branch", "data": "branch"},
+                    {
+                        "name": "Status",
+                        "data": "tellerStatus",
+                        "width": "50px"
+                    }
+                ],
+                url: window.location.origin + contextPath + 'teller-o-c/closeDatatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/teller-id',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json'
+            };
+
+            new teller($('#teller'), 'Teller Close', 'teller-o-c', 'close', tableData, formData);
+
+
+        </script>
+
+        <script>
+
+
+            //            number formating
+            var numberFormatInputs = document.querySelectorAll('.number-format');
+
+            numberFormatInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Remove non-numeric characters
+                    var unformattedValue = this.value.replace(/[^\d]/g, '');
+
+                    // Format the value with commas
+                    var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+
+
+
+                    // Update the input value
+                    this.value = formattedValue;
+
+                    // Adjust cursor position
+                    var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                    this.setSelectionRange(cursorPosition, cursorPosition);
+                });
+            });
+
+        </script>
+
+    </body>
+
+
+</html>

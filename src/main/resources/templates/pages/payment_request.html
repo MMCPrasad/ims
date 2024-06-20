@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+<main class="main" id="top">
+    <div class="container-fluid" data-layout="container">
+
+        <div th:replace="~{./ui/sidebar.html}"></div>
+        <div class="content">
+            <div th:replace="~{./ui/navbar.html}"></div>
+
+            <div class="container">
+                <div class="row" id="page">
+
+                </div>
+            </div>
+
+
+            <div id="payment_request_Temp" style="display: none">
+                <!-- content -->
+                <!-- add all content here -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="p-4">
+                                <div class="card w-full md:w-1300px shadow-lg">
+
+                                    <div class="card-body">
+                                        <form>
+                                            <!-- Id -->
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="id">Id</label>
+                                                    <input class="form-control" disabled id="id"
+                                                           placeholder="1258EZ">
+                                                </div>
+                                                <!-- Payment Date -->
+                                                <div class="col-md-3">
+                                                    <label for="paymentDate">Payment Date</label>
+                                                    <input type="date" class="form-control"  id="paymentDate">
+                                                </div>
+                                                <!-- Payment Type -->
+                                                <div class="col-md-3">
+                                                    <label for="paymentType">Payment Type</label>
+                                                    <select id="paymentType" class="form-select ajax-select" ajax="common/payment-type/select" refid="id" reftxt="description"  required="">
+                                                    </select>
+                                                </div>
+                                                <!-- Month -->
+                                                <div class="col-md-3">
+                                                    <label for="month">Month</label>
+                                                    <input id="month" class="form-control" type="date">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row mt-3">
+                                                <!-- Payment Mode -->
+                                                <div class="col-md-3">
+                                                    <label for="paymentMode">Payment Mode</label>
+                                                    <select id="paymentMode" class="form-select" required="">
+                                                        <option selected value="one_time">One Time</option>
+                                                        <option value="registered">Registered</option>
+                                                    </select>
+                                                </div>
+                                                <!-- Payee Code -->
+                                                <div class="col-md-3">
+                                                    <label for="payeeCode">Payee Code</label>
+                                                    <select id="payeeCode" class="form-select ajax-select" ajax="common/customer/select" refid="id" reftxt="fullName"  required="">
+                                                    </select>
+                                                </div>
+
+                                                <!-- Invoice Number -->
+                                                <div class="col-md-3">
+                                                    <label for="invoiceNo">Invoice Number</label>
+                                                    <input class="form-control" id="invoiceNo">
+                                                </div>
+
+                                                <!-- GRN Number -->
+                                                <div class="col-md-3">
+                                                    <label for="grnNo">GRN Number</label>
+                                                    <input class="form-control" id="grnNo">
+                                                </div>
+                                            </div>
+
+                                            <!-- Budget Line -->
+                                            <div class="row mt-3">
+                                                <div class="col-md-3">
+                                                    <label for="budgetLine">Budget Line</label>
+                                                    <select id="budgetLine" class="form-select ajax-select" ajax="common/budget/select" refid="id" reftxt="description"  required="">
+                                                    </select>
+                                                </div>
+
+                                                <!-- Payment Debit Unit -->
+                                                <div class="col-md-3">
+                                                    <label for="paymentDebitUnit">Payment Debit Unit</label>
+                                                    <select id="paymentDebitUnit" class="form-select ajax-select" ajax="common/department/select" refid="id" reftxt="name"  required="">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="dynamicFieldsContainer" class="mt-3">
+                                                <div class="row">
+
+                                                    <!-- Payment Description -->
+                                                    <div class="col-9 mt-2">
+                                                        <label for="paymentDescription">Payment Description</label>
+                                                        <textarea class="form-control" id="paymentDescription" rows="1"></textarea>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback"> </div>
+                                                    </div>
+
+                                                    <!-- Quantity -->
+                                                    <div class="col-3 mt-2">
+                                                        <label class="form-label" for="quantity">Quantity</label>
+                                                        <input type="number" class="form-control" id="quantity" placeholder="">
+                                                        <div class="invalid-feedback">Please enter Quantity value.</div>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                    </div>
+
+                                                    <!-- Unit Price -->
+                                                    <div class="col-3 mt-2">
+                                                        <label class="form-label" for="unitPrice">Unit Price</label>
+                                                        <input type="number" class="form-control" id="unitPrice" placeholder="">
+                                                        <div class="invalid-feedback">Please enter Unit Price.</div>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                    </div>
+
+                                                    <!-- Tax -->
+                                                    <div class="col-3 mt-2">
+                                                        <label class="form-label" for="tax">Tax</label>
+                                                        <input type="number" class="form-control" id="tax" placeholder="">
+                                                        <div class="invalid-feedback">Please enter the Tax value.</div>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                    </div>
+
+                                                    <!-- Line Total -->
+                                                    <div class="col-3 mt-2">
+                                                        <label class="form-label" for="lineTotal">Line Total</label>
+                                                        <input type="text" class="form-control" id="lineTotal" placeholder="">
+                                                        <div class="invalid-feedback">Please enter the Line Total value.</div>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                    </div>
+
+                                                    <div class="col-3 mt-4 pt-2">
+                                                        <button class="btn btn-success" type="button" onclick="addNewField()"><span class="fas fa-plus me-2"></span></button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 mt-3">
+                                                <label for="totalPaymentAmount">Total Payment Amount</label>
+                                                <input type="number" class="form-control" id="totalPaymentAmount"/>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback"> </div>
+                                            </div>
+
+
+
+                                            <!-- documents -->
+                                            <div id="dynamicFieldsContainer2" class="mt-3">
+                                                <div class="row">
+
+                                                    <div class="col-9 mt-2">
+                                                        <label for="document">Document</label>
+                                                        <input type="text" class="form-control" id="document"/>
+                                                        <div class="valid-feedback">Looks good!</div>
+                                                        <div class="invalid-feedback"> </div>
+                                                    </div>
+
+                                                    <div class="col-3 mt-4 pt-2">
+                                                        <button class="btn btn-success" type="button" onclick="addNewField2()"><span class="fas fa-plus me-2"></span>Add</button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <!-- Recommend To -->
+                                            <div class="col-md-3 mt-3">
+                                                <label for="recommendTo">Recommend To</label>
+                                                <select id="recommendTo" class="form-select ajax-select" ajax="common/account-officer/select" refid="id" reftxt="name"  required="">
+                                                </select>
+                                            </div>
+
+                                            <!-- Comment -->
+                                            <div class="col-9 mt-2">
+                                                <label for="comment">Comment</label>
+                                                <textarea class="form-control" id="comment" rows="2"></textarea>
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback"> </div>
+                                            </div>
+
+                                            <!-- Approved By -->
+                                            <div class="col-md-3 mt-3">
+                                                <label for="approvedBy">Approved By</label>
+                                                <select id="approvedBy" class="form-select ajax-select" ajax="common/account-officer/select" refid="id" reftxt="name"  required="">
+                                                </select>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div th:replace="~{./ui/footer.html}">Side</div>
+    </div>
+    </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script>
+
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $(document).find('.ajax-select').each(function () {
+        convertToSelect2(this);
+    });
+
+    let tableData = {
+        columns: [
+            {"name": "ID", "data": "id", "visible": false},
+            {"name": "Name", "data": "name"},
+            {"name": "Status", "data": "status", "width": "50px"}
+        ],
+        url: window.location.origin + contextPath + 'common/payment-request/datatable',
+        tableSize: 'col-12'
+    };
+
+    let formData = {
+        url: window.location.origin + contextPath + 'common/payment-request',
+        customFields: $('#payment_request_Temp').children(),
+        formSize: 'col-12',
+        contentType: 'json'
+    };
+
+    new initiatePage($('#page'), 'Payment Request', tableData, formData);
+
+
+</script>
+
+
+<script>
+    function addNewField() {
+        var newFieldSection = document.createElement("div");
+        newFieldSection.className = "row";
+
+        newFieldSection.innerHTML = `
+    <div class="row p-0 ms-1">
+      <hr class="mt-3"/>
+      <div class="col-9 mt-2">
+          <label for="paymentDescription">Payment Description</label>
+          <textarea class="form-control" id="paymentDescription" rows="1"></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback"> </div>
+      </div>
+
+      <div class="col-3 mt-2">
+          <label class="form-label" for="quantity">Quantity</label>
+          <input class="form-control" id="quantity" placeholder="">
+          <div class="invalid-feedback">Please select a your customer type.</div>
+          <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="col-3 mt-2">
+          <label class="form-label" for="unitPrice">Unit Price</label>
+          <input class="form-control" id="unitPrice" placeholder="">
+          <div class="invalid-feedback">Please select a your customer type.</div>
+          <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="col-3 mt-2">
+          <label class="form-label" for="tax">Tax</label>
+          <input class="form-control" id="tax" placeholder="">
+          <div class="invalid-feedback">Please select a your customer type.</div>
+          <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <div class="col-3 mt-2">
+          <label class="form-label" for="lineTotal">Line Total</label>
+          <input class="form-control" id="lineTotal" placeholder="">
+          <div class="invalid-feedback">Please select a your customer type.</div>
+          <div class="valid-feedback">Looks good!</div>
+      </div>
+
+
+      <div class="col-3 mt-4 pt-2">
+          <button class="btn btn-danger" type="button" onclick="removeField(this)"><span class="fas fa-minus"></span></button>
+      </div>
+
+  </div>
+
+
+    `;
+
+        document.getElementById("dynamicFieldsContainer").appendChild(newFieldSection);
+    }
+
+    function removeField(button) {
+        button.parentNode.parentNode.remove();
+    }
+
+
+
+    function addNewField2() {
+        var newFieldSection = document.createElement("div");
+        newFieldSection.className = "row";
+
+        newFieldSection.innerHTML = `
+
+    <div class="row p-0 ms-1">
+
+      <div class="col-9 mt-2">
+          <label for="document">Document</label>
+          <input type="file" class="form-control" id="document"/>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback"> </div>
+      </div>
+
+      <div class="col-3 mt-4 pt-2">
+          <button class="btn btn-danger" type="button" onclick="removeField(this)"><span class="fas fa-minus"></span></button>
+       </div>
+
+    </div>
+
+    `;
+
+        document.getElementById("dynamicFieldsContainer2").appendChild(newFieldSection);
+    }
+
+    function removeField2(button) {
+        button.parentNode.parentNode.remove();
+    }
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="approval">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="tellerId"> Teller ID </label>
+                                                        <input class="form-control" id="tellerId" disabled="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span>
+                                                        </label>
+                                                        <select id="branch" class="form-select ajax-select"
+                                                                ajax="common/branch/select" refid="id" reftxt="text" disabled=""
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="customerId">User </label>
+                                                        <select id="customerId" class="form-select ajax-select"
+                                                                ajax="common/account-officer/select" refid="id" reftxt="text" disabled=""
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="currency">Currency</label>
+                                                        <select id="currency" class="form-select ajax-select"
+                                                                ajax="common/currency/select" refid="id" reftxt="text" disabled=""
+                                                                required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="tillAccount">Till Account <span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="tillAccount" class="form-select ajax-select"
+                                                                ajax="common/account/select" refid="id" reftxt="text" disabled=""
+                                                                required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="dateClose"> Close Date </label>
+                                                        <input type="date" class="form-control " id="dateClose" disabled="">
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="timeClose"> Close Time </label>
+                                                        <input type="time" class="form-control " id="timeClose" disabled="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="closingBalance">Closing Balance </label>
+                                                        <input type="text" class="form-control number-format"
+                                                               style="text-align: right;" id="closingBalance" placeholder="" disabled="">
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modBy">Mod By:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modBy" class="form-control"
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+    
+    
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modOn">Mod On:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modOn" class="form-control "
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Teller Id", "data": "tellerId"},
+                    {"name": "User", "data": "customerId"},
+                    {"name": "Branch", "data": "branch"},
+                     {"name": "Status", "data": "tellerStatus", "width": "50px", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "closepending") {
+                                bannerClass = "warning";
+                                bannerText = "Close Pending";
+                            }
+                             return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }}
+                ],
+                url: window.location.origin + contextPath + 'teller-c-approval/dataTable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/teller-id',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json'
+            };
+
+            new productIntiate($('#approval'), 'Teller Close Approval', 'teller-c-approval', tableData, formData);
+
+
+
+
+
+            //        ..............................................................................................money.......................
+            function formatMoneyValue(inputId) {
+                var inputElement = document.getElementById(inputId);
+                var value = parseFloat(inputElement.value.replace(/[^\d.-]/g, '')); // Remove non-numeric characters
+
+                // Check if the value is a valid number
+                if (!isNaN(value)) {
+                    // Format the value as a money value with two decimal places and LKR currency symbol
+                    inputElement.value = value.toLocaleString('en-LK', {style: 'currency', currency: 'LKR', minimumFractionDigits: 2});
+                } else {
+                    // Clear the input if the value is not valid
+                    inputElement.value = '';
+                }
+            }
+
+
+        </script>
+
+    </body>
+
+
+</html>

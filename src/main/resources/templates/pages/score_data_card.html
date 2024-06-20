@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="score_data_card_temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="code">  Code  </label>
+                                                        <input  class="form-control"  id="code" placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="code">  Description </label>
+                                                        <input  class="form-control"  id="description" placeholder="">
+                                                    </div>
+                                                    <div class="col-md-4" style="display: none;">
+                                                        <label for="code">  Code 2 </label>
+                                                        <input  class="form-control"  id="code2" placeholder="" disabled>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="paymentType">Source Data Model</label>
+                                                        <select id="sourceDataModel" refid="id" reftxt="text" class="form-select ajax-select" ajax="score-data-card/select" ></select>
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+
+
+
+                                                            <div class="col-lg-10 col-md-10 dataArray" id="typesDiv"
+                                                                 func="dynamicSourceDataTypeEdit">
+
+                                                            </div>
+                                                            <div class="col-md-12 mb-5 mt-2">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Description", "data": "description"},
+                    {"name": "Status", "data": "status", "width": "50px"}
+                ],
+                url: window.location.origin + contextPath + 'score-data-card/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'score-data-card',
+                customFields: $('#score_data_card_temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+
+            };
+
+            new initiatePage($('#page'), 'Source Data Card', tableData, formData);
+
+
+            $('#sourceDataModel').change(function () {
+
+                $('#typesDiv').html('');
+                let id = $(this).val();
+
+                if (id == null)
+                {
+                    return;
+                } else
+                {
+
+                    var inputValue = $("#code2").val();
+
+                    if (inputValue) {
+                        $("#code2").val(null)
+                        dynamicSourceDataTypeEdit();
+                    } else {
+                        $.post('score-data-card/load_source_data_details/' + id, function (resp) {
+                            var total_source_data = resp.total_source_data;
+
+                            dynamicSourceDataTypeAdd(total_source_data, resp.historyDetailsList);
+                        });
+                    }
+                }
+            });
+
+
+
+            function dynamicSourceDataTypeAdd(total_source_data, historyDetailsList) {
+                for (let i = 0; i < total_source_data; i++) {
+                    let temp = document.createElement('div');
+                    $(temp).addClass('input-group mb-2 dataArrayObject gap-3 ');
+                    $(temp).html('<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text"  placeholder="Relation Type"  name="sourceDataType" required="" disabled selected><option value="' + historyDetailsList[i].id + '">' + historyDetailsList[i].text + '</option></select>' +
+                            ' <select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/data-value/select" placeholder="Data Value"  name="dataValue" required="" ></select> ' +
+                            ' <select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/data-score/select"  placeholder="Data Score"  name="dataScore" required="" ></select> ' +
+                            '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+
+                    convertToSelect2($(temp).find('select')[0]);
+                    convertToSelect2($(temp).find('select')[1]);
+                    convertToSelect2($(temp).find('select')[2]);
+                    $(temp).find('.select2').attr('style', 'width:20% !important');
+
+
+                    $('#typesDiv').append(temp);
+                }
+            }
+
+
+
+            function dynamicSourceDataTypeEdit(arryObj) {
+
+                if (typeof arryObj !== "undefined") {
+                    let temp = document.createElement('div');
+                    $(temp).addClass('input-group mb-2 dataArrayObject gap-3 ');
+                    $(temp).html('<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/source-data-type/select"  placeholder="Relation Type"  name="sourceDataType" required="" disabled></select>' +
+                            ' <select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/data-value/select" placeholder="Data Value"  name="dataValue" required="" ></select> ' +
+                            ' <select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/data-score/select"  placeholder="Data Score"  name="dataScore" required="" ></select> ' +
+                            '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+
+                    convertToSelect2($(temp).find('select')[0]);
+                    convertToSelect2($(temp).find('select')[1]);
+                    convertToSelect2($(temp).find('select')[2]);
+                    $(temp).find('.select2').attr('style', 'width:20% !important');
+                    if (arryObj) {
+
+                        Object.keys(arryObj).forEach(function (key) {
+                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                        });
+                    }
+                    $('#typesDiv').append(temp);
+                } else
+                {
+
+                }
+            }
+
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+
+        </script>
+
+
+
+
+
+
+    </body>
+
+
+</html>

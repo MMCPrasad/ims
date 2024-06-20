@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+<main class="main" id="top">
+    <div class="container-fluid" data-layout="container">
+
+        <div th:replace="~{./ui/sidebar.html}"></div>
+        <div class="content">
+            <div th:replace="~{./ui/navbar.html}"></div>
+
+            <div class="container">
+                <div class="row" id="page">
+
+                </div>
+            </div>
+
+
+            <div id="branch_master_Temp" style="display: none">
+                <!-- content -->
+                <!-- add all content here -->
+                <div class="col-md-4">
+                    <div class="card mb-3">
+
+                        <div class="card-body bg-light ">
+                            <div class="tab-content">
+                                <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                                     aria-labelledby="tab-dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95" id="dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95">
+                                    <form class="needs-validation" novalidate="">
+                                        <div class="col-auto">
+                                            <label class="form-label" for="id">Code</label>
+                                            <input class="form-control" id="id" type="text" value="C4A345" required="" disabled />
+
+                                        </div>
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="code">Bank Code</label>
+                                            <select id="code" required="" class="form-select ajax-select" ajax="common/bank/select" refid="id" reftxt="code"  required="">
+                                            </select>
+                                            <div class="invalid-feedback">Please select your bank.</div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="name">Bank name</label>
+                                            <input class="form-control" id="name" type="text" placeholder="BOC" required="" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter your bank name.</div>
+                                        </div>
+
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="address1">Address 1</label>
+                                            <input class="form-control" id="address1" type="text" placeholder="No:221/b" required="" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter a your address line 1.</div>
+                                        </div>
+
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="address2">Address 2</label>
+                                            <input class="form-control" id="address2" type="text" placeholder="Baker Street" required="" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter a your address line 1.</div>
+                                        </div>
+
+                                        <div class="col-auto mt-2">
+                                            <label class="form-label" for="city">City</label>
+                                            <select id="city" class="form-select ajax-select" ajax="common/city/select" refid="id" reftxt="name"  required="">
+                                            </select>
+                                            <div class="invalid-feedback">Please select a your city.</div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <label class="form-label" for="telephone">Mobile Number</label>
+                                            <input class="form-control" id="telephone" type="text" required="" placeholder="+94 758 148 789" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter a mobile number</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="form-label" for="email">Email</label>
+                                            <input class="form-control" type="text" placeholder="example@gamil.com" id="email" />
+                                            <div class="valid-feedback">Looks good!</div>
+                                            <div class="invalid-feedback">Please Enter a email address</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script>
+
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $(document).find('.ajax-select').each(function () {
+        convertToSelect2(this);
+    });
+
+    let tableData = {
+        columns: [
+            {"name": "ID", "data": "id", "visible": false},
+            {"name": "Name", "data": "name"},
+            {"name": "Status", "data": "status", "width": "50px"}
+        ],
+        url: window.location.origin + contextPath + 'common/bank-branch/datatable',
+        tableSize: 'col-12'
+    };
+
+    let formData = {
+        url: window.location.origin + contextPath + 'common/bank-branch',
+        customFields: $('#branch_master_Temp').children(),
+        formSize: 'col-12',
+        contentType: 'json'
+    };
+
+    new initiatePage($('#page'), 'Branch Master', tableData, formData);
+
+
+</script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-3">
+                                                        <label for="code">  Code</label>
+                                                        <input  class="form-control"  id="code" placeholder="" >
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="country">Country<span class="text-danger">*</span> </label>
+                                                        <select id="country" class="form-select ajax-select" ajax="common/country/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-3">
+                                                        <label for="today">  Today</label>
+                                                        <input  class="form-control"  id="today" placeholder="" disabled="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Last Working Day</label>
+                                                        <input type="date" class="form-control" id="lastWorkingDay" 
+                                                               placeholder="">
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row">
+
+                                                    <div class="col-md-3">
+                                                        <label>Next Working Day</label>
+                                                        <input type="date" class="form-control" id="nextWorkingDay" 
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Back Value Minimum</label>
+                                                        <input type="text" class="form-control" id="backValueMinimum" 
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Forward Value Maximum</label>
+                                                        <input type="text" class="form-control" id="forwardValueMaximum" 
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="julianDate">  Julian Date</label>
+                                                        <input  class="form-control"  id="julianDate" placeholder="" disabled="">
+                                                    </div>
+                                                </div>
+
+
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Country", "data": "country"},
+                    {"name": "Julian Date", "data": "julianDate"},
+
+                    {
+                        "name": "Status", "data": "status", "width": "50px"
+                    }
+                ],
+                url: window.location.origin + contextPath + 'common/dates/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/dates',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+
+                afterSaveScreen: function () {
+                    $("#country").append('<option value="2">Sri Lanka</option>');
+                    $('#today').val(getCurrentDate());
+                    $('#julianDate').val(getJullian());
+
+                }
+            };
+
+            new initiatePage($('#page'), 'Dates', tableData, formData);
+
+
+            function getCurrentDate() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                const day = now.getDate().toString().padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+
+            //get jullianDate
+//            function getJullian() {
+//                const currentDate = getCurrentDate();
+//                const julianDate = Math.floor((new Date(currentDate) / 86400000) - (new Date(currentDate).getTimezoneOffset() / 1440) + 2440587.5);
+//                return julianDate;
+//            }
+
+            function getJullian() {
+                var currentDate = new Date();
+                var year = currentDate.getFullYear();
+                var month = currentDate.getMonth() + 1;
+                var day = currentDate.getDate();
+                var hour = currentDate.getHours();
+                var minute = currentDate.getMinutes();
+                var second = currentDate.getSeconds();
+
+                if (month <= 2) {
+                    year -= 1;
+                    month += 12;
+                }
+
+                var A = Math.floor(year / 100);
+                var B = 2 - A + Math.floor(A / 4);
+                var JD = Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
+                var fraction = (hour + (minute / 60) + (second / 3600)) / 24;
+                JD += fraction;
+
+                return JD;
+                return julianDate;
+            }
+
+
+
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+
+
+</html>

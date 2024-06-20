@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="approval">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="tellerId"> Teller ID </label>
+                                                        <input class="form-control" id="tellerId"  placeholder="" disabled="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span>
+                                                        </label>
+                                                        <select id="branch" class="form-select ajax-select" 
+                                                                ajax="common/branch/select" refid="id" reftxt="text" 
+                                                                required="" disabled=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="customerId">User </label>
+                                                        <select id="customerId" class="form-select ajax-select" 
+                                                                ajax="common/account-officer/select" refid="id" reftxt="text" 
+                                                                required="" disabled=""></select>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label for="currency">Currency</label>
+                                                        <select id="currency" class="form-select ajax-select" 
+                                                                ajax="common/currency/select" refid="id" reftxt="text" 
+                                                                required="" disabled=""></select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="tillAccount">Till Account <span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="tillAccount" class="form-select ajax-select" 
+                                                                ajax="common/account/select" refid="id" reftxt="text" 
+                                                                required="" disabled=""></select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="dateOpen"> Open Date </label>
+                                                        <input type="text" class="form-control " id="dateOpen" disabled=""> 
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="timeClose"> Open Time </label>
+                                                        <input type="text" class="form-control " id="timeOpen" disabled=""> 
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="closingBalance">Opening Balance </label>
+                                                        <input type="text" class="form-control number-format"
+                                                               style="text-align: right;" id="openningBalance" placeholder="" disabled="">
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modBy">Mod By:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modBy" class="form-control"
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+    
+    
+                                                <div class="row pt-3">
+                                                    <div class="col-md-1">
+                                                        <label for="modOn">Mod On:</label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <input type="text" id="modOn" class="form-control "
+                                                            style="border: none; outline: none; background-color: transparent;">
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+        <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Teller Id", "data": "tellerId"},
+                    {"name": "User", "data": "customerId"},
+                    {"name": "Branch", "data": "branch"},
+                    {"name": "Status", "data": "tellerStatus", "width": "50px", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "openpending") {
+                                bannerClass = "warning";
+                                bannerText = "Open Pending";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }}
+                ],
+                url: window.location.origin + contextPath + 'teller-o-approval/dataTable',
+                tableSize: 'col-12'
+
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/teller-id',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json'
+            };
+
+            new productIntiate($('#approval'), 'Teller Open Approval', 'teller-o-approval', tableData, formData);
+
+
+        </script>
+
+
+
+
+
+    </body>
+
+
+</html>

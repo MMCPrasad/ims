@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <div th:replace="~{ui/header.html}"></div>
+</head>
+
+<body>
+
+  <main class="main" id="top">
+    <div class="container-fluid">
+
+      <div class="row flex-center min-vh-100 py-6">
+        <div class="col-sm-8 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
+          <div class="text-center">
+            <img src="img/logos/logo.png" alt="" width="250">
+          </div>
+          <div class="card">
+            <div class="card-body p-4 p-sm-5">
+              <div class="row flex-between-center mb-2">
+                <div class="col-auto">
+                  <h5>Log in</h5>
+                </div>
+              </div>
+              <form action="login" method="post">
+                <div th:if="${error != null}" class="alert alert-warning border-2 d-flex align-items-center" role="alert">
+                  <div class="bg-warning me-3 icon-item"><span class="fas fa-exclamation-circle text-white fs-3"></span></div>
+                  <p class="mb-0 flex-1">Login Faild ! - Incorrect Username or Password </p><button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="mb-3"><input class="form-control" type="text" placeholder="Username" name="username"></div>
+                <div class="mb-3"><input class="form-control" type="password" placeholder="Password" name="password">
+                </div>
+                <div class="row flex-between-center">
+                  <div class="col-auto">
+                    <div class="form-check mb-0"><input class="form-check-input" type="checkbox" id="basic-checkbox"
+                        checked="checked"><label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+                    </div>
+                  </div>
+                  <div class="col-auto"><a class="fs--1" href="forgot-password.html">Forgot Password?</a></div>
+                </div>
+                <div class="mb-3"><button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Log
+                    in</button></div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <script th:src="@{/vendors/bootstrap/bootstrap.min.js}"></script>
+  <script th:src="@{/vendors/fontawesome/all.min.js}"></script>
+
+</body>
+
+
+</html>

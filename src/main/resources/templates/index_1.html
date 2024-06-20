@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{ui/header.html}"></div>
+        <style>
+            .draggable-container{
+                min-height: 50px;
+            }
+
+            .gu-mirror {
+                position: fixed !important;
+                margin: 0 !important;
+                z-index: 9999 !important;
+                opacity: 0.8;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+                filter: alpha(opacity=80);
+            }
+            .gu-hide {
+                display: none !important;
+            }
+            .gu-unselectable {
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                user-select: none !important;
+            }
+            .gu-transit {
+                opacity: 0.2;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+                filter: alpha(opacity=20);
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{ui/navbar.html}"></div>
+
+                    <div class="container-fluid">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6 offset-lg-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Title</h5>
+                                    </div>
+                                    <div class="card-body bg-light">
+                                        <div class="container-fluid" id="row-list">
+
+                                            <div class="row draggable-row border border-dashed" >
+                                                <div class="container-fluid" >
+                                                    <div class="row draggable-container" >
+
+                                                    </div>
+                                                </div>
+                                                <div class="hover-actions end-0 top-50 translate-middle-y"><button class="btn btn-light border-300 btn-sm me-1 text-600 moveDownBtn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Move Down" data-bs-original-title="Move Down"><i class="far fa-arrow-alt-circle-up"></i></button><button class="btn btn-light border-300 btn-sm me-1 text-600 moveUpBtn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Move Up" data-bs-original-title="Move Up"><i class="far fa-arrow-alt-circle-up"></i></button><button class="btn btn-light border-300 btn-sm me-1 text-600 shadow-none removeRowBtn" type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Remove" data-bs-original-title="Remove"><i class="fas fa-trash"></i></button></div>
+                                            </div>
+                                            <!--                                            <div class="row draggable-row border border-dashed" >
+                                                                                            <span>row2</span>
+                                                                                            <div class="container-fluid" >
+                                                                                                <div class="row draggable-container" >
+                                            
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>-->
+
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="col-lg-12" style="text-align:right">
+                                            <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                                            <button type="button" class="btn btn-primary" id="formSettingBtn"> <i class="fa fa-wrench"></i> Form Settings</button>
+                                            <button type="button" class="btn btn-primary" id="addComponentBtn"> <i class="fa fa-plus"></i> Add Field</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div th:replace="~{ui/footer.html}"></div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
+                    <div class="modal-content position-relative">
+                        <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+                            <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+                                <h4 class="mb-1">Add/Update Fields</h4>
+                            </div>
+                            <div class="p-4 pb-0">
+
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Select a Field Type</label>
+                                    <select class="form-select" id="componentType">
+                                        <option value="text">Text</option>
+                                        <option value="date">Date</option>
+                                        <option value="select">Select</option>
+                                        <option value="row">Row</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Field Size <span class="text-danger">*</span></label>
+                                    <input id="fieldSize" class="form-control" type="text" value="lg-4">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Field Name <span class="text-danger">*</span></label>
+                                    <input id="fieldName" class="form-control" type="text" value="Label">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Field Id <span class="text-danger">*</span></label>
+                                    <input id="fieldId" class="form-control" type="text" value="">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Mandatory ? <span class="text-danger">*</span></label>
+                                    <div class="form-check"><input class="form-check-input" id="fieldMandatory" type="checkbox" /></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Ajax ? <span class="text-danger">*</span></label>
+                                    <div class="form-check"><input class="form-check-input" id="isAjax" type="checkbox" /></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Ajax Url <span class="text-danger">*</span></label>
+                                    <input id="ajax" class="form-control" type="text">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Ref Id <span class="text-danger">*</span></label>
+                                    <input id="refId" class="form-control" type="text">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Ref Txt <span class="text-danger">*</span></label>
+                                    <input id="refTxt" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                            <button class="btn btn-success" id="saveSettingsBtn" type="button">Save </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/scripts.html}">Side</div>
+        <script src="vendors/select2/select2.min.js"></script>
+        <script src="vendors/draggable/draggable.bundle.legacy.js"></script>
+        <script src="js/dragula.js"></script>
+
+        <script>
+
+            (function () {
+                dragula([document.getElementById('#row-list')]);
+            })();
+
+//
+//            sortableRows.on('drag:start', function () {
+//
+//            });
+//
+//            sortableRows.on('drag:stop', function (_ref2) {
+//
+//            });
+//
+//            var sortableItems = new window.Draggable.Sortable(document.querySelectorAll('.draggable-container'), {
+//                draggable: '.draggable-item',
+//                delay: 200,
+//                mirror: {
+//                    appendTo: '.draggable-row',
+//                    constrainDimensions: true
+//                },
+//                scrollable: {
+//                    draggable: '.draggable-item'
+//                },
+//                dragHandle: '.itemDragBtn'
+//            });
+
+            $('#addComponentBtn').click(function () {
+                clearModal();
+                $('#fieldSize').val('lg-6');
+                $('#fieldName').val('Label');
+                $('#fieldId').val('field' + (idCounter++));
+                $('#saveSettingsBtn').data('mode', 'add');
+                $('#settings-modal').modal('show');
+            });
+
+            function clearModal() {
+                $('#componentType').val('text').change();
+                $('#fieldSize').val('');
+                $('#fieldName').val('');
+                $('#fieldId').val('');
+                $('#isAjax').prop("checked", false);
+                $('#ajax').val('');
+                $('#refId').val('');
+                $('#refTxt').val('');
+            }
+
+            let idCounter = 1;
+
+            $('#saveSettingsBtn').click(function () {
+                let componentType = $('#componentType').val();
+
+                let size = $('#fieldSize').val();
+                let label = $('#fieldName').val();
+                let fid = $('#fieldId').val();
+
+                if ($('#saveSettingsBtn').data('mode') === 'add') {
+                    if (componentType === 'row') {
+                        $('#row-list').append(renderField({name: label, id: fid, type: componentType, mandatory: $('#fieldMandatory').is(':checked'), col: size}));
+                    } else {
+                        $('#row-list').find('.draggable-container').last().append(renderField({name: label, id: fid, type: componentType, mandatory: $('#fieldMandatory').is(':checked'), col: size}));
+                    }
+                    $('#settings-modal').modal('hide');
+                } else {
+                    let selectedFiledData = $(selectedFiled).data('data');
+                    selectedFiledData.type = componentType;
+                    selectedFiledData.name = $('#fieldName').val();
+                    selectedFiledData.col = size;
+                    selectedFiledData.id = $('#fieldId').val();
+                    selectedFiledData.mandatory = $('#fieldMandatory').is(':checked');
+                    if (componentType === 'select' && $('#isAjax').is(':checked')) {
+                        selectedFiledData.ajax = $('#ajax').val();
+                        selectedFiledData.refId = $('#refId').val();
+                        selectedFiledData.refTxt = $('#refTxt').val();
+                    } else {
+                        delete selectedFiledData.ajax;
+                        delete selectedFiledData.refId;
+                        delete selectedFiledData.refTxt;
+                    }
+                    $(selectedFiled).replaceWith(renderField(selectedFiledData));
+                    $('#settings-modal').modal('hide');
+                }
+            });
+
+            $(document).on('click', '.removeComponentBtn', function () {
+                $(this).parents('.draggable-item').first().remove();
+            });
+
+            $('#componentType').change(function () {
+                if ($(this).val() === 'select') {
+                    $('#isAjax,#ajax,#refId,#refTxt').each(function () {
+                        $(this).parents('.mb-3').first().show();
+                    });
+                } else {
+                    $('#isAjax,#ajax,#refId,#refTxt').each(function () {
+                        $(this).val('');
+                        $(this).parents('.mb-3').first().hide();
+                    });
+                }
+            });
+
+
+
+            let selectedFiled = null;
+            $(document).on('click', '.settingsBtn', function () {
+                $('#saveSettingsBtn').data('mode', 'update');
+                clearModal();
+                let data = $(this).parents('.kanban-item').first().data('data');
+                selectedFiled = $(this).parents('.kanban-item').first();
+
+                $('#componentType').val(data.type).change();
+                $('#fieldSize').val(data.col);
+                $('#fieldName').val(data.name);
+                $('#fieldId').val(data.id);
+                $('#fieldMandatory').prop("checked", data.mandatory);
+
+                if (data.type === 'select') {
+                    if (data.ajax && data.ajax.trim() !== '') {
+                        $('#isAjax').prop("checked", true);
+                        $('#ajax').val(data.ajax);
+                        $('#refId').val(data.refId);
+                        $('#refTxt').val(data.refTxt);
+                    }
+                }
+                $('#settings-modal').modal('show');
+            });
+
+            function renderField(data) {
+                let hoverBtns = $('<div class="hover-actions end-0 top-50 translate-middle-y"><button class="btn btn-light border-300 btn-sm me-1 text-600 itemDragBtn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Drag" data-bs-original-title="Settings"><i class="far fa-hand-rock"></i></button><button class="btn btn-light border-300 btn-sm me-1 text-600 settingsBtn" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Settings" data-bs-original-title="Settings"><i class="fas fa-wrench"></i></button><button class="btn btn-light border-300 btn-sm me-1 text-600 shadow-none removeComponentBtn" type="button" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Remove" data-bs-original-title="Remove"><i class="fas fa-trash"></i></button></div>');
+                let formDiv = $('<div class="mb-3 col-' + data.col + ' draggable-item hover-actions-trigger"><label class="col-form-label">' + data.name + ' ' + (data.mandatory ? '<span class="text-danger">*</span>' : '') + '</label></div>');
+                let field = null;
+                if (data.type === 'text') {
+                    field = '<input ' + (data.mandatory ? 'required' : '') + ' type="text" autocomplete="off" class="form-control" id="' + data.id + '">';
+                } else if (data.type === 'date') {
+                    field = '<input ' + (data.mandatory ? 'required' : '') + ' type="date" autocomplete="off" class="form-control" id="' + data.id + '">';
+                } else if (data.type === 'select') {
+                    let ajaxData = '';
+                    if (data.ajax && data.ajax.trim() !== '') {
+                        ajaxData = 'ajax="' + data.ajax + '" refid="' + data.refId + '" retxt="' + data.refTxt + '"';
+                    }
+                    field = $('<select class="form-select" ' + ajaxData + '></select>');
+                    convertToSelect2(field);
+                } else if (data.type === 'row') {
+                    field = '';
+                    formDiv = $('<div class="row draggable-row border border-dashed" ><div class="container-fluid" ><div class="row draggable-container" ></div></div></div>');
+                    //$(formDiv).remove('label');
+                }
+                $(formDiv).append(field);
+                $(formDiv).append(hoverBtns);
+                if (data.type === 'select') {
+                    convertToSelect2($(formDiv).find('select'));
+                }
+                $(formDiv).data('data', data);
+                return formDiv;
+            }
+
+
+
+        </script>
+
+
+    </body>
+
+
+</html>

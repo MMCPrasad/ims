@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="purchase">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="subCategory" class="fw-bold">Sub Category:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="subCategory" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="supplierCode" class="fw-bold">Supplier Code:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="supplierCode" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="location" class="fw-bold">Location:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="location" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="assignedTo" class="fw-bold">Assigned To:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="assignedTo" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="purchasePrice" class="fw-bold">Purchase Price:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="purchasePrice" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6 d-flex align-items-end">
+                                                        <label for="PurchaseDate" class="fw-bold">Purchase Date:</label>
+                                                        <div class="col-md-6">
+                                                            <label id="PurchaseDate" class="align-items-center d-flex">-</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="mainCategory">Category<span class="text-danger">*</span></label>
+                                                        <select id="mainCategory" refid="id" reftxt="text" class="form-select ajax-select" ajax="common/main-category/select" >
+                                                        </select>
+                                                    </div>
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="serialNumber">Serial Number</label>
+                                                        <input type="text" class="form-control " id="serialNumber"
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="warranty">Warranty</label>
+                                                        <input type="text" class="form-control " id="warranty"
+                                                               placeholder="">
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="assestCondition">Asset Condition<span class="text-danger">*</span></label>
+                                                        <select id="assestCondition" refid="id" reftxt="text" class="form-select ajax-select" ajax="common/asset-condition/select" >
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="invoiceNo">Invoice Number</label>
+                                                        <input type="text" class="form-control " id="invoiceNo"
+                                                               placeholder="">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row ">
+                                                    <div class="col-md-4">
+                                                        <label for="comment">Comment</label>
+                                                        <textarea class="form-control " id="creationComment" name="comment" rows="4"
+                                                                  cols="50"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/grn-creation.js?v=1}"></script>
+
+
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Po No", "data": "poNo"},
+                    {"name": "Supplier", "data": "supplier"},
+                    {"name": "Item Name", "data": "itemName"},
+                    {"name": "Item Description", "data": "description"},
+                    {"name": "Item Quantity", "data": "quantity"},
+                    {"name": "Unit Price", "data": "unitPrice"},
+                    {"name": "Issue Date", "data": "issueDate"},
+                    {"name": "Expiry Date", "data": "expiryDate"},
+                    {"name": "Status", "data": "faStatus", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "grn_pending") {
+                                bannerClass = "warning";
+                                bannerText = "GRN  Pending";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }},
+                ],
+                url: window.location.origin + contextPath + 'grn-creation/datatable',
+                tableSize: 'col-12'
+            };
+            let formData = {
+                url: window.location.origin + contextPath + 'poApproval',
+                customFields: $('#fd_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+                afterSaveScreen: function () {
+
+                }
+            };
+            new grnCreation($('#purchase'), 'GRN Creation', tableData, formData);
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+    </body>
+
+</html>

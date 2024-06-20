@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<style>
+    h6{
+        margin-bottom: .5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.1;
+        color: white;
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+    .cards .card-block-small {
+        padding: 15px 20px;
+    }
+    .cards {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease; /* Add a transition for the transform property */
+    }
+
+    .cards:hover {
+        transform: translateY(-5px); /* Move the card up slightly on hover */
+    }
+
+    .cards::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(100%);
+        overflow: hidden;
+        padding: 10px 0;
+        background-color: rgba(255, 255, 255, 0.9); /* Add a background color for the "like" popup */
+        border-radius: 10px; /* Match the border-radius of the card */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); /* Match the box-shadow of the card */
+    }
+
+    .cards:hover::before {
+        opacity: 1;
+        transform: translateY(-100%); /* Move the "like" popup up */
+    }
+
+
+    .cards i {
+        position: absolute;
+        bottom: 10px;
+        left: -20px;
+        transition: all 0.3s ease;
+        transform-origin: bottom left;
+        transform: scale(3.5) ;
+        opacity: 0.5; /* Set the opacity to 50% */
+    }
+
+    .cards:hover i {
+        transform: rotate(15deg) scale(5);
+        opacity: 0.5; /* Set the opacity to 100% on hover */
+    }
+
+</style>
+
+<section class="navi-card" style="padding: 0rem 1rem;">
+    <div class="row " style="margin-bottom: 1px;margin-top: 10px;">  
+        
+    </div>
+    <div class="row" style="padding: 0rem 1rem;">  
+        <div class="col"   style="width: 16.6%">
+            <div class="cards bg-c-info  text-white widget-visitor-card cardActive" id="allcrd" style="height: 100px;background: linear-gradient(to right, #007bff, #5ba9fd);">
+                <div class="card-block-small text-center">
+                    <h4 id="coldd">0</h4>
+                    <h6>All</h6>
+                    <i class="feather icon-bar-chart-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-center"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
+                    </i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col"   style="width: 16.6%">
+            <div class="cards bg-c-yellow text-white widget-visitor-card" id="ackncrd" style="height: 100px; background: linear-gradient(to right, #0ac282, #0df3a3);">
+                <div class="card-block-small text-center" >
+                    <h4 id="warmm">0</h4>
+                    <h6>Active</h6>
+                    <i class="feather icon-wifi">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>    
+                    </i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col"   style="width: 16.6%">
+            <div class="cards  bg-c-green text-white widget-visitor-card" id="apprvcrd" style="height: 100px;    background: linear-gradient(to right, #fe9365, #feb798);">
+                <div class="card-block-small text-center">
+                    <h4 id="pprospetingl">0</h4>
+                    <h6>Approval Pending</h6>
+                    <i class="feather icon-award">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-award"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                    </i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col"   style="width: 16.6%">
+            <div class="cards bg-c-pink  text-white widget-visitor-card" id="pendcrd" style="height: 100px;background: linear-gradient(to right, #fe5d70, #fe909d);">
+                <div class="card-block-small text-center">
+                    <h4 id="hott">0</h4>
+                    <h6>Blacklist</h6>
+                    <i class="feather icon-sun">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-octagon"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>    
+                    </i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <hr>
+
+</section>
+
+<div class="col-12 col-lg-8 offset-lg-2" id="tableSection">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0"></h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive scrollbar">
+                <table class="table table-sm data-table table-bordered" id="mainTable">
+                    <thead class="bg-200 text-900">
+                        <tr>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer" style="text-align:right">
+            <button class="btn btn-primary" id="addBtn"><i class="fas fa-plus"></i> Add</button>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12 col-lg-6 offset-lg-3" id="formSection" style="display: none">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title mb-0"></h5>
+        </div>
+        <div class="card-body bg-light">
+            <div class="row" id="fields">
+
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="col-lg-12" style="text-align:right">
+                <button type="button" class="btn btn-secondary" id="cancelBtn"><i class="fas fa-times"></i> Cancel</button>
+                <button type="button" class="btn btn-success" id="saveBtn"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+</div>

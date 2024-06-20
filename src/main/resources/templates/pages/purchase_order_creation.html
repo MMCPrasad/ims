@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+
+            .seperator {
+                border-top: 2px solid rgba(153, 153, 153, 0.3) !important;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="purchase">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="requestId" class="fw-bold">Request Id:</label>
+                                                        <label id="requestId" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="requestBy" class="fw-bold">Request By:</label>
+                                                        <label id="requestBy" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="department" class="fw-bold">Department::</label>
+                                                        <label id="department" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="asset" class="fw-bold">Asset:</label>
+                                                        <label id="asset" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="quantity" class="fw-bold">Quantity:</label>
+                                                        <label id="quantity" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="budgetAvailability" class="fw-bold">Budget Availability:</label>
+                                                        <label id="budgetAvailability" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="budgetLine" class="fw-bold">Budget Line:</label>
+                                                        <label id="budgetLine" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="justification" class="fw-bold">Justification:</label>
+                                                        <label id="justification" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="supplier" class="fw-bold">Supplier Name:</label>
+                                                        <label id="supplier" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="itemName" class="fw-bold">Item Name:</label>
+                                                        <label id="itemName" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="description" class="fw-bold">Item Description:</label>
+                                                        <label id="description" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="total" class="fw-bold">Total:</label>
+                                                        <label id="total" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+
+
+                                                <hr class="seperator">
+
+
+                                                    <div class="row">
+
+
+                                                        <div class="col-md-4">
+                                                            <label for="expiryDate">PO Expire Date</label>
+                                                            <input type="date" class="form-control " id="expiryDate"
+                                                                   placeholder="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label for="note">Note</label>
+                                                            <textarea class="form-control" rows="5" id="note"
+                                                                      placeholder="Enter your comments here"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/po-creation.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Supplier", "data": "supplier"},
+                    {"name": "Item Name", "data": "itemName"},
+                    {"name": "Item Description", "data": "itemDescription"},
+                    {"name": "Item Quantity", "data": "itemQuantity"},
+                    {"name": "Unit Price", "data": "amount"},
+                ],
+                url: window.location.origin + contextPath + 'common/fa-req-quaots/datatable',
+                tableSize: 'col-12'
+            };
+            let formData = {
+                url: window.location.origin + contextPath + 'po-creation',
+                customFields: $('#fd_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+                      // Set the initial value of the expiry date input on page load
+                   $('#expiryDate') = addDays(getTodayDate(), 30);
+                }
+            };
+            new po($('#purchase'), 'PO Creation', tableData, formData);
+
+
+
+
+            // Function to get today's date in YYYY-MM-DD format
+            function getTodayDate() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero for single-digit months
+                const day = String(today.getDate()).padStart(2, '0'); // Add leading zero for single-digit days
+                return `${year}-${month}-${day}`;
+            }
+
+            // Function to add 30 days to a date string in YYYY-MM-DD format
+            function addDays(dateString, days) {
+                const date = new Date(dateString);
+                date.setDate(date.getDate() + days);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+          
+            
+
+        </script>
+
+
+
+    </body>
+
+</html>

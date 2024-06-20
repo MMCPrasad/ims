@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+    <link href="css/jstree.min.css" rel="stylesheet">
+    <link href="vendors/select2/select2.min.css" rel="stylesheet">
+    <style>
+        .jstree-default .jstree-icon {
+            width: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}">Side</div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}">Side</div>
+
+                <div class="container-fluid p-0 pt-2">
+
+
+                    <div class="row" id="page">
+                        <div class="col-sm-12 col-lg-6 offset-lg-3" id="formSection">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">System Pages</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div id="pages">
+                                            <span class="placeholder placeholder-glow col-6"></span>
+                                            <span class="placeholder placeholder-glow w-75"></span>
+                                            <span class="placeholder placeholder-glow" style="width: 25%;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="col-lg-12" style="text-align:right">
+                                        <button type="button" class="btn btn-success" id="saveBtn"><i
+                                                class="feather icon-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-8 offset-lg-2" id="functionSection" style="display: none">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 id="pfHeader" class="card-title mb-0">Page Functions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label class="col-sm-12 col-form-label">Functions</label>
+                                                    <div class="col-sm-12">
+                                                        <table class="table table-xs" id="funcTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="width: 40%">
+                                                                        Function
+                                                                    </th>
+                                                                    <th>
+                                                                        Controllers
+                                                                    </th>
+                                                                    <th style="width: 1px">
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>                                                                            
+                                                    </div>
+
+                                                    <button class="btn btn-sm btn-primary pull-right" id="addFunction">+ Add Function</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="text-align:right">
+                                    <button class="btn btn-sm btn-success pull-right " id="saveFuncBtn">Save</button>
+                                    <button class="btn btn-sm btn-secondary pull-right " id="cancelFunctionBtn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}">Side</div>
+    <script src="js/jstree.min.js"></script>
+    <script src="js/jstree-node-customize.js"></script>
+    <script src="vendors/select2/select2.min.js"></script>
+
+    <script>
+
+        function arrangeItems(array) {
+            const itemMap = new Map();
+            const roots = [];
+            array.forEach(item => {
+                item.children = [];
+                item.data = {
+                    id: item.id,
+                    level: item.level,
+                    odr: item.odr,
+                    status: item.status,
+                    url: item.url
+                };
+                item.text = item.name;
+                delete item.name;
+                delete item.id;
+                delete item.level;
+                delete item.odr;
+                delete item.status;
+                delete item.url;
+                itemMap.set(item.data.id, item);
+            });
+            array.forEach(item => {
+                if (item.parent) {
+                    const parent = itemMap.get(item.parent);
+                    parent.children.push(item);
+                } else {
+                    roots.push(item);
+                }
+            });
+            return roots;
+        }
+
+        function loadPages() {
+            //loadDiv($('#table_sec').find('.card'));
+            fetch('system-pages').then(resp => {
+                if (resp.ok) {
+                    return resp.json();
+                }
+            }).then((pages) => {
+
+                pages = arrangeItems(pages);
+
+                console.log(pages);
+
+                //sorting
+                pages.sort((a, b) => (a.data.odr > b.data.odr) ? 1 : ((b.data.odr > a.data.odr) ? -1 : 0));
+                for (var i = 0; i < pages.length; i++) {
+                    if (pages[i].data.status === 'deactivated') {
+                        pages[i].a_attr = {
+                            style: 'color:red'
+                        };
+                    }
+                    if (pages[i].children) {
+                        pages[i].children.sort((a, b) => (a.data.odr > b.data.odr) ? 1 : ((b.data.odr > a.data.odr) ? -1 : 0));
+                        for (var j = 0; j < pages[i].children.length; j++) {
+                            if (pages[i].children[j].data.status === 'deactivated') {
+                                pages[i].children[j].a_attr = {
+                                    style: 'color:red'
+                                };
+                            }
+                            if (pages[i].children[j].children) {
+                                pages[i].children[j].children.sort((a, b) => (a.data.odr > b.data.odr) ? 1 : ((b.data.odr > a.data.odr) ? -1 : 0));
+                            }
+                        }
+                    }
+                }
+
+                $("#pages").jstree('destroy');
+                $('#pages').jstree({
+                    'core': {
+                        'check_callback': function (operation, node, parent, position, more) {
+
+                            if (operation === "move_node" && more && more.core) {
+                                let parentLevel = $("#pages").jstree(true).get_path(parent).length;
+                                if (parentLevel >= 4) {
+                                    Swal.fire('Not Allowed !', 'Only 4 levels of menus are Allowed !', 'warning');
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }
+                            return true;
+                        },
+                        'themes': {
+                            'responsive': false
+                        },
+                        'data': pages
+                    },
+                    'types': {
+                        'default': {
+                            'icon': 'fas fa-chevron-right fa-w-10'
+                        },
+                        'file': {
+                            'icon': 'fas fa-chevron-right fa-w-10'
+                        }
+                    },
+                    'plugins': ['types', 'contextmenu', 'dnd', 'node_customize'],
+                    "node_customize": {
+                        default: function (el, node) {
+                            //console.log(node);
+                            if (node && (!node.children || node.children.length === 0)) {
+                                let spn = document.createElement('a');
+                                //$(spn).attr('contenteditable','true');
+                                if (node.data && node.data.url) {
+                                    $(spn).html(node.data.url + ' <i class="feather icon-external-link"></i>');
+                                    $(spn).attr('href', node.data.url);
+                                    $(spn).attr('target', '_blank');
+                                } else {
+                                    $(spn).html('url');
+                                }
+                                $(spn).addClass('badge badge-soft-primary');
+                                $(el).find('a').first().after(spn);
+                            }
+
+                        }
+                    },
+                    "contextmenu": {
+                        "items": function ($node) {
+                            var tree = $("#pages").jstree(true);
+                            if ($node.data.status === 'deactivated') {
+                                return {
+                                    "Reactivate": {
+                                        "separator_before": false,
+                                        "separator_after": false,
+                                        "label": "Reactivate",
+                                        "action": function (obj) {
+                                            $node.a_attr = {};
+                                            $node.data.status = 'active';
+                                            tree.rename_node($node, $node.text);
+                                        }
+                                    }
+                                };
+                            }
+                            return {
+                                "Create": {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Create",
+                                    "action": function (obj) {
+                                        let level = $node.data.level;
+                                        if ($node.data.level.toString() === "4") {
+                                            Swal.fire('Not Allowed !', 'Only 4 levels of menus are Allowed !', 'warning');
+                                            return;
+                                        }
+                                        $node = tree.create_node($node);
+                                        tree.get_node($node).data = {
+                                            status: "active",
+                                            url: "",
+                                            level: (parseInt(level) + 1).toString()
+                                        };
+                                        tree.edit($node);
+                                    }
+                                },
+                                "Rename": {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Rename",
+                                    "action": function (obj) {
+                                        tree.edit($node);
+                                    }
+                                },
+                                "Remove": {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Remove",
+                                    "action": function (obj) {
+                                        if (!$node.data.id) {
+                                            let parent_node_id = $node.parent;
+                                            tree.delete_node($node);
+                                            if (parent_node_id !== '#') {
+                                                let parent_node = tree.get_node(parent_node_id);
+                                                tree.rename_node(parent_node, parent_node.text);
+                                            }
+                                        } else {
+                                            $node.a_attr = {
+                                                style: 'color:red'
+                                            };
+                                            $node.data.status = 'deactivated';
+                                            tree.rename_node($node, $node.text);
+                                        }
+                                    }
+                                },
+                                "EditURL": (!$node.children || $node.children.length === 0) ? {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Edit URL",
+                                    "action": function (obj) {
+                                        let el = tree.get_node($node, true);
+                                        //console.log(el);
+                                        let spn = $(el).find('a').last();
+                                        let inpt = document.createElement('input');
+                                        $(inpt).addClass('form-control form-control-sm');
+                                        $(inpt).val($(spn).text().trim());
+                                        $(inpt).on("blur", function () {
+                                            let txt = $(this).val().trim();
+                                            $(this).replaceWith('<a href="' + txt + '" target="_blank" class="badge badge-soft-primary">' + txt + ' <i class="feather icon-external-link"></i></a>');
+                                            $node.data.url = txt;
+                                        });
+                                        $(inpt).on("keydown", function (a) {
+                                            var b = a.which;
+                                            27 === b && ((o = !0), (this.value = j)),
+                                                    (27 === b || 13 === b || 37 === b || 38 === b || 39 === b || 40 === b || 32 === b) && a.stopImmediatePropagation(),
+                                                    (27 === b || 13 === b) && (a.preventDefault(), this.blur());
+                                        });
+                                        $(spn).replaceWith(inpt);
+                                        inpt.focus();
+                                    }
+                                } : undefined,
+                                "EditIcon": ($node.data.level === 2) ? {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Edit Icon",
+                                    "action": function (obj) {
+                                        let el = tree.get_node($node, true);
+                                        let div = document.createElement('div');
+                                        let inpt = document.createElement('select');
+                                        $(inpt).addClass('ajax-select').attr('ajax', 'common/icon/select');
+                                        $(inpt).attr('templateResult', 'formatResult');
+                                        $(div).append(inpt);
+                                        $(el).append(div);
+
+                                        let select = convertToSelect2(inpt);
+                                        if ($node.icon !== '') {
+                                            $(select).data('select2').dataAdapter.select({text: $node.icon, id: $node.icon});
+                                            select.val($node.icon).trigger('change');
+                                        }
+
+                                        $(inpt).change(function () {
+                                            if ($(this).val() === '') {
+                                                $node.icon = 'feather icon-x';
+                                            } else {
+                                                $node.icon = $(this).val();
+                                            }
+                                            tree.redraw_node($node);
+                                            $(div).remove();
+                                        });
+                                        //select.open();
+                                    }
+                                } : undefined,
+                                "EditFunctions": (!$node.children || $node.children.length === 0) ? {
+                                    "separator_before": false,
+                                    "separator_after": false,
+                                    "label": "Edit Functions",
+                                    "action": function (obj) {
+                                        if (!$node.data.id) {
+                                            alert('Save Page first!');
+                                        } else {
+                                            $('#pfHeader').html("Page Functions for " + $node.text);
+                                            loadFunctions($node.data.id);
+                                            $('#formSection').hide();
+                                            $('#functionSection').fadeIn();
+                                        }
+                                    }
+                                } : undefined
+                            };
+                        }
+                    }
+                }).on('loaded.jstree', function () {
+                    $(this).jstree('open_all');
+                }).on('move_node.jstree', function (evt, data) {
+                    if (data.node.parent === '#') {
+                        if (data.node.icon === '') {
+                            data.node.icon = 'feather icon-x';
+                        }
+                        data.node.data.level = '1';
+                    }
+                }).on('select_node.jstree', function (evt, data) {
+                    console.log(data);
+                });
+                //finishLoadDiv($('#table_sec').find('.card'));
+            });
+        }
+
+        loadPages();
+
+        function formatResult(result) {
+            var $result = $(
+                    '<div><span class="' + result.text + '"></span> ' + result.text + '</div>'
+                    );
+            return $result;
+        }
+
+
+        $('#saveBtn').click(function () {
+            let dat = $("#pages").jstree("get_json");
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Modifications will be saved !",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4bbf73',
+                cancelButtonColor: '#495057',
+                confirmButtonText: 'Yes, Continue!',
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    return fetch('system-pages', {
+                        method: 'POST',
+                        body: JSON.stringify(dat),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).catch(error => {
+                        Swal.showValidationMessage('Request failed:' + error);
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+
+            }).then((result) => {
+                if (result.value) {
+                    if (result.value.status !== 'success') {
+                        Swal.fire('Error!', result.value.message, 'error');
+                    } else {
+                        Swal.fire('Successfull!', result.value.message, 'success');
+                        loadPages();
+                    }
+                }
+            });
+
+        });
+
+        function loadFunctions(pgid) {
+            $('#funcTable tbody').html('');
+            $('#saveFuncBtn').data('pgid', pgid);
+            fetch('system-pages/functions/' + pgid)
+                    .then(resp => resp.json())
+                    .then(res => {
+                        if (res.data) {
+                            let funcs = res.data;
+                            for (var i = 0; i < funcs.length; i++) {
+                                addFunction(funcs[i]);
+                            }
+                        }
+                    });
+        }
+
+        function addFunction(func) {
+            let tr = document.createElement('tr');
+            $(tr).html('<td><input class="form-control" value="' + (func ? func.name : 'Name') + '"></td><td><div class="controllerList"></div><button class="btn btn-sm btn-primary pull-right addControllerBtn">+ Add Controller</button></td><td><a href="javascript:void(0)" class="deleteFunctionBtn" data-toggle="tooltip" data-placement="top" title="Delete Function"><i class="far fa-trash-alt text-danger"></i></i></a></td>');
+            if (func) {
+                $(tr).data('id', func.id);
+                if (func.controllers) {
+                    for (let i = 0; i < func.controllers.length; i++) {
+                        $(tr).find('.controllerList').append(addController(func.controllers[i]));
+                    }
+                }
+            }
+            $('#funcTable').find('tbody').append(tr);
+        }
+
+        $('#addFunction').click(function () {
+            addFunction();
+        });
+
+        $(document).on('click', '.deleteFunctionBtn', function () {
+            $(this).parents('tr').first().remove();
+        });
+
+        $(document).on('click', '.addControllerBtn', function () {
+            $(this).parent().find('.controllerList').append(addController());
+        });
+
+        function addController(arryObj) {
+            let temp = document.createElement('div');
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<input type="text" class="form-control form-control-sm w-25 dataArrayObjectElement" placeholder="Url" name="url" required="">'
+                    + '<select class="ajax-select dataArrayObjectElement" placeholder="Select Method"  name="method" required=""><option value="ANY">ANY</option><option value="GET">GET</option><option value="POST">POST</option><option value="PUT">PUT</option><option value="DELETE">DELETE</option><option value="PATCH">PATCH</option></select>'
+                    + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+            convertToSelect2($(temp).find('select')[0]);
+            $(temp).find('.select2').attr('style', 'width: 30% !important;');
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            return temp;
+        }
+
+        $('#saveFuncBtn').click(function () {
+            let pageId = $('#saveFuncBtn').data('pgid');
+            let funcs = [];
+            $('#funcTable tbody tr').each(function () {
+                let func = {
+                    name: $(this).find('td').first().find('input').first().val()
+                };
+
+                let controllers = [];
+                $(this).find('td').eq(1).find('.dataArrayObject').each(function () {
+                    controllers.push({url: $(this).find('input').first().val(), method: $(this).find('select').first().val()});
+                });
+                func.controllers = controllers;
+                func.page = {id: pageId};
+                if ($(this).data('id')) {
+                    func.id = $(this).data('id');
+                }
+                funcs.push(func);
+            });
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "This record will be saved !",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#4bbf73',
+                cancelButtonColor: '#495057',
+                confirmButtonText: 'Yes, Continue!',
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    return fetch('system-pages/functions', {
+                        method: 'POST',
+                        body: JSON.stringify(funcs),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(response => {
+                        //session timeout
+                        if (response.status === 302) {
+                            throw new Error("session Timed out !, Please login to continue !");
+                        }
+                        //unexpected Error
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        return response.json();
+                    }).catch(error => {
+                        Swal.showValidationMessage('Request failed:' + error);
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+
+            }).then((result) => {
+                if (result.value) {
+                    if (result.value.status !== 'success') {
+                        Swal.fire('Error!', result.value.message, 'error');
+                    } else {
+                        Swal.fire('Successfull!', result.value.message, 'success');
+                        loadFunctions(pageId);
+                    }
+                }
+            });
+
+
+        });
+
+        $('#cancelFunctionBtn').click(function () {
+            $('#functionSection').hide();
+            $('#formSection').show();
+        });
+
+
+    </script>
+
+</body>
+
+
+</html>

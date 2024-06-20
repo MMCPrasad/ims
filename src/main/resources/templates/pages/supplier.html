@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+
+            <div th:replace="~{./ui/sidebar.html}"></div>
+
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+
+
+
+
+                <!--                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="card" id="tableCard">
+                                                            <div class="card-body" >
+                                                                <h5 id="main_name_tag">All Suppliers</h5>
+                                                                <hr>
+                                                                <div class="table-responsive scrollbar">
+                                                                    <table class="table table-sm data-table table-bordered" id="mainTable">
+                                                                        <thead class="bg-200 text-900">
+                                                                            <tr>
+                                                                                <th>Supplier Id</th>
+                                                                                <th>Supplier Name</th>
+                                                                                <th>Request On</th>
+                                                                                <th>Department</th>
+                                                                                <th>Approval Status</th>
+                                                                                <th>Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                
+                                                            </div>
+                                                            <div class="card-footer" style="text-align:right">
+                                                                <button type="button" class="btn btn-secondary" id="cancelBtn_edit" style="display: none;">Cancel</button>
+                                                                <button class="btn btn-primary" id="addBtn"><i class="fas fa-plus"></i> Add</button>
+                                                            </div>
+                                                        </div>
+                
+                                                    </div>
+                                                </div>-->
+
+                <!--<main class="main" id="top">-->
+                
+                <div class="container-fluid" data-layout="container">
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+                </div>
+                <!--</main>-->
+
+                <div id="supplier_temp" style="display: none">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class="px-4 py-2">
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+
+                                            <!--                                            <div class="col-md-4">
+                                                                                            <label for="product">Product<span class="text-danger">*</span></label>
+                                                                                            <select id="product" refid="id" reftxt="text" class="form-select ajax-select" ajax="fd-creation/select" >
+                                                                                            </select>
+                                                                                        </div>-->
+
+
+                                            <div class="col-md-3">
+                                                <label for="fdCode">Supplier Name<span class="text-danger">*</span></label>
+                                                <input class="form-control" id="supplierName"> 
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="currency">Contact Person</label>
+                                                <input class="form-control"  id="contactPerson" placeholder="">
+                                            </div>
+
+
+
+                                            <div class="col-md-3">
+                                                <label for="currency">Email</label>
+                                                <input class="form-control"  id="email" placeholder="">
+                                            </div>
+                                            
+                                            <div class="col-md-3">
+                                                <label for="currency">Mobile Number</label>
+                                                <input class="form-control"  id="mNumber" placeholder="">
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="currency">Telephone Number</label>
+                                                <input class="form-control"  id="tNumber" placeholder="">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="currency">Address Line 1</label>
+                                                <input class="form-control"  id="addressL1" placeholder="">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="currency">Address Line 2</label>
+                                                <input class="form-control"  id="addressL2" placeholder="">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="currency">Address Line 3</label>
+                                                <input class="form-control"  id="addressL3" placeholder="">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="city">City</label>
+                                                <select id="City" refid="id" reftxt="text" class="form-select ajax-select" ajax="common/city/select" ></select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label for="paymentName">Payment Name</label>
+                                                <input class="form-control"  id="paymentName" placeholder="">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="paymentType">Mode of Payment</label>
+                                                <select id="paymentType" refid="id" reftxt="text" class="form-select ajax-select" ajax="common/payment-type/select" ></select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="creditPeriod">Credit Period</label>
+                                                <input class="form-control" type="number" id="creditPeriod" placeholder="">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="vatRegNumber">VAT Registration Number</label>
+                                                <input class="form-control" type="number" id="vatRegNumber" placeholder="">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+    <script th:src="@{/js/approval-pages.js?v=1}"></script>
+    <script>
+        // Get all the cards
+        const cards = document.querySelectorAll('.cards');
+
+        // Loop through each card
+        cards.forEach(card => {
+            // Add a click event listener to each card
+            card.addEventListener('click', function () {
+                // Get the text of the clicked card's h6 tag
+                const cardTitle = this.querySelector('h6').textContent + ' Suplliers';
+
+                // Update the text of the h5 tag with the id main_name_tag
+                document.getElementById('main_name_tag').textContent = cardTitle;
+            });
+        });
+    </script>
+
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let tableData = {
+            columns: [
+                {"name": "ID", "data": "id", "visible": false},
+                {"name": "Supplier Name", "data": "supplierName"},
+                {"name": "Email", "data": "email", className: "align-right"},
+                {"name": "Mobile Number", "data": "mNumber"},
+                {"name": "Paymnet Method", "data": "paymentType"},
+                {"name": "Credit Period", "data": "creditPeriod"},
+                {"name": "Status", "data": "status", "width": "50px", render: function (data, type, row) {
+                        let bannerClass, bannerText;
+                        if (data === "approved") {
+                            bannerClass = "success";
+                            bannerText = "Approved";
+                        } else if (data === "rejected") {
+                            bannerClass = "danger";
+                            bannerText = "Rejected";
+                        } else if (data === "pending") {
+                            bannerClass = "warning";
+                            bannerText = "Pending";
+                        } else if (data === "active") {
+                            bannerClass = "success";
+                            bannerText = "Active";
+                        }
+                        return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                    }}
+            ],
+            url: window.location.origin + contextPath + 'common/supplier/datatable',
+            tableSize: 'col-12'
+        };
+
+        let formData = {
+            url: window.location.origin + contextPath + 'supplier',
+            customFields: $('#supplier_temp').children(),
+            formSize: 'col-12',
+            contentType: 'multipart',
+            afterSaveScreen: function () {
+                //alert();
+                $("#operatingInstruction").val("sole").change();
+                $("#spread").val(0);
+                //calculateFDRate();
+            }
+        };
+        new initiatePage2($('#page'), 'Supplier Registration', tableData, formData);
+
+    </script>
+
+
+
+</body>
+
+</html>

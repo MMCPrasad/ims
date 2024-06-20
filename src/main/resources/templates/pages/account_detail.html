@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .filters {
+                margin-left: 5px;
+
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <section class="navi-card card"  id="navi-card" style="padding: 50px;">
+                            <div class="container justify-content-center">
+                                <div class="row pt-3">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="account">Account</label>
+                                            <select id="account" class="form-control ajax-select" ajax="common/account/select" refid="id" reftxt="text"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="vfromDate">Value Date</label>
+                                            <input type="date" class="form-control" id="vfromDate" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="vtoDate">To Date</label>
+                                            <input type="date" class="form-control" id="vtoDate" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 align-self-end">
+                                        <button class="btn btn-success" id="generateBtn">Generate</button>
+                                    </div>
+
+
+                                </div>
+
+                                <!--                                <div class="row pt-3">
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label for="pfromDate">Posting Date</label>
+                                                                            <input type="date" class="form-control" id="pfromDate" placeholder="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label for="ptoDate">To Date</label>
+                                                                            <input type="date" class="form-control" id="ptoDate" placeholder="">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>-->
+
+                            </div>
+                        </section>
+
+
+
+
+                        <br>
+                            <div class="row pt-3">
+                                <hr class="w-100">
+                            </div>
+                            <div class="row" id="report" style="display: none;">
+
+                            </div>
+
+
+                            <div id="acc_Temp" class="row" style="display: none;">
+                                <div class="col-md-3 mb-3">
+                                    <label for="code" class="fw-bold">Code:</label>
+                                    <label id="code" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="accountNo" class="fw-bold">Account No:</label>
+                                    <label id="accountNo" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="currency" class="fw-bold">Currency:</label>
+                                    <label id="currency" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="amount" class="fw-bold">Amount:</label>
+                                    <label id="amount" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="type" class="fw-bold">Type:</label>
+                                    <label id="type" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="transactionCode" class="fw-bold">Transaction Code:</label>
+                                    <label id="transactionCode" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="valueDate" class="fw-bold">Value Date:</label>
+                                    <label id="valueDate" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="postingDate" class="fw-bold">Posting Date:</label>
+                                    <label id="postingDate" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="postingType" class="fw-bold">Posting Type:</label>
+                                    <label id="postingType" class="align-items-center d-flex">-</label>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="narration" class="fw-bold">Narration:</label>
+                                    <label id="narration" class="align-items-center d-flex">-</label>
+                                </div>
+                            </div>
+
+
+
+
+                    </div>
+
+
+
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/report-page.js?v=1}"></script>
+
+        <script>
+
+
+
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Account No", "data": "accountNo"},
+                    {"name": "Currency", "data": "currency"},
+                    {
+                        "name": "Amount ",
+                        "data": "amount", "className": "text-end",
+                        "render": function (data, type, row) {
+                            if (data != null) {
+
+                                let formattedAmount = parseFloat(data).toLocaleString('en-US', {maximumFractionDigits: 2});
+                                // Check the row type for color and alignment
+                                let colorStyle = '';
+                                if (row.type === "debit") {
+                                    colorStyle = 'color: red;';
+                                } else if (row.type === "credit") {
+                                    colorStyle = 'color: green;';
+                                }
+                                return `<span style="text-align: right; ${colorStyle}">${formattedAmount}</span>`;
+                            } else {
+                                return ""; // Return empty string if data is null
+                            }
+                        }
+                    },
+                    {"name": "Type ", "data": "type", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "debit") {
+                                bannerClass = "danger";
+                                bannerText = "Debit";
+                            } else if (data === "credit") {
+                                bannerClass = "success";
+                                bannerText = "Credit";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }},
+                    {"name": "Transaction Code ", "data": "transactionCode"},
+                    {"name": "Value Date ", "data": "valueDate"},
+                    {"name": "Posting Date ", "data": "postingDate"},
+                    {"name": "Posting Type ", "data": "postingType"},
+                            //  {"name": "Status", "data": "status", "width": "50px"}
+
+
+
+
+
+                ],
+                url: window.location.origin + contextPath + 'accountreport/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'accountreport',
+                customFields: $('#acc_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+                    //alert();
+                    $("#accountstatus").val("active").change();
+                    ධ
+                    $('#curdate').val(getCurrentDate());
+
+                }
+            };
+
+            let page = new initiateReportPage($('#report'), 'Transaction', tableData, formData);
+
+
+            let account = null;
+            let toValue = null;
+            let fromValue = null;
+            let toPost = null;
+            let fromPost = null;
+
+            $('#generateBtn').click(function () {
+                let additionalData = {
+                    'account': $('#account').val() || '',
+                    'fromValue': $('#vfromDate').val() || '',
+                    'toValue': $('#vtoDate').val() || '',
+                    'toPost': $('#ptoDate').val() || '',
+                    'fromPost': $('#pfromDate').val() || ''
+                };
+                page.setAdditionData({data: JSON.stringify(additionalData)});
+
+                page.dataTable.ajax.reload();
+                $('#report').show();
+            });
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+        <script>
+
+
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+
+
+</html>

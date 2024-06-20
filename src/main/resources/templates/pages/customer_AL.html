@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+<main class="main" id="top">
+    <div class="container-fluid" data-layout="container">
+
+        <div th:replace="~{./ui/sidebar.html}"></div>
+        <div class="content">
+            <div th:replace="~{./ui/navbar.html}"></div>
+
+            <div class="container">
+                <div class="row" id="page">
+
+                </div>
+            </div>
+
+
+            <div id="cust_al_Temp" style="display: none">
+                <!-- content -->
+                <!-- add all content here -->
+                <div class="card  w-full md:w-1300px shadow-lg">
+
+                    <div class="card-body bg-light ">
+                        <div class="tab-content">
+                            <div class="tab-pane preview-tab-pane active" role="tabpanel"
+                                 aria-labelledby="tab-dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95" id="dom-6b61cc5a-d905-4fbf-a118-f5d5c95b2e95">
+                                <form class="needs-validation" novalidate="">
+                                    <div class="row">
+                                        <div class="col-4 mt-2 mb-3">
+                                            <label class="form-label" for="id">Customer ID</label>
+                                            <select id="id" required="" class="form-select ajax-select" ajax="common/customer/select" refid="id" reftxt="name"  required="">
+                                            </select>
+                                            <div class="invalid-feedback">Please select a your customer id.</div>
+                                            <div class="valid-feedback">Looks good!</div>
+                                        </div>
+                                    </div>
+
+                                    <div id="dynamicFieldsContainer" class="mt-4">
+                                        <div class="row">
+                                            <div class="col-2 mt-2">
+                                                <label class="form-label" for="type">Type</label>
+                                                <select class="form-select" id="type" required="">
+                                                    <option selected="" disabled="" value="">Choose...</option>
+                                                    <option value="assets">Assets</option>
+                                                    <option value="liabilities">Liabilities</option>
+                                                </select>
+                                                <div class="invalid-feedback">Please select a your customer type.</div>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+
+
+                                            <div class="col-2 mt-2">
+                                                <label class="form-label" for="bank">Bank</label>
+                                                <select class="form-control ajax-select" id="bank" ajax="common/bank/select" refid="id" redtxt="name">
+                                                </select>
+                                                <div class="invalid-feedback">Please select a your bank.</div>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+                                            <div class="col-2 mt-2">
+                                                <label class="form-label" for="altype">AL Type</label>
+                                                <select id="altype" name="type" required="" class="form-select ajax-select" ajax="common/AL-type/select" refid="id" reftxt="description"  required="">
+                                                </select>
+                                                <div class="invalid-feedback">Please select a your AL type.</div>
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+
+
+                                            <div class="col-2 mt-2">
+                                                <label class="form-label" for="amount">Amount</label>
+                                                <input class="form-control" type="text" id="amount" />
+                                                <div class="valid-feedback">Looks good!</div>
+                                                <div class="invalid-feedback">Please Enter a amount</div>
+                                            </div>
+
+                                            <div class="col-2 mt-4 pt-1">
+                                                <button class="btn btn-success" type="button" onclick="addNewField()"><span
+                                                        class="fas fa-plus me-2"></span>Add</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{./ui/scripts.html}"></div>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+<script>
+
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $(document).find('.ajax-select').each(function () {
+        convertToSelect2(this);
+    });
+
+    let tableData = {
+        columns: [
+            {"name": "ID", "data": "id", "visible": false},
+            {"name": "Name", "data": "name"},
+            {"name": "Status", "data": "status", "width": "50px"}
+        ],
+        url: window.location.origin + contextPath + 'common/customer-al/datatable',
+        tableSize: 'col-12'
+    };
+
+    let formData = {
+        url: window.location.origin + contextPath + 'common/customer-al',
+        customFields: $('#cust_al_Temp').children(),
+        formSize: 'col-12',
+        contentType: 'json'
+    };
+
+    new initiatePage($('#page'), 'Customer Asset and Liability', tableData, formData);
+
+
+
+    <!--script-->
+
+    function addNewField() {
+        var newFieldSection = document.createElement("div");
+        newFieldSection.className = "row";
+
+        newFieldSection.innerHTML =
+            <div class="row">
+                <div class="col-2 mt-2">
+                    <label class="form-label" for="type">Type</label>
+                    <select class="form-select" id="type" required="">
+                        <option selected="" disabled="" value="">Choose...</option>
+                        <option value="assets">Assets</option>
+                        <option value="liabilities">Liabilities</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a your customer type.</div>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-2 mt-2">
+                    <label class="form-label" for="bank">Bank</label>
+                    <select class="form-select" id="bank" required="">
+                        <option selected="" disabled="" value="">Choose...</option>
+
+                    </select>
+                    <div class="invalid-feedback">Please select a your bank.</div>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="col-2 mt-2">
+                    <label class="form-label" for="al_type">AL Type</label>
+                    <select class="form-select" id="al_type" required="">
+                        <option selected="" disabled="" value="">Choose...</option>
+                        <option value="Fixed Assets">Fixed Assets</option>
+                        <option value="Current assets">Current assets</option>
+                        <option value="Liquid Assets">Liquid Assets</option>
+                        <option value="Wasting Assets">Wasting Assets</option>
+                        <option value="Intangible assets">Intangible assets</option>
+                        <option value="Fictitious Assets">Fictitious Assets</option>
+                        <option value="Long-term liabilities">Long-term liabilities</option>
+                        <option value="Fixed Liabilities">Fixed Liabilities</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a your AL type.</div>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+
+                <div class="col-2 mt-2">
+                    <label class="form-label" for="amount">Amount</label>
+                    <input class="form-control" type="text" id="amount" />
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Please Enter a amount</div>
+                </div>
+
+                <div class="col-auto mt-4 pt-1">
+                    <button class="btn btn-danger" type="button" onclick="removeField(this)">Remove</button>
+                </div>
+            </div>
+        ;
+        document.getElementById("dynamicFieldsContainer").appendChild(newFieldSection);
+    }
+
+    function removeField(button) {
+        button.parentNode.parentNode.remove();
+    }
+
+
+
+</script>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="tellerid_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <!--             ..................................................................................................-->
+                                            <form>
+
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="code">  Code</label>
+                                                        <input  class="form-control"  id="code" placeholder="" >
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label>Date Implemented</label>
+                                                        <input type="date" class="form-control" id="dateImplemented" 
+                                                               placeholder="">
+                                                    </div>
+                                                    
+                                                     <div class="col-md-4">
+                                                        <label for="customerName">  Customer Name</label>
+                                                        <input  class="form-control"  id="customerName" placeholder="" >
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="row">
+                                                    
+                                                    <div class="col-md-4">
+                                                            <label class="form-label" for="licenseMethod">License Method</label>
+                                                            <select class="form-select  ajax-select" id="licenseMethod"
+                                                                    required="">
+                                                                <option value="annual">Annual</option>
+                                                                <option value="monthly">Monthly</option>
+                                                                  <option value="quarterly">Quarterly</option>
+                                                                <option value="half yearly">Half Yearly</option>
+                                                                  
+                                                            </select>
+                                                        </div>
+                                                    
+                                                   <div class="col-md-4">
+                                                        <label for="licenseCode"> License Code</label>
+                                                        <input  class="form-control"  id="licenseCode" placeholder="" >
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label>Expiry Date</label>
+                                                        <input type="date" class="form-control" id="expiryDate" 
+                                                               placeholder="">
+                                                    </div>
+                                                    
+                                                      </div>
+                                                    
+<!--                                                       <div class="col-md-4">
+                                                        <label for="allowSystems">Allow Systems<span class="text-danger">*</span> </label>
+                                                        <select id="allowSystems" class="form-select ajax-select" ajax="common/sys-id/select"
+                                                                refid="id" reftxt="text" required=""></select>
+                                                    </div>
+                                                    -->
+                                                      <div class="row">
+
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-8">
+                                                            <div class="col-lg-12 col-md-12 dataArray" id="allowed" func="dynamicSys"></div>
+                                                            <div class="col-md-12 mb-5 mt-2">
+                                                                <a href="javascript:void(0)" id="addSysBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center">
+                                                                    <i class="fas fa-plus"></i>Add Allow System
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                    
+
+                                              
+                                              
+
+
+
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Date Implemented", "data": "dateImplemented"},
+                    {"name": "Customer Name", "data": "customerName"},
+                      {"name": "License Method", "data": "licenseMethod"},
+                      {"name": "License Code", "data": "licenseCode"},
+                         {"name": "Expiry Date", "data": "expiryDate"},
+
+                    {
+                        "name": "Status", "data": "status", "width": "50px"
+                    }
+                ],
+                url: window.location.origin + contextPath + 'common/system-par/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'system-par',
+                customFields: $('#tellerid_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+
+                afterSaveScreen: function () {
+               
+
+                }
+            };
+
+            new initiatePage($('#page'), 'System Parameter', tableData, formData);
+
+
+      function dynamicSys(arryObj) {
+                let temp = document.createElement("div");
+                $(temp).addClass('input-group mb-4 dataArrayObject');
+                $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/sys-id/select" placeholder="Allow System" refid="id" reftxt="text" name="allowSystem" required=""></select>'
+                                                            
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                   convertToSelect2($(temp).find('select')[0]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $('#allowed').append(temp);
+            }
+
+
+            $('#addSysBtn').click(function () {
+                dynamicSys();
+            });
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+
+
+
+
+
+
+        </script>
+
+    </body>
+
+
+</html>

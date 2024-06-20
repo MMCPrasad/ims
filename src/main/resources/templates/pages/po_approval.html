@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="approval">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="note" class="fw-bold">Note:</label>
+                                                        <label id="note" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="quantity" class="fw-bold">Quantity:</label>
+                                                        <label id="quantity" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="recSuplier" class="fw-bold">Rec Supplier:</label>
+                                                        <label id="recSuplier" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="expiryDate" class="fw-bold">Expiry Date:</label>
+                                                        <label id="expiryDate" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="poNo" class="fw-bold">PO No:</label>
+                                                        <label id="poNo" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="unitPrice" class="fw-bold">Unit Price:</label>
+                                                        <label id="unitPrice" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="itemName" class="fw-bold">Item Name:</label>
+                                                        <label id="itemName" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                    <div class="col-md-3 mb-3">
+                                                        <label for="issueDate" class="fw-bold">Issue Date:</label>
+                                                        <label id="issueDate" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                              <div class="row pt-3">
+                                                <div class="col-md-4">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control " id="comment" name="comment" rows="4"
+                                                        cols="50"></textarea>
+                                                </div>
+                                            </div>
+
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Po No", "data": "poNo"},
+                    {"name": "Supplier", "data": "supplier"},
+                    {"name": "Item Name", "data": "itemName"},
+                    {"name": "Item Description", "data": "description"},
+                    {"name": "Item Quantity", "data": "quantity"},
+                    {"name": "Unit Price", "data": "unitPrice"},
+                    {"name": "Issue Date", "data": "issueDate"},
+                    {"name": "Expiry Date", "data": "expiryDate"},
+                    {"name": "Status", "data": "faStatus", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "po_approval_pending") {
+                                bannerClass = "warning";
+                                bannerText = "Po  Pending";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }},
+                ],
+                url: window.location.origin + contextPath + 'poApproval/datatable',
+                tableSize: 'col-12'
+            };
+            let formData = {
+                url: window.location.origin + contextPath + 'poApproval',
+                customFields: $('#fd_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+
+                }
+            };
+            new productIntiate($('#approval'), 'PO Approval', 'poApproval', tableData, formData);
+
+
+
+
+
+        </script>
+
+
+
+    </body>
+
+</html>

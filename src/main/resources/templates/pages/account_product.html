@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="acc_product_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+                                        <div class="card-body">
+
+
+                                            <form>
+                                                <div class="row">
+                                                    <!-- Product Code -->
+                                                    <div class="col-md-3">
+                                                        <label for="productCode">Product Code</label>
+                                                        <input class="form-control" id="productCode" disabled="" required="">
+                                                    </div>
+                                                    <!-- Sys Description -->
+                                                    <div class="col-md-3">
+                                                        <label for="productCode">Module</label>
+                                                        <input class="form-control" id="sysDescription"
+                                                               value="Fixed Deposit" disabled="">
+                                                    </div>
+                                                    <!-- Category -->
+                                                    <div class="col-md-3">
+                                                        <label for="category">Category<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="category" class="form-select ajax-select"
+                                                                ajax="acc-product/categoryselect" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="currency">Currency<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="currency" class="form-select ajax-select"
+                                                                ajax="common/currency/select" refid="id" reftxt="text"
+                                                                required=""></select>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Description -->
+
+                                                
+                                                <div class="row mt-3">
+                                                      <div class="col-md-3">
+                                                        <label for="description">Description<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control" id="description"
+                                                               placeholder="">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row mt-3">
+                                                    <!-- Interest Basis -->
+                                                    <div class="col-md-3">
+                                                        <label for="interestBasis">Interest Basis<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="interestBasis" class="form-select ajax-select"
+                                                                ajax="common/interest-basis/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+
+                                                    <!-- Minimum Balance -->
+                                                    <div class="col-md-3">
+                                                        <label for="minBalance">Minimum Balance<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control number-format " required=""
+                                                               style="text-align: right;" id="minBalance" placeholder="">
+                                                    </div>
+
+                                                    <!-- Minimum Balance Charge -->
+                                                    <div class="col-md-3">
+                                                        <label for="minBalanceCharge">Minimum Balance Charge<span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="minBalanceCharge" class="form-select ajax-select"
+                                                                required="" ajax="common/charges/select" refid="id"
+                                                                reftxt="text">
+                                                        </select>
+                                                    </div>
+                                                    
+                                                      <div class="col-md-3">
+                                                        <label for="taxCode">Tax Code</label>
+                                                        <select id="taxCode" class="form-select ajax-select"
+                                                                ajax="common/tax-master/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+                                                    
+                                                       
+                                                </div>
+
+
+                                                <div class="row mt-3">
+                                                     <div class="col-md-3">
+                                                        <label for="taxRate">Tax Rate(%)</label>
+                                                        <input type="text" class="form-control " disabled=""
+                                                               style="text-align: right;" id="taxRate" >
+                                                    </div>
+
+
+                                                    <!-- Interest Rate -->
+                                                    <div class="col-md-3">
+                                                        <label for="interestRate">Interest Rate (%)<span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control align-right"
+                                                               id="interestRate" required="" placeholder="" min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+
+
+                                                    <!-- Effective Date -->
+                                                    <div class="col-md-3">
+                                                        <label for="effectiveDate">Effective Date</label>
+                                                        <input type="date" class="form-control" id="effectiveDate" required=""
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label>Expiry Date</label>
+                                                        <input type="date" class="form-control" id="expiryDate"
+                                                               placeholder="">
+                                                    </div>
+
+
+
+
+
+                                                </div>
+
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-8">
+                                                        <div class="col-lg-12 col-md-12 dataArray" id="documents" func="dynamicDocuments"></div>
+                                                        <div class="col-md-12 mb-5 mt-2">
+                                                            <a href="javascript:void(0)" id="addDocumBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center">
+                                                                <i class="fas fa-plus"></i>Add Documents
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Product Code", "data": "productCode"},
+                    {"name": "Product Name", "data": "description"},
+                    {"name": "Module", "data": "sysDescription"},
+                    {"name": "Category", "data": "category"},
+//                    {"name": "Interest Rate", "data": "interestRate"},
+
+                    {
+                        "name": "Interest Rate", "data": "interestRate", "width": "20px", className: 'align-right', render: function (data, type, row) {
+                            return data + '%';
+                        }
+                    },
+                    {"name": "Effective Date", "data": "effectiveDate"},
+                    {"name": "Status", "data": "approvalStatus", "width": "50px", render: function (data, type, row) {
+                            let bannerClass, bannerText;
+                            if (data === "approved") {
+                                bannerClass = "success";
+                                bannerText = "Approved";
+                            } else if (data === "rejected") {
+                                bannerClass = "danger";
+                                bannerText = "Rejected";
+                            } else if (data === "pending") {
+                                bannerClass = "warning";
+                                bannerText = "Pending";
+                            }else if (data === "active") {
+                                bannerClass = "success";
+                                bannerText = "Active";
+                            }
+                            return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                        }}
+                ],
+                url: window.location.origin + contextPath + 'acc-product/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'acc-product',
+                customFields: $('#acc_product_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json',
+                afterSaveScreen: function () {
+                    $("#sysDescription").val("Account");
+                      $("#currency").append('<option value="1">Sri Lankan Rupee</option>');
+
+                }
+            };
+
+            new initiatePage($('#page'), 'Account Product', tableData, formData);
+
+
+        </script>
+
+        <!-- Script for add new fields and remove created fields -->
+        <script>
+            
+             $('#category').change(function () {
+                let val = $(this).val();
+                $.ajax({
+                    url: 'common/category/' + val,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+                        let data = resp.data;
+                       $('#productCode').val("ACC"+data.code);
+                        
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+            
+            
+            $('#taxCode').change(function () {
+                let val = $(this).val();
+                $.ajax({
+                    url: 'common/tax-master/' + val,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (resp) {
+                        let data = resp.data;
+                      $('#taxRate').val(data.rate);
+                        
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+            function dynamicDocuments(arryObj) {
+                let temp = document.createElement("div");
+                $(temp).addClass('input-group mb-2 dataArrayObject');
+                $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/customer-document-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType" required=""></select>'
+                        + '<select class="form-select dataArrayObjectElement ajax-select" name="mandatory">'
+                        + '<option value="yes">Yes</option>'
+                        + '<option value="no">No</option>'
+                        + '</select>'
+                        + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+               convertToSelect2($(temp).find('select')[0]);
+                $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                if (arryObj) {
+                    Object.keys(arryObj).forEach(function (key) {
+                        setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                    });
+                }
+                $('#documents').append(temp);
+            }
+
+
+            $('#addDocumBtn').click(function () {
+                dynamicDocuments();
+            });
+
+            $(document).on('click', '.removeElementBtn', function () {
+                $(this).parent().remove();
+            });
+
+
+            // number formating
+//            var numberFormatInputs = document.querySelectorAll('.number-format');
+//            numberFormatInputs.forEach(function (input) {
+//                input.addEventListener('input', function () {
+//                    var unformattedValue = this.value.replace(/[^0-9\.]/g, ''); // Remove non-numeric characters
+//                    var formattedValue = unformattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // Add commas
+//
+//                    this.value = formattedValue;
+//                    var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+//                    this.setSelectionRange(cursorPosition, cursorPosition);
+//                });
+//            });
+
+            var numberFormatInputs = document.querySelectorAll('.number-format');
+            numberFormatInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    // Remove non-numeric characters except for decimal point
+                    var unformattedValue = this.value.replace(/[^0-9.]/g, '');
+                    // Split the string into integer and fractional parts
+                    var parts = unformattedValue.split('.');
+                    // Limit the fractional part to two decimal places
+                    if (parts.length > 1) {
+                        parts[1] = parts[1].slice(0, 2);
+                    }
+                    // Join the parts back together
+                    var formattedValue = parts.join('.');
+                    // Add commas to the integer part
+                    formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                    this.value = formattedValue;
+                    // Adjust cursor position
+                    var cursorPosition = this.selectionStart + (formattedValue.length - unformattedValue.length);
+                    this.setSelectionRange(cursorPosition, cursorPosition);
+                });
+            });
+
+
+
+
+
+            //interest rate validation
+            const interestRate = document.getElementById("interestRate");
+            const maxRate = document.getElementById("maxRate");
+            const minRate = document.getElementById("minRate");
+
+            maxRate.addEventListener("input", function () {
+                const maxRateValue = parseFloat(maxRate.value);
+                const interestRateValue = parseFloat(interestRate.value);
+
+                if (!isNaN(maxRateValue) && maxRateValue <= interestRateValue) {
+                    maxRate.value = interestRateValue + 0.01;
+                }
+            });
+
+            minRate.addEventListener("input", function () {
+                const minRateValue = parseFloat(minRate.value);
+                const interestRateValue = parseFloat(interestRate.value);
+
+                if (!isNaN(minRateValue) && minRateValue >= interestRateValue) {
+                    minRate.value = interestRateValue - 0.01;
+                }
+            });
+
+
+
+
+
+        </script>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="charges_Temp" style="display: none">
+
+                        <div class="row">
+
+                            <div class="mb-3 col-lg-4">
+                                <label for="id">Code <span class="text-danger">*</span></label>
+                                <input class="form-control"  id="code" required>
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="description">Description <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="description" required>
+                            </div>
+
+                            <div class="mb-3 col-lg-4">
+                                <label for="rate">Rate%</label>
+                                <input class="form-control" id="rate" type="text">
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="flat">Flat Amount</label>
+                                <input class="form-control" id="flat" type="text">
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="minimum">Minimum Amount</label>
+                                <input class="form-control" id="minimum" type="text">
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="maximum">Maximum Amount</label>
+                                <input class="form-control" id="maximum" type="text">
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="amrotizable">Amortizable ? <span class="text-danger">*</span></label>
+                                <select class="form-control ajax-select" id="amortizable" required="">
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-lg-4">
+                                <label for="baseAmount">Base Amount </label>
+                                <input class="form-control" id="baseAmount" placeholder="" type="text">
+                            </div>
+
+                            <div class="mb-3 col-lg-4">
+                                <label for="payee">Payee </label>
+                                <select id="payee" class="form-select ajax-select" ajax="customer/payee/select" refid="id"></select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div th:replace="~{./ui/footer.html}">Side</div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Code", "data": "code"},
+                    {"name": "Description", "data": "description"},
+                    {"name": "Rate", "data": "rate"},
+                    {"name": "Flat", "data": "flat"},
+                    {"name": "Payee", "data": "payee"},
+                    {"name": "Base Amount", "data": "baseAmount"},
+                    {"name": "Status", "data": "status", "width": "50px"}
+                ],
+                url: window.location.origin + contextPath + 'charges/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'charges',
+                customFields: $('#charges_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'json'
+            };
+
+            new initiatePage($('#page'), 'Charges', tableData, formData);
+
+
+            $('#rate').change(function () {
+                if ($('#rate').val() == '') {
+                    $('#flat').prop('disabled', false);
+                } else {
+                    $('#flat').prop('disabled', true);
+                    $('#flat').val('');
+                }
+            });
+
+            $('#flat').change(function () {
+                if ($('#flat').val() == '') {
+                    $('#rate').prop('disabled', false);
+                    $('#minimum').prop('disabled', false);
+                    $('#maximum').prop('disabled', false);
+                } else {
+                    $('#rate').prop('disabled', true);
+                    $('#minimum').prop('disabled', true);
+                    $('#maximum').prop('disabled', true);
+                    $('#rate').val('');
+                    $('#minimum').val('');
+                    $('#maximum').val('');
+                }
+            });
+
+
+        </script>
+
+
+    </body>
+
+
+</html>

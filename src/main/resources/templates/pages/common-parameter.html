@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+
+
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+
+<head>
+  <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+
+  <main class="main" id="top">
+    <div class="container-fluid" data-layout="container">
+
+      <div th:replace="~{./ui/sidebar.html}">Side</div>
+      <div class="content">
+        <div th:replace="~{./ui/navbar.html}">Side</div>
+
+        <div class="container-fluid p-0">
+
+          <div class="row" id="page">
+
+          </div>
+
+        </div>
+
+        <div th:replace="~{./ui/footer.html}">Side</div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{./ui/scripts.html}">Side</div>
+  <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+  <script th:inline="javascript">
+
+    /*<![CDATA[*/
+    var pageData = /*[[${data}]]*/ '';
+    /*]]>*/
+
+  </script>
+
+  <script>
+
+    console.log(pageData);
+
+    $.fn.dataTable.ext.errMode = 'none';
+
+    let tableData = {
+      columns: JSON.parse(pageData.columns),
+      url: window.location.origin + contextPath + 'common/' + pageData.url + '/datatable',
+      tableSize: pageData.tableSize
+    };
+
+    let formData = {
+      url: window.location.origin +contextPath+ 'common/' + pageData.url,
+      fields: JSON.parse(pageData.fields),
+      contentType: 'json',
+      formSize: pageData.formSize
+    };
+
+    new initiatePage($('#page'), pageData.name, tableData, formData);
+
+  </script>
+
+</body>
+
+
+</html>

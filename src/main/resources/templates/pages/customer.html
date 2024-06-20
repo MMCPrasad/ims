@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="cusTemp" style="display: none">
+                        <div class="tab-pane active px-sm-2 px-md-1" role="tabpanel" aria-labelledby="bootstrap-wizard-tab" id="bootstrap-wizard-tab">
+                            <form novalidate="novalidate">
+
+                                <ul class="nav nav-tabs justify-content-between" id="mainTab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" id="personal-tab" data-bs-toggle="tab" href="#tab-personal" role="tab" aria-controls="tab-personal" aria-selected="true">Basic
+                                            Information</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#tab-contact" role="tab" aria-controls="tab-contact" aria-selected="false">Contact
+                                            Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="banking-tab" data-bs-toggle="tab" href="#tab-banking" role="tab" aria-controls="tab-banking" aria-selected="false">Legal
+                                            Document</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="financial-tab" data-bs-toggle="tab" href="#tab-financial" role="tab" aria-controls="tab-financial" aria-selected="false">KYC/AML</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="auditlog-tab" data-bs-toggle="tab" href="#tab-auditlog" role="tab" aria-controls="tab-auditlog" aria-selected="false">Audit
+                                            Log</a></li>
+                                </ul>
+
+                                <div class="tab-content border-x border-bottom p-1 pt-3" id="mainTabContent">
+                                    <div class="tab-pane fade show active" id="tab-personal" role="tabpanel" aria-labelledby="personal-tab">
+                                        <!-- Basic Information -->
+                                        <div class="row  m-2">
+                                            <div class="col-md-4">
+                                                <label for="">Customer ID</label>
+                                                <input type="text" class="form-control" id=" " placeholder="D3WE45" >
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Customer Type</label>
+                                                <select id="customerType" class="form-select ajax-select" ajax="common/customer-type/select" refid="id" reftxt="description">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Full Name</label>
+                                                <input type="text" class="form-control" id="fullName" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-2">
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Customer Status</label>
+                                                <select id="customerStatus" class="form-select ajax-select" ajax="common/customer-status/select" refid="id" reftxt="description">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Marital Status</label>
+                                                <select id="maritalStatus" class="form-select ajax-select" ajax="common/marital-status/select" refid="id" reftxt="description">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Account Officer</label>
+                                                <select id="accountOfficer" class="form-select ajax-select" ajax="common/account-officer/select" refid="id" reftxt="description">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-2">
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Office
+                                                    Telephone</label>
+                                                <input type="text" class="form-control custom-input" id="" name="" placeholder="">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Fax Number</label>
+                                                <input type="text" class="form-control" id="" name="" placeholder="">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Email</label>
+                                                <input type="text" class="form-control" id="" name="" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">Tax Payer</label>
+                                                <input type="text" class="form-control" id="" name="" placeholder="">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">VAT No</label>
+                                                <input type="text" class="form-control" id="" name="" placeholder="">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-label" for="">TIN Number</label>
+                                                <input type="text" class="form-control" id="" name="" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row m-2">
+                                            <div class="col-md-3">
+                                                <label class="form-label" for="sectorCode">Sector</label>
+                                                <select id="sector" class="form-select ajax-select" ajax="common/sector/select">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="form-label" for="subsector">Sub Sector</label>
+                                                <select id="subsector" class="form-select ajax-select" ajax="common/sub-sector/select">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label" for="groupID">Group ID</label>
+                                                <select class="form-select" name="groupID" id="groupID">
+                                                    <option value="">Select</option>
+                                                    <option value="Group1">Group 1</option>
+                                                    <option value="Group2">Group 2</option>
+                                                    <option value="Group3">Group 3</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label" for="branch">Branch</label>
+                                                <select id="branch" class="form-select ajax-select" ajax="common/branch/select">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="form-label" for="department">Department</label>
+                                                <select id="department" class="form-select ajax-select" ajax="common/department/select">
+                                                </select>
+                                            </div>
+                                            <div class="mt-4 d-flex justify-content-end">
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-outline-secondary btnNext"><span class="text-900 fas fa-arrow-alt-circle-right"></span></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Address details tab -->
+                                    <div class="tab-pane fade" id="tab-contact" role="tabpanel" aria-labelledby="contact-tab">
+                                        <div class="row mb-3 m-2">
+                                            <!-- Permanent Address -->
+                                            <div class="col-md-3">
+                                                <label for="permanentAdd1" class="form-label">Permanent
+                                                    Add1</label>
+                                                <input type="text" class="form-control" id="permanentAdd1" name="permanentAdd1">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="permanentAdd2" class="form-label">Permanent
+                                                    Add2</label>
+                                                <input type="text" class="form-control" id="permanentAdd2" name="permanentAdd2">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="permanentAdd3" class="form-label">Permanent
+                                                    Add3</label>
+                                                <input type="text" class="form-control" id="permanentAdd3" name="permanentAdd3">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="permanentCity" class="form-label">Permanent City</label>
+                                                <select id="permanentCity" class="form-select ajax-select" ajax="common/city/select"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- Postal Code, District, Province, Mobile Number -->
+                                            <div class="col-md-3">
+                                                <label for="postalCode" class="form-label">Postal
+                                                    Code</label>
+                                                <input type="text" class="form-control" id="postalCode" name="postalCode">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="district" class="form-label">District</label>
+                                                <input type="text" class="form-control" id="district" name="district">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="province" class="form-label">Province</label>
+                                                <input type="text" class="form-control" id="province" name="province">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="mobileNo" class="form-label">Mobile
+                                                    No</label>
+                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- Residential Address -->
+                                            <div class="col-md-3">
+                                                <label for="residentialAdd1" class="form-label">Residential Add1</label>
+                                                <input type="text" class="form-control" id="residentialAdd1" name="residentialAdd1">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialAdd2" class="form-label">Residential Add2</label>
+                                                <input type="text" class="form-control" id="residentialAdd2" name="residentialAdd2">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialAdd3" class="form-label">Residential Add3</label>
+                                                <input type="text" class="form-control" id="residentialAdd3" name="residentialAdd3">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialCity" class="form-label">Residential City</label>
+                                                <select class="form-select" id="residentialCity" name="residentialCity">
+                                                    <option value="">Select</option>
+                                                    <option value="CityA">City A</option>
+                                                    <option value="CityB">City B</option>
+                                                    <option value="CityC">City C</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- Postal Code, District, Province, Residential Telephone -->
+                                            <div class="col-md-3">
+                                                <label for="residentialPostalCode" class="form-label">Postal Code</label>
+                                                <input type="text" class="form-control" id="residentialPostalCode" name="residentialPostalCode">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialDistrict" class="form-label">District</label>
+                                                <input type="text" class="form-control" id="residentialDistrict" name="residentialDistrict">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialProvince" class="form-label">Province</label>
+                                                <input type="text" class="form-control" id="residentialProvince" name="residentialProvince">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for="residentialTelephone" class="form-label">Residential Telephone</label>
+                                                <input type="text" class="form-control" id="residentialTelephone" name="residentialTelephone">
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 d-flex justify-content-end">
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btnPrev"><span class="text-900 fas fa-arrow-alt-circle-left"></span></button>
+                                                <button class="btn btn-outline-secondary btnNext"><span class="text-900 fas fa-arrow-alt-circle-right"></span></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Legal detail-->
+                                    <div class="tab-pane fade" id="tab-banking" role="tabpanel" aria-labelledby="banking-tab">
+                                        <div class="row  m-2">
+                                            <div class="col-md-2">
+                                                <label for="">Legal ID</label>
+                                                <input type="text" class="form-control" id=" " placeholder="D3WE45">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3 m-2">
+                                            <!-- Issue Authority -->
+                                            <div class="col-md-6">
+                                                <label for="issueAuthority" class="form-label">Issue
+                                                    Authority</label>
+                                                <input type="text" class="form-control" id="issueAuthority" name="issueAuthority">
+                                            </div>
+
+                                            <!-- Legal ID Issue Date -->
+                                            <div class="col-md-6">
+                                                <label for="legalIdIssueDate" class="form-label">Legal
+                                                    ID Issue Date</label>
+                                                <input type="date" class="form-control" id="legalIdIssueDate" name="legalIdIssueDate">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- Legal ID Issue Country -->
+                                            <div class="col-md-6">
+                                                <label for="legalIdIssueCountry" class="form-label">Legal ID Issue Country</label>
+                                                <input type="text" class="form-control" id="legalIdIssueCountry" name="legalIdIssueCountry">
+                                            </div>
+
+                                            <!-- Legal Doc name -->
+                                            <div class="col-md-6">
+                                                <label for="legalDocName" class="form-label">Legal Doc
+                                                    Name</label>
+                                                <input type="text" class="form-control" id="legalDocName" name="legalDocName">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- Legal ID Expiry Date -->
+                                            <div class="col-md-6">
+                                                <label for="legalIdExpiryDate" class="form-label">Legal
+                                                    ID Expiry Date</label>
+                                                <input type="date" class="form-control" id="legalIdExpiryDate" name="legalIdExpiryDate">
+                                            </div>
+
+                                            <!-- OLD No -->
+                                            <div class="col-md-6">
+                                                <label for="oldNumber" class="form-label">OLD No</label>
+                                                <input type="text" class="form-control" id="oldNumber" name="oldNumber">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="mt-4 d-flex justify-content-end">
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-secondary btnPrev"><span class="text-900 fas fa-arrow-alt-circle-left"></span></button>
+                                                <button class="btn btn-outline-secondary btnNext"><span class="text-900 fas fa-arrow-alt-circle-right"></span></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- KYC/AML -->
+                                    <div class="tab-pane fade" id="tab-financial" role="tabpanel" aria-labelledby="financial-tab">
+                                        <div class="row mb-3 m-2">
+                                            <!-- Source of Funds Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="sourceOfFunds" class="form-label">Source of
+                                                    Funds</label>
+                                                <select class="form-select" id="sourceOfFunds" name="sourceOfFunds">
+                                                    <option value="">Select</option>
+                                                    <option value="Salary">Salary</option>
+                                                    <option value="Investment">Investment</option>
+                                                    <option value="Business Profits">Business Profits
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Purpose of Account Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="purposeOfAccount" class="form-label">Purpose
+                                                    of Account</label>
+                                                <select class="form-select" id="purposeOfAccount" name="purposeOfAccount">
+                                                    <option value="">Select</option>
+                                                    <option value="Savings">Savings</option>
+                                                    <option value="Investment">Investment</option>
+                                                    <option value="Business">Business</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Business Volume Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="businessVolume" class="form-label">Business
+                                                    Volume</label>
+                                                <select class="form-select" id="businessVolume" name="businessVolume">
+                                                    <option value="">Select</option>
+                                                    <option value="Low">Low</option>
+                                                    <option value="Medium">Medium</option>
+                                                    <option value="High">High</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Period of Occupation Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="periodOfOccupation" class="form-label">Period of Occupation</label>
+                                                <select class="form-select" id="periodOfOccupation" name="periodOfOccupation">
+                                                    <option value="">Select</option>
+                                                    <option value="Less than 1 year">Less than 1 year
+                                                    </option>
+                                                    <option value="1-5 years">1-5 years</option>
+                                                    <option value="More than 5 years">More than 5 years
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- KYC Relationship Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="kycRelationship" class="form-label">KYC
+                                                    Relationship</label>
+                                                <select class="form-select" id="kycRelationship" name="kycRelationship">
+                                                    <option value="">Select</option>
+                                                    <option value="Customer">Customer</option>
+                                                    <option value="Supplier">Supplier</option>
+                                                    <option value="Employee">Employee</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- KYC Note Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="kycNote" class="form-label">KYC Note</label>
+                                                <select class="form-select" id="kycNote" name="kycNote">
+                                                    <option value="">Select</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Average">Average</option>
+                                                    <option value="Poor">Poor</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- PEP Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="pep" class="form-label">PEP</label>
+                                                <select class="form-select" id="pep" name="pep">
+                                                    <option value="">Select</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- AML Check Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="amlCheck" class="form-label">AML
+                                                    Check</label>
+                                                <select class="form-select" id="amlCheck" name="amlCheck">
+                                                    <option value="">Select</option>
+                                                    <option value="Passed">Passed</option>
+                                                    <option value="Failed">Failed</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3 m-2">
+                                            <!-- AML Result Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="amlResult" class="form-label">AML
+                                                    Result</label>
+                                                <select  class="form-select" id="amlResult" name="amlResult">
+                                                    <option value="">Select</option>
+                                                    <option value="Low Risk">Low Risk</option>
+                                                    <option value="Medium Risk">Medium Risk</option>
+                                                    <option value="High Risk">High Risk</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Next Review Date -->
+                                            <div class="col-md-3">
+                                                <label for="nextReviewDate" class="form-label">Next
+                                                    Review Date</label>
+                                                <input type="date" class="form-control" id="nextReviewDate" name="nextReviewDate">
+                                            </div>
+
+                                            <!-- Customer Rating Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="customerRating" class="form-label">Customer
+                                                    Rating</label>
+                                                <select class="form-select" id="customerRating" name="customerRating">
+                                                    <option value="">Select</option>
+                                                    <option value="Excellent">Excellent</option>
+                                                    <option value="Good">Good</option>
+                                                    <option value="Fair">Fair</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Business Duration Dropdown -->
+                                            <div class="col-md-3">
+                                                <label for="businessDuration" class="form-label">Business Duration</label>
+                                                <select class="form-select" id="businessDuration" name="businessDuration">
+                                                    <option value="">Select</option>
+                                                    <option value="Less than 1 year">Less than 1 year
+                                                    </option>
+                                                    <option value="1-5 years">1-5 years</option>
+                                                    <option value="More than 5 years">More than 5 years
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="mt-2 d-flex justify-content-end">
+
+                                            <div class="mt-2 d-flex justify-content-end">
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-outline-secondary btnPrev"><span class="text-900 fas fa-arrow-alt-circle-left"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- audit log -->
+                                    <div class="tab-pane fade" id="tab-auditlog" role="tabpanel" aria-labelledby="auditlog-tab">
+
+                                        <div class="table-responsive scrollbar">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col"> </th>
+                                                        <th scope="col">joined</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="hover-actions-trigger">
+                                                        <td class="align-middle text-nowrap">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <img class="rounded-circle" src="../../assets/img/team/4.jpg" alt="">
+                                                                </div>
+                                                                <div class="ms-2">Ricky Antony</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">
+                                                            ricky@example.com</td>
+                                                        <td class="w-auto">
+                                                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                                                <button class="btn btn-light pe-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="fas fa-edit"></span></button><button class="btn btn-light ps-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">30/03/2018
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="hover-actions-trigger">
+                                                        <td class="align-middle text-nowrap">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <img class="rounded-circle" src="../../assets/img/team/13.jpg" alt="">
+                                                                </div>
+                                                                <div class="ms-2">Emma Watson</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">
+                                                            emma@example.com</td>
+                                                        <td class="w-auto">
+                                                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                                                <button class="btn btn-light pe-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="fas fa-edit"></span></button><button class="btn btn-light ps-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">11/07/2017
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="hover-actions-trigger">
+                                                        <td class="align-middle text-nowrap">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <div class="avatar-name rounded-circle">
+                                                                        <span>RA</span></div>
+                                                                </div>
+                                                                <div class="ms-2">Rowen Atkinson</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">
+                                                            rown@example.com</td>
+                                                        <td class="w-auto">
+                                                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                                                <button class="btn btn-light pe-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="fas fa-edit"></span></button><button class="btn btn-light ps-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">05/04/2016
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="hover-actions-trigger">
+                                                        <td class="align-middle text-nowrap">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <img class="rounded-circle" src="../../assets/img/team/2.jpg" alt="">
+                                                                </div>
+                                                                <div class="ms-2">Antony Hopkins</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">
+                                                            antony@example.com</td>
+                                                        <td class="w-auto">
+                                                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                                                <button class="btn btn-light pe-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="fas fa-edit"></span></button><button class="btn btn-light ps-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">05/04/2018
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="hover-actions-trigger">
+                                                        <td class="align-middle text-nowrap">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="avatar avatar-xl">
+                                                                    <img class="rounded-circle" src="../../assets/img/team/3.jpg" alt="">
+                                                                </div>
+                                                                <div class="ms-2">Jennifer Schramm</div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">
+                                                            jennifer@example.com</td>
+                                                        <td class="w-auto">
+                                                            <div class="btn-group btn-group hover-actions end-0 me-4">
+                                                                <button class="btn btn-light pe-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="fas fa-edit"></span></button><button class="btn btn-light ps-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button>
+                                                            </div>
+                                                        </td>
+                                                        <td class="align-middle text-nowrap">17/03/2016
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div th:replace="~{./ui/footer.html}">Side</div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Name", "data": "fullName"},
+                    {"name": "Status", "data": "status", "width": "50px"}
+                ],
+                url: window.location.origin + contextPath + 'common/customer/datatable',
+                tableSize: 'col-12'
+            };
+
+            let formData = {
+                url: window.location.origin + contextPath + 'common/customer',
+                customFields: $('#cusTemp').children(),
+                formSize: 'col-12',
+                contentType: 'json'
+            };
+
+            new initiatePage($('#page'), 'Customer', tableData, formData);
+
+
+        </script>
+
+
+    </body>
+
+
+</html>

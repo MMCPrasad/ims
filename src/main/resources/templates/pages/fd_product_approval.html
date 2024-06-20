@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+<head>
+    <div th:replace="~{./ui/header.html}"></div>
+</head>
+
+<body>
+    <main class="main" id="top">
+        <div class="container-fluid" data-layout="container">
+            <div th:replace="~{./ui/sidebar.html}"></div>
+            <div class="content">
+                <div th:replace="~{./ui/navbar.html}"></div>
+
+                <div class="container">
+                    <div class="row" id="approval"></div>
+                </div>
+
+                <div id="product_temp" style="display: none">
+                    <!-- content -->
+                    <!-- add all content here -->
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="px-4 py-2">
+                                    <div class="card-body">
+                                        <form>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="productCode">Product Code</label>
+                                                    <input class="form-control" id="productCode" placeholder="1258EZ"
+                                                        disabled="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="productCode">Module</label>
+                                                    <input class="form-control" id="sysDescription"
+                                                        value="Fixed Deposit" disabled="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="category">Category<span
+                                                            class="text-danger">*</span></label>
+                                                    <select id="category" class="form-select ajax-select"
+                                                        ajax="common/category/select" refid="id" reftxt="text"
+                                                        disabled="" required=""></select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="currency">Currency<span
+                                                            class="text-danger">*</span></label>
+                                                    <select id="currency" class="form-select ajax-select"
+                                                        ajax="common/currency/select" refid="id" reftxt="text"
+                                                        disabled="" required=""></select>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 mt-3">
+                                                    <label for="description">Description<span
+                                                            class="text-danger">*</span></label>
+                                                    <textarea class="form-control" id="description" rows="3" disabled=""
+                                                        required></textarea>
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                    <div class="invalid-feedback"> </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label for="interestBasis">Interest Basis<span
+                                                            class="text-danger">*</span></label>
+                                                    <select id="interestBasis" class="form-select ajax-select"
+                                                        disabled="" required="" ajax="common/interest-basis/select"
+                                                        refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="tenor">Tenor </label>
+                                                    <input type="number" class="form-control " id="tenor" disabled=""
+                                                        placeholder="Months">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="minAmount">Minimum Amount</label>
+                                                    <input type="text" class="form-control number-format " disabled=""
+                                                        style="text-align: right;" id="minAmount" placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label for="taxCode">Tax Code</label>
+                                                    <select id="taxCode" class="form-select ajax-select" disabled=""
+                                                        ajax="common/tax-master/select" refid="id" reftxt="text">
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-3">
+                                                    <label for="interestRate"> Interest Rate (%)<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control align-right"
+                                                        id="interestRate" disabled="" placeholder="" min="0" max="100"
+                                                        required="" oninput="if(value < 0 || value > 100) value = '';">
+                                                </div>
+
+
+                                                <div class="col-md-3">
+                                                    <label for="effectiveDate">Effective Date<span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" id="effectiveDate" required
+                                                        disabled="" placeholder="">
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label>Expiry Date</label>
+                                                    <input type="date" class="form-control" id="expiryDate" disabled=""
+                                                        placeholder="">
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-4">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea class="form-control " id="comment" name="comment" rows="4"
+                                                        cols="50"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modBy">Mod By:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modBy" class="form-control"
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row pt-3">
+                                                <div class="col-md-1">
+                                                    <label for="modOn">Mod On:</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" id="modOn" class="form-control "
+                                                        style="border: none; outline: none; background-color: transparent;">
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="~{./ui/footer.html}">Side</div>
+        </div>
+    </main>
+
+    <div th:replace="~{./ui/scripts.html}"></div>
+    <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+
+    <!-- <script src="js/fd-approvals.js"></script> -->
+
+    <script th:src="@{/js/product-approval.js?v=1}"></script>
+
+
+
+
+
+    <script>
+        $.fn.dataTable.ext.errMode = 'none';
+        $(document).find('.ajax-select').each(function () {
+            convertToSelect2(this);
+        });
+
+        let tableData = {
+            columns: [
+                { "name": "ID", "data": "id", "visible": false },
+                { "name": "Code", "data": "productCode" },
+                { "name": "Description", "data": "description" },
+                { "name": "Module", "data": "sysDescription" },
+                { "name": "Approval Status", "data": "approvalStatus", "width": "50px" }
+            ],
+            url: window.location.origin + contextPath + 'fdProductApproval/datatable',
+            tableSize: 'col-12'
+        };
+        let formData = {
+            url: window.location.origin + contextPath + 'fd-product',
+            customFields: $('#product_temp').children(),
+            formSize: 'col-12',
+            contentType: 'json'
+        };
+
+
+        new productIntiate($('#approval'), 'Product Approval', 'fdProductApproval', tableData, formData);
+
+
+        function dynamicDocuments(arryObj) {
+            let temp = document.createElement("div");
+            $(temp).addClass('input-group mb-2 dataArrayObject');
+            $(temp).html('<input type="text" class="form-control dataArrayObjectElement" name="documentName" placeholder="Enter Document Name" disabled>'
+                + '<select class="form-select dataArrayObjectElement ajax-select" name="mandatory" disabled>'
+                + '<option value="yes">Yes</option>'
+                + '<option value="no">No</option>'
+                + '</select>');
+            convertToSelect2($(temp).find('select')[1]);
+            if (arryObj) {
+                Object.keys(arryObj).forEach(function (key) {
+                    setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                });
+            }
+            $('#documents').append(temp);
+        }
+
+
+        $('#addDocumBtn').click(function () {
+            dynamicDocuments();
+        });
+
+        $(document).on('click', '.removeElementBtn', function () {
+            $(this).parent().remove();
+        });
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .cropit-preview {
+                background-color: #f8f8f8;
+                background-size: cover;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                margin-top: 7px;
+                width: 240px;
+                height: 240px;
+            }
+
+            .cropit-preview-image-container {
+                cursor: move;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container-fluid p-0">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+                    <div id="temp" style="display: none">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-xl-12 m-0 p-0">
+
+                                    <div class="row m-2">
+                                        <div class="col-lg-3">
+                                            <div class="text-center mb-3 col-12">
+                                                <img alt="Employee Photo" src="img/team/avatar.png" onerror="this.onError=null;this.src='img/team/avatar.png';"  class="rounded-circle img-responsive mt-2" width="160" height="160" id="img_preview">
+                                                    <div class="mt-2">
+                                                        <button type="button" class="btn btn-primary btn-sm" id="imgUploadBtn">
+                                                            <i class="fas fa-upload"></i> Upload
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-lg-12" style="display: none">
+                                                        <div class="form-group">
+                                                            <label for="img">Image</label>
+                                                            <input type="file" class="form-control" id="img" autocomplete="off" accept="image/*" preview="img_preview">
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <div class="row">
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Gender <span class="text-danger">*</span></label>
+                                                    <select class="form-select ajax-select" id="gender" ajax="common/gender/select" refid="id" reftxt="text" required></select>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Title <span class="text-danger">*</span></label>
+                                                    <select class="form-select ajax-select" id="title" ajax="common/title/select" refid="id" reftxt="text" required></select>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>First Name <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="firstName" name="firstName"  class="form-control" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Middle Name</label>
+                                                    <input type="text"  id="middleName" name="middleName"  class="form-control" >
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Last Name <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="lastName" name="lastName"  class="form-control" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Name With Initial <span class="text-danger">*</span></label>
+                                                    <input type="text" id="nameWithInitials" name="nameWithInitials" class="form-control" required>
+                                                </div>
+                                                <div class="col-md-8 mb-2">
+                                                    <label>Full Name <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="fullName" name="fullName"  class="form-control" required>
+                                                </div>
+                                                <div class="col-md-4 mb-2">
+                                                    <label>Preferred Name <span class="text-danger">*</span></label>
+                                                    <input type="text"  id="preferredName" class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-2">
+                                        <div class="col-md-12 mb-2">
+                                            <label class="form-label" for="mobiles">Legal Ids <span class="text-danger">*</span></label>
+                                            <div class="col-lg-12">
+                                                <table class="table table-sm table-responsive">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID Type <span class="text-danger">*</span></th>
+                                                            <th>ID Number <span class="text-danger">*</span></th>
+                                                            <th>Issued Date <span class="text-danger">*</span></th>
+                                                            <th>Expire Date</th>
+                                                            <th>Primary</th>
+                                                            <th></th>
+                                                        </tr>
+                                                        <tbody class="dataArray" id="legalIds" func="addLegalId">
+
+                                                        </tbody>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="col-12">
+                                                <button id="addLegalIdBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Legal Id</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row m-2">
+                                        <div class="col-md-3 mb-2">
+                                            <label for="city">Date of Birth <span class="text-danger">*</span></label>
+                                            <input type="date"  id="dateOfBirth" name="dateOfBirth"  class="form-control" required>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <label for="name">Branch <span class="text-danger">*</span></label>
+                                            <select class="form-select ajax-select" id="branch" ajax="common/branch/select" refid="id" reftxt="text" required></select>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <label for="name">Account Officer <span class="text-danger">*</span></label>
+                                            <select class="form-select ajax-select" id="accountOfficer" ajax="common/account-officer/select" refid="id" reftxt="text" required></select>
+                                        </div>
+                                    </div>
+
+                                    <hr></hr>
+
+                                    <div class="row m-2">
+                                        <div class="col-md-4">
+                                            <div class="col-12">
+                                                <label for="address1">Permanent Address <span class="text-danger">*</span></label>
+                                                <input class="form-control" id="permanentAddressL1" placeholder="Line 1*" required>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <input class="form-control" id="permanentAddressL2" placeholder="Line 2">
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <input class="form-control" id="permanentAddressL3" placeholder="Line 3">
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <select class="form-select ajax-select" placeholder="Select a City" id="permanentCity" ajax="common/city/select" refid="id" reftxt="text" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <div class="col-12">
+                                                <label for="address1">Residential Address <span class="text-danger">*</span> <a>Copy from Permanent Address</a></label>
+                                                <input class="form-control" id="residentialAddressL1" placeholder="Line 1*" required>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <input class="form-control" id="residentialAddressL2" placeholder="Line 2">
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <input class="form-control" id="residentialAddressL3" placeholder="Line 3">
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <select class="form-select ajax-select" placeholder="Select a City" id="residentialCity" ajax="common/city/select" refid="id" reftxt="text" required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label class="form-label" for="mobiles">Telephones</label>
+                                            <div class="col-lg-12 dataArray" id="telephones" func="addTelephone"></div>
+                                            <div class="col-12">
+                                                <button id="addTelephoneBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Telephone</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label class="form-label" for="mobiles">Mobiles</label>
+                                            <div class="col-lg-12 dataArray" id="mobiles" func="addMobile"></div>
+                                            <div class="col-12">
+                                                <button id="addMobileBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Mobile</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <label class="form-label" for="mobiles">emails</label>
+                                            <div class="col-lg-12 dataArray" id="emails" func="addEmail"></div>
+                                            <div class="col-12">
+                                                <button id="addEmailBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add email</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-3"></hr>
+                                    <div class="row m-2">
+                                        <div class="col-md-3 mb-3">
+                                            <label for="contactPerson">Guardian/Contact Person</label>
+                                            <input class="form-control" id="contactPerson">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="relationship">Relationship</label>
+                                            <select class="form-select ajax-select" id="contactPersonRelationship" ajax="common/relation-type/select" refid="id" reftxt="name"></select>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="contactNo">Contact No</label>
+                                            <input class="form-control" id="contactPersonContact">
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-3"></hr>
+                                    <div class="row m-2">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="branch">Bank Branch</label>
+                                            <select class="form-select ajax-select" id="bankBranch" ajax="common/bank-branch/select" refid="id"></select>
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="accountNumber">Account Number</label>
+                                            <input class="form-control" id="accountNumber">
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label for="accountNumber">Account Name</label>
+                                            <input class="form-control" id="accountName">
+                                        </div>
+                                    </div>
+
+                                    <hr></hr>
+                                    <div class="row m-2">
+                                        <div class="col-md-6">
+                                            <label for="comment">Other Details</label>
+                                            <textarea class="form-control" placeholder="Type your comment here." id="comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m-2">
+                                        <div class="col-md-12 mb-2">
+                                            <label class="form-label" for="mobiles">Documents</label>
+                                            <div class="col-lg-12 dataArray" id="documents" func="addDocument"></div>
+                                            <div class="col-12">
+                                                <button id="addDocumentBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Document</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div th:replace="~{./ui/footer.html}">Side</div>
+                </div>
+            </div>
+        </main>
+
+        <div th:replace="~{./ui/image-crop-modal.html}"></div>
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+        <script th:src="@{/js/jquery.cropit.js}"></script>
+        <script th:src="@{/js/common-customer.js}"></script>
+
+        <script>
+
+            new initiateCustomerPage('Minor Customer', 'minor');
+
+        </script>
+
+
+    </body>
+
+
+</html>

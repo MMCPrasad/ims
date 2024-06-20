@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+
+
+            .po-table thead th {
+                background-color: #2c7be5;
+                color: white; /* Optional: Set text color to white for better readability */
+            }
+
+            .table-borderless th,
+            .table-borderless td{
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            .seperator {
+                border-top: 2px solid rgba(153, 153, 153, 0.3) !important;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="po">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid" id="print" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body" style="padding-left: 100px; padding-right: 100px; ">
+                                            <form >
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <img src="img/logos/accelution.jpg" alt="logo" height="40">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h5 class=" font-size-12 text-center text-dark" id="">Accelution Pvt LTD</h5>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <h3 class="text-end" style="font-weight: bold; color: #2c7be5;">PURCHASE ORDER</h3>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <hr class="seperator">
+
+                                                <!-- Purchase Order Details Table -->
+                                                <table class="table  mt-3 table-borderless" style="border: none; border-collapse: collapse;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Your Company Name</td>
+                                                            <th class="align-right">PO#</th>
+                                                            <td id="poNo" ></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td>Your Address Line 1</td>
+                                                            <th class="align-right">Date</th>
+                                                            <td id="issueDate"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td>Your Address Line 2</td>
+                                                            <td colspan="2"></td> <!-- Empty cell for alignment --> 
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td>Your City</td>
+                                                            <td colspan="2"></td> <!-- Empty cell for alignment -->
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td>Your Phone Number</td>
+                                                            <td colspan="2"></td> <!-- Empty cell for alignment -->
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- Supplier Details Table -->
+                                                <table class="table table-borderless mt-3">
+                                                    <tbody>
+                                                        <tr>
+
+                                                            <td id="preferredName"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td id="permanentAddressL1"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td id="permanentAddressL2"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td id="permanentAddressL3"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td id="residentialCity"></td>
+                                                        </tr>
+                                                        <tr>
+
+                                                            <td id="telephones"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <table class="table table-borderless mt-3">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                Please supply the under mentioned items before<b> <span id="expiryDate">........................................</span> </b>
+                                                                to the address given and submit the invoice to the supplier manager. 
+                                                                In all your correspondence regarding this order, please quote the purchase order number.
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                                <!-- Item Details Table -->
+                                                <table class="table table-bordered mt-3 po-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Item Name</th>
+                                                            <th >Description</th>
+                                                            <th >Qty</th>
+                                                            <th >Unit Price</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td id="itemName">-</td>
+                                                            <td id="description"> -</td>
+                                                            <td id="quantity">-</td>
+                                                            <td id="unitPrice">-</td>
+                                                            <td  id="total">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4" class="text-end"><strong>SUB TOTAL</strong></td>
+                                                            <td  id="subTotal">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4" class="text-end"><strong>OTHER CHARGES</strong></td>
+                                                            <td  id="otherCharges">-</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4" class="text-end"><strong>TOTAL</strong></td>
+                                                            <td  id="fulltotal">-</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-6">
+                                                        <label for="comment" class="fw-bold">Comment:</label>
+                                                        <label id="comment" class="align-items-center d-flex">-</label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div th:replace="~{./ui/footer.html}">Side</div>
+            </div>
+        </main>
+
+
+        <div th:replace="~{./ui/scripts.html}"></div>
+        <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+        <script th:src="@{/js/po-view.js?v=1}"></script>
+
+        <script>
+
+            $.fn.dataTable.ext.errMode = 'none';
+            $(document).find('.ajax-select').each(function () {
+                convertToSelect2(this);
+            });
+            let tableData = {
+                columns: [
+                    {"name": "ID", "data": "id", "visible": false},
+                    {"name": "Supplier", "data": "supplier"},
+                    {"name": "Item Name", "data": "itemName"},
+                    {"name": "Item Description", "data": "description"},
+                    {"name": "Item Quantity", "data": "quantity"},
+                    {"name": "Unit Price", "data": "unitPrice"},
+                ],
+                url: window.location.origin + contextPath + 'po-creation/datatable',
+                tableSize: 'col-12'
+            };
+            let formData = {
+                url: window.location.origin + contextPath + 'poApproval',
+                customFields: $('#fd_Temp').children(),
+                formSize: 'col-12',
+                contentType: 'multipart',
+                afterSaveScreen: function () {
+
+                }
+            };
+            new poView($('#po'), 'Purchase Order View', tableData, formData);
+
+
+
+
+
+
+        </script>
+
+
+
+    </body>
+
+</html>

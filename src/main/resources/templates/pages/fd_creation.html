@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" dir="ltr">
+
+    <head>
+        <div th:replace="~{./ui/header.html}"></div>
+        <style>
+            .align-right {
+                text-align: right;
+            }
+
+        </style>
+    </head>
+
+    <body>
+
+        <main class="main" id="top">
+            <div class="container-fluid" data-layout="container">
+
+                <div th:replace="~{./ui/sidebar.html}"></div>
+                <div class="content">
+                    <div th:replace="~{./ui/navbar.html}"></div>
+
+                    <div class="container">
+                        <div class="row" id="page">
+
+                        </div>
+                    </div>
+
+
+                    <div id="fd_Temp" style="display: none">
+                        <!-- content -->
+                        <!-- add all content here -->
+
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="px-4 py-2">
+
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="row">
+
+                                                    <div class="col-md-4">
+                                                        <label for="product">Product<span class="text-danger">*</span></label>
+                                                        <select id="product" refid="id" reftxt="text" class="form-select ajax-select" ajax="fd-creation/select" >
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <label for="fdCode">FD Code<span class="text-danger">*</span></label>
+                                                        <input class="form-control" id="fdCode" placeholder="1258EZ" disabled=""> 
+                                                    </div>
+
+
+
+                                                    <div class="col-md-4">
+                                                        <label for="currency">Currency</label>
+                                                        <input class="form-control" disabled id="currency" 
+                                                               placeholder="">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="row mt-3">
+                                                    <!-- Interest Basis -->
+                                                    <div class="col-md-4">
+                                                        <label for="customer">Customer<span class="text-danger">*</span></label>
+                                                        <select id="customer" class="form-select ajax-select" required=""
+                                                                ajax="common/customer/select" refid="id" reftxt="text">
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="branch">Branch<span class="text-danger">*</span></label>
+                                                        <select id="branch" class="form-select ajax-select" required=""
+                                                                ajax="common/branch/select" refid="id" reftxt="text"
+                                                                >
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+                                                    <div class="col-md-8">
+                                                        <div class="col-lg-12 col-md-12 dataArray" id="jointCustomer"
+                                                             func="dynamicJoint"></div>
+                                                        <div class="col-md-12 mb-5 mt-2">
+                                                            <button id="addJoinBtn"
+                                                                    class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center"><i
+                                                                    class="fas fa-plus"></i> Add Joint
+                                                                Customers</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-3">
+
+                                                    <div class="col-md-3">
+                                                        <label for="fdAmount">Amount<span class="text-danger">*</span></label>
+                                                        <input type="text" class="form-control number-format" required=""
+                                                               style="text-align: right;" id="fdAmount" placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label> Effective Date<span class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control" id="effectiveDate" required=""
+                                                               placeholder="">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="tenor">Tenor</label>
+                                                        <input type="text" disabled class="form-control " id="tenor" 
+                                                               placeholder="">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="maturityDate">Maturity Date</label>
+                                                        <input type="date" class="form-control " id="maturityDate"
+                                                               disabled placeholder="" readonly>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row mt-3">
+
+                                                    <div class="col-md-3">
+                                                        <label for="productRate">Product Rate (%)</label>
+                                                        <input type="text" disabled class="form-control align-right"
+                                                               id="productRate" placeholder=""  min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="spread">Spread</label>
+                                                        <input type="text" class="form-control " id="spread" value="0"
+                                                               placeholder="">
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="fdRate">FD Rate (%)</label>
+                                                        <input type="text" class="form-control align-right" id="fdRate" disabled
+                                                               placeholder=""  min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="taxRate">Tax rate (%)</label>
+                                                        <input type="text" disabled class="form-control align-right" id="taxRate"
+                                                               placeholder=""  min="0" max="100"
+                                                               oninput="if(value < 0 || value > 100) value = '';">
+                                                    </div>
+
+
+                                                </div>
+
+                                                <br>
+
+                                                    <div class="row pt-3">
+                                                        <hr class="w-100">
+                                                    </div>
+
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-4">
+                                                            <label for="interestPaymentMethod">Interest Payment
+                                                                Method</label>
+                                                            <select id="interestPaymentMethod"
+                                                                    class="form-select ajax-select"
+                                                                    ajax="common/payment-type/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label class="form-label" for="rollOver">Roll Over</label>
+                                                            <select class="form-select  ajax-select" id="rollOver"
+                                                                    required="">
+                                                                <option value="yes">Yes</option>
+                                                                <option value="no">No</option>
+
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label" for="rollOverMethod">Roll Over
+                                                                Method</label>
+                                                            <select class="form-select  ajax-select" id="rollOverMethod">
+                                                                <option value="capital only">Capital Only</option>
+                                                                <option value="capital with interest">Capital with Interest
+                                                                </option>
+
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-3">
+                                                            <label for="settlementAccount">Settlement Account</label>
+                                                            <input type="text" class="form-control "
+                                                                   id="settlementAccount" placeholder="">
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label for="bank">Bank</label>
+                                                            <select id="bank" class="form-select ajax-select"
+                                                                    ajax="common/bank/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label for="bankBranch">Branch</label>
+                                                            <select id="bankBranch" class="form-select ajax-select"
+                                                                    ajax="common/bank-branch/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="accountName">Account Name</label>
+                                                            <input type="text" class="form-control " id="accountName"
+                                                                   placeholder="">
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-3">
+                                                            <label for="introducer">Introducer</label>
+                                                            <select id="introducer" class="form-select ajax-select"
+                                                                    ajax="common/customer/select" refid="id" reftxt="text">
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label for="commisionRate">Commision Rate (%)</label>
+                                                            <input type="text" class="form-control align-right" id="commisionRate"
+                                                                   placeholder="" min="0" max="100" 
+                                                                   oninput="if(value < 0 || value > 100) value = '';">
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label for="commisionAmount">Commision Amount</label>
+                                                            <input type="text" class="form-control number-format" disabled
+                                                                   style="text-align: right;" id="commisionAmount"
+                                                                   placeholder="">
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <label class="form-label" for="operatingInstruction">Operating
+                                                                Instruction</label>
+                                                            <select class="form-select  ajax-select"
+                                                                    id="operatingInstruction" >
+                                                                <option value="sole" >Sole</option>
+                                                                <option value="either">Either</option>
+                                                                <option value="all">All</option>
+
+                                                            </select>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <br>
+                                                        <div class="row pt-3">
+                                                            <hr class="w-100">
+                                                        </div>
+
+
+                                                        <!--                                                        <div class="row mt-3">
+                                                                                                                    <div class="col-md-8">
+                                                                                                                        <div class="col-lg-12n dataArray" id="benifisary"
+                                                                                                                             func="dynamicBeni"></div>
+                                                                                                                        <div class="col-md-12 mb-5 mt-2">
+                                                                                                                            <button id="addBeniBtn"
+                                                                                                                                    class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center allign-self-center"><i
+                                                                                                                                    class="fas fa-plus"></i> Add Benifisary</button>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>-->
+
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label class="form-label" for="mobiles">Benifisary</label>
+                                                                <div class="col-lg-12 dataArray" id="benifisary" func="dynamicBeni"></div>
+                                                                <div class="col-12">
+                                                                    <button id="addBeniBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Benifisary</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row ">
+                                                            <hr class="w-100">
+                                                        </div>
+
+
+                                                        <div class="row mt-3">
+                                                            <div class="col-md-3">
+                                                                <label for="nominee">Nominee</label>
+                                                                <select id="nominee" class="form-select ajax-select"
+                                                                        ajax="customer/nominee/select" refid="id" reftxt="text">
+                                                                </select>
+                                                            </div>
+
+
+                                                            <div class="col-md-3">
+                                                                <label for="nomineeNic">Nominee NIC</label>
+                                                                <input type="text" class="form-control" id="nomineeNic" disabled=""
+                                                                       placeholder="">
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label for="nomineeShare">Nominee Share(%)</label>
+                                                                <input type="text" class="form-control align-right" id="nomineeShare" 
+                                                                       placeholder="" min="0" max="100" 
+                                                                       oninput="if(value < 0 || value > 100) value = '';">
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label for="nomineeRelationType">Nominee Relation Type</label>
+                                                                <select id="nomineeRelationType" class="form-select ajax-select"  
+                                                                        ajax="common/relation-type/select" refid="id" reftxt="text">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="dynamicFieldsContainer" class="mt-3">
+                                                            <div class="row">
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label class="form-label" for="mobiles">Documents</label>
+                                                                    <div class="col-lg-12 dataArray" id="documents" func="addDocument"></div>
+                                                                    <div class="col-12">
+                                                                        <button id="addDocumentBtn" class="btn btn-sm btn-primary m-t-10 m-b-5 justify-content-center align-self-center"><i class="fas fa-plus"></i> Add Document</button>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+                                                        <br>
+                                                            <div class="row pt-3">
+                                                                <hr class="w-100">
+                                                            </div>
+
+
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="accruedInterest">Accrued Interest</label>
+                                                                    <input type="text" class="form-control number-format " id="accruedInterest" disabled=""
+                                                                           style="text-align: right;" placeholder="">
+                                                                </div>
+
+                                                                <div class="col-md-3">
+                                                                    <label for="taxAmount">Tax Amount</label>
+                                                                    <input type="text" class="form-control number-format"
+                                                                           id="taxAmount" disabled placeholder="">
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                            </form>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
+                                                            </div>
+
+                                                            <div th:replace="~{./ui/footer.html}">Side</div>
+                                                            </div>
+                                                            </main>
+
+
+                                                            <div th:replace="~{./ui/scripts.html}"></div>
+                                                            <script th:src="@{/vendors/select2/select2.min.js}"></script>
+
+                                                            <script>
+
+                                                                $.fn.dataTable.ext.errMode = 'none';
+                                                                $(document).find('.ajax-select').each(function () {
+                                                                    convertToSelect2(this);
+                                                                });
+                                                                let tableData = {
+                                                                    columns: [
+                                                                        {"name": "ID", "data": "id", "visible": false},
+                                                                        {"name": "FD Code", "data": "fdCode"},
+                                                                        {"name": "Amount", "data": "fdAmount", className: "align-right"},
+                                                                        {"name": "FD Rate", "data": "fdRate", className: "align-right", render: function (data, type, row) {
+                                                                                return data + "%";
+                                                                            }},
+                                                                        {"name": "Product Name", "data": "product"},
+                                                                        {"name": "Customer", "data": "customer"},
+                                                                        {"name": "Effective Date", "data": "effectiveDate"},
+                                                                        {"name": "Status", "data": "approvalStatus", "width": "50px", render: function (data, type, row) {
+                                                                                let bannerClass, bannerText;
+                                                                                if (data === "approved") {
+                                                                                    bannerClass = "success";
+                                                                                    bannerText = "Approved";
+                                                                                } else if (data === "rejected") {
+                                                                                    bannerClass = "danger";
+                                                                                    bannerText = "Rejected";
+                                                                                } else if (data === "pending") {
+                                                                                    bannerClass = "warning";
+                                                                                    bannerText = "Pending";
+                                                                                } else if (data === "active") {
+                                                                                    bannerClass = "success";
+                                                                                    bannerText = "Active";
+                                                                                }
+                                                                                return '<small class="badge fs--1 w-100 badge-soft-' + bannerClass + '">' + bannerText + '</small>';
+                                                                            }}
+                                                                    ],
+                                                                    url: window.location.origin + contextPath + 'common/fd-creation/datatable',
+                                                                    tableSize: 'col-12'
+                                                                };
+                                                                let formData = {
+                                                                    url: window.location.origin + contextPath + 'fd-creation',
+                                                                    customFields: $('#fd_Temp').children(),
+                                                                    formSize: 'col-12',
+                                                                    contentType: 'multipart',
+                                                                    afterSaveScreen: function () {
+                                                                        //alert();
+                                                                        $("#operatingInstruction").val("sole").change();
+                                                                        $("#spread").val(0);
+                                                                        //calculateFDRate();
+                                                                    }
+                                                                };
+                                                                new initiatePage($('#page'), 'FD Creation', tableData, formData);
+
+
+                                                                // fetching nominee data
+                                                                $('#nominee').change(function () {
+
+                                                                    let val = $(this).val();
+                                                                    $.ajax({
+                                                                        url: 'customer/nominee/' + val,
+                                                                        type: 'GET',
+                                                                        dataType: 'json',
+                                                                        success: function (resp) {
+                                                                            let data = resp.data;
+                                                                            // Handle successful response
+
+                                                                            $('#nomineeAcc').val(data.accountNo);
+                                                                            $('#nomineeBank').val(data.bankBranch.id);
+                                                                            for (let i = 0; i < data.legalIds.length; i++) {
+                                                                                if (data.legalIds[i].idType.text === "NIC") {
+                                                                                    console.log(data.legalIds[i].idNo);
+                                                                                    $('#nomineeNic').val(data.legalIds[i].idNo);
+                                                                                }
+                                                                            }
+
+                                                                        },
+                                                                        error: function (xhr, status, error) {
+                                                                            console.error(xhr.responseText);
+                                                                        }
+                                                                    });
+                                                                });
+
+
+
+                                                                //fetching data from the selected product and populating it
+                                                                $('#product').change(function () {
+                                                                    let val = $(this).val();
+
+                                                                    $.ajax({
+                                                                        url: 'fd-product/' + val,
+                                                                        type: 'GET',
+                                                                        dataType: 'json',
+                                                                        success: function (resp) {
+                                                                            let data = resp.data;
+                                                                            // Handle successful response
+
+
+                                                                            $('#currency').val(data.currency.text);
+                                                                            $('#tenor').val(data.tenor);
+                                                                            $('#productRate').val(data.interestRate);
+                                                                            $('#taxRate').val(data.taxRate);
+
+
+                                                                            if (data.documents) {
+                                                                                let documents = data.documents;
+                                                                                for (let i = 0; i < documents.length; i++) {
+                                                                                    let includes = false;
+                                                                                    $('#documents').find('.dataArrayObject').each(function () {
+                                                                                        if ($(this).find('select').first().val() == documents[i].id) {
+                                                                                            includes = true;
+                                                                                        }
+                                                                                    });
+                                                                                    if (!includes) {
+                                                                                        documentName(documents[i]);
+                                                                                    }
+
+                                                                                }
+
+                                                                            }
+
+                                                                            calculateFDRate();
+                                                                        },
+                                                                        error: function (xhr, status, error) {
+                                                                            // Handle errors
+                                                                            console.error(xhr.responseText);
+                                                                        }
+                                                                    });
+                                                                });
+
+
+                                                                //benifisary data
+//                                                                $(document).ready(function () {
+//                                                                    // Event listener for the change event on the "benifisary" select element
+//                                                                    $('select[name="benifisary"]').change(function () {
+//                                                                        // Fetch request code will go here (replace this comment with your fetch request)
+//                                                                        alert("Benifisary select changed!"); // Alert to indicate the change
+//                                                                    });
+//                                                                });
+
+
+
+
+
+
+                                                                function enableInputFields() {
+                                                                    $('#product, #branch, #customer, #accountName,#fdCode').prop('disabled', false);
+                                                                }
+
+                                                                // Function to disable input fields
+                                                                function disableInputFields() {
+                                                                    $('#product, #branch, #customer, #accountName,#fdCode').prop('disabled', true);
+                                                                }
+
+                                                                // Click event handler for edit button
+                                                                $(document).on('click', '.editrec', function () {
+                                                                    disableInputFields();
+                                                                });
+
+                                                                // Click event handler for Save button
+                                                                $(document).on('click', '#saveBtn', function () {
+                                                                    enableInputFields();
+                                                                });
+
+                                                                // Click event handler for Cancel button
+                                                                $(document).on('click', '#cancelBtn', function () {
+                                                                    enableInputFields();
+                                                                });
+
+
+
+
+
+                                                            </script>
+
+                                                            <script>
+
+
+                                                                function documentName(arryObj) {
+                                                                    let temp = document.createElement('div');
+                                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                                    $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/customer-document-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType" required=""></select>'
+                                                                            + '<input type="file" class="form-control dataArrayObjectElement" placeholder="Document" name="document" required="">');
+                                                                    convertToSelect2($(temp).find('select')[0]);
+                                                                    $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                                                                    setFieldData($(temp).find('[name="docType"]'), arryObj.docType);
+                                                                    $(temp).find('[name="docType"]').val(arryObj.docType.id).change();
+
+                                                                    $('#documents').append(temp);
+                                                                }
+                                                                function addDocument(arryObj) {
+                                                                    let temp = document.createElement('div');
+                                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                                    $(temp).html('<select class="ajax-select dataArrayObjectElement" ajax="common/customer-document-type/select" placeholder="Document Type" refid="id" reftxt="text" name="docType" required=""></select>'
+                                                                            + '<input type="file" class="form-control dataArrayObjectElement" placeholder="Document" name="document" required="">'
+                                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                                    convertToSelect2($(temp).find('select')[0]);
+                                                                    $(temp).find('.select2').attr('style', 'width: 25% !important;');
+                                                                    if (arryObj) {
+                                                                        $(temp).find('[name="document"]').attr('type', 'text');
+                                                                        Object.keys(arryObj).forEach(function (key) {
+                                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                                        });
+                                                                        let link = $(temp).find('[name="document"]').val();
+                                                                        $(temp).find('[name="document"]').replaceWith('<div class="file-el border px-2 rounded-3 d-flex flex-between-center bg-white dark__bg-1000 my-1"><span class="fs-1 far fa-file"></span><span class="ms-2"><a href="' + link + '" target="_blank">Click to View</a></span></div>');
+                                                                    }
+                                                                    $('#documents').append(temp);
+                                                                }
+
+                                                                $('#addDocumentBtn').click(function () {
+                                                                    addDocument();
+                                                                });
+
+
+
+
+
+                                                                //join customer dynamic fields
+                                                                function dynamicJoint(arryObj) {
+                                                                    let temp = document.createElement('div');
+                                                                    $(temp).addClass(' input-group mb-2 dataArrayObject');
+                                                                    $(temp).html('<select class="col-mb-6 ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/customer/select" placeholder="Joint Customer"  name="customer" ></select>'
+                                                                            + '<select class="ajax-select dataArrayObjectElement" refid="id" reftxt="text" ajax="common/relation-type/select" placeholder="Relation Type"  name="relationType" ></select>'
+                                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                                    convertToSelect2($(temp).find('select')[0]);
+                                                                    convertToSelect2($(temp).find('select')[1]);
+                                                                    $(temp).find('.select2').attr('style', 'width:40% !important')
+                                                                    if (arryObj) {
+                                                                        Object.keys(arryObj).forEach(function (key) {
+                                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                                        });
+                                                                    }
+                                                                    $('#jointCustomer').append(temp);
+                                                                }
+                                                                $('#addJoinBtn').click(function () {
+                                                                    dynamicJoint();
+                                                                });
+
+                                                                $(document).on('click', '.removeElementBtn', function () {
+                                                                    $(this).parent().remove();
+                                                                });
+
+
+
+                                                                //adding benifisary dynamic
+                                                                function dynamicBeni(arryObj) {
+                                                                    let temp = document.createElement('div');
+                                                                    $(temp).addClass('input-group mb-2 dataArrayObject');
+                                                                    $(temp).html('<select name="benifisary" class="form-select ajax-select dataArrayObjectElement" ajax="customer/beneficiary/select" refid="id" reftxt="text" placeholder="Benifisary" ></select>'
+                                                                            + ' <input type="text" class="form-control dataArrayObjectElement" name="percentage" placeholder="Percentage">'
+                                                                            + ' <input type="text" class="form-control dataArrayObjectElement " name="benAcc" placeholder="Account Number">'
+                                                                            + ' <select name="benBank" class="form-select ajax-select dataArrayObjectElement" ajax="common/bank/select" refid="id" reftxt="text" placeholder="Benifisary Bank" ></select>'
+                                                                            + '<button class="btn btn-outline-danger removeElementBtn" type="button"><i class="fas fa-times"></i></button>');
+                                                                    convertToSelect2($(temp).find('select')[0]);
+                                                                    convertToSelect2($(temp).find('select')[1]);
+                                                                    $(temp).find('.select2').attr('style', 'width:30% !important')
+                                                                    if (arryObj) {
+                                                                        Object.keys(arryObj).forEach(function (key) {
+                                                                            setFieldData($(temp).find('[name="' + key + '"]'), arryObj[key]);
+                                                                        });
+                                                                    }
+
+                                                                    $(temp).find('select').first().change(function () {
+
+                                                                        let val = $(this).val();
+
+                                                                        $.ajax({
+                                                                            url: 'common/customer/' + val,
+                                                                            type: 'GET',
+                                                                            dataType: 'json',
+                                                                            success: function (resp) {
+                                                                                let data = resp.data;
+                                                                                // Handle successful response
+                                                                                $('[name="benAcc"]').val(data.accountNo);
+                                                                                $('[name="benBank"]').val(data.bankBranch.text);
+
+
+                                                                            }
+                                                                        });
+
+                                                                    });
+                                                                    $('#benifisary').append(temp);
+                                                                }
+                                                                $('#addBeniBtn').click(function () {
+                                                                    dynamicBeni();
+                                                                });
+
+
+
+
+                                                                function removeBeniFields(button) {
+                                                                    button.parentNode.parentNode.parentNode.parentNode.remove();
+                                                                }
+
+
+                                                                //            number formating
+                                                                function formatAmount(input) {
+                                                                    // Remove non-numeric characters and leading zeros
+                                                                    const numericInput = input.replace(/[^0-9]/g, '').replace(/^0+/, '');
+
+                                                                    // Convert to a number and format with two decimal places
+                                                                    const formattedAmount = (parseFloat(numericInput) / 100).toFixed(2);
+
+                                                                    return formattedAmount;
+                                                                }
+
+// Function to add comma separators to a number
+                                                                function addCommas(num) {
+                                                                    const parts = num.toString().split('.');
+                                                                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                                                                    return parts.join('.');
+                                                                }
+
+// Get all elements with the class name "number-format"
+                                                                const numberFormatInputs = document.querySelectorAll('.number-format');
+
+// Add event listener to each input element with the class name "number-format"
+                                                                numberFormatInputs.forEach(input => {
+                                                                    input.addEventListener('input', function () {
+                                                                        // Get the input value
+                                                                        const inputValue = this.value;
+
+                                                                        // Format the amount
+                                                                        let formattedValue = formatAmount(inputValue);
+
+                                                                        // Check if the input field has the class name "number-format" and add commas if necessary
+                                                                        if (this.classList.contains('number-format')) {
+                                                                            formattedValue = addCommas(formattedValue);
+                                                                        }
+
+                                                                        // Set the formatted value back to the input field
+                                                                        this.value = formattedValue;
+                                                                    });
+                                                                });
+
+
+
+
+
+
+
+
+
+                                                                //calculating maturity date and populating it
+                                                                document.getElementById("effectiveDate").addEventListener("change", function () {
+                                                                    var effectiveDate = new Date(document.getElementById("effectiveDate").value);
+                                                                    var tenorInMonths = parseInt(document.getElementById("tenor").value);
+                                                                    if (!isNaN(effectiveDate.getTime()) && !isNaN(tenorInMonths)) {
+                                                                        var maturityDate = new Date(effectiveDate);
+                                                                        var currentMonth = maturityDate.getMonth();
+                                                                        var newMonth = (currentMonth + tenorInMonths) % 12;
+                                                                        maturityDate.setMonth(newMonth);
+                                                                        // Adjust year if necessary
+                                                                        maturityDate.setFullYear(maturityDate.getFullYear() + Math.floor((currentMonth + tenorInMonths) / 12));
+                                                                        // Adjust date if necessary
+                                                                        while (maturityDate.getMonth() !== newMonth) {
+                                                                            maturityDate.setDate(maturityDate.getDate() - 1);
+                                                                        }
+                                                                        document.getElementById("maturityDate").value = maturityDate.toISOString().split('T')[0];
+                                                                    }
+                                                                });
+
+
+
+                                                                //calculating the FD rate
+                                                                document.getElementById("spread").addEventListener("input", calculateFDRate);
+
+                                                                function calculateFDRate() {
+
+
+                                                                    var productRate = parseFloat(document.getElementById("productRate").value) || 0;
+                                                                    var spread = parseFloat(document.getElementById("spread").value);
+
+
+
+                                                                    if (!isNaN(productRate) && !isNaN(spread)) {
+                                                                        var fdRate;
+                                                                        if (spread === 0) {
+                                                                            fdRate = productRate;
+                                                                        } else {
+                                                                            fdRate = productRate + spread;
+                                                                        }
+                                                                        document.getElementById("fdRate").value = fdRate.toFixed(2);
+                                                                    }
+                                                                }
+
+
+                                                                ///calculating commision amount
+                                                                const commisionRateInput = document.getElementById("commisionRate");
+                                                                const fdAmountInp = document.getElementById("fdAmount");
+                                                                const commisionAmountInput = document.getElementById("commisionAmount");
+
+                                                                function calculateCommission() {
+                                                                    // Remove commas from input values
+                                                                    const commisionRateValue = commisionRateInput.value.replace(/,/g, '');
+                                                                    const fdAmountValue = fdAmountInp.value.replace(/,/g, '');
+
+                                                                    const commissionRate = parseFloat(commisionRateValue);
+                                                                    const fdAmount = parseFloat(fdAmountValue);
+
+                                                                    // Check if both fields are filled and values are valid
+                                                                    if (!isNaN(commissionRate) && !isNaN(fdAmount)) {
+                                                                        // Calculate the commission amount
+                                                                        const commissionAmount = (commissionRate / 100) * fdAmount;
+
+                                                                        // Update the commission amount input field
+                                                                        commisionAmountInput.value = commissionAmount.toFixed(2);
+                                                                    } else {
+                                                                        // If any field is empty or contains invalid input, set commission amount input field to empty
+                                                                        commisionAmountInput.value = "";
+                                                                    }
+                                                                }
+
+                                                                commisionRateInput.addEventListener("input", calculateCommission);
+                                                                fdAmountInp.addEventListener("input", calculateCommission);
+
+
+
+
+
+                                                                // Get references to the input fields
+                                                                const fdAmountInput = document.getElementById("fdAmount");
+                                                                const fdRateInput = document.getElementById("fdRate");
+                                                                const tenorInput = document.getElementById("tenor");
+                                                                const accruedInterestInput = document.getElementById("accruedInterest");
+                                                                const spreadInput = document.getElementById("spread");
+
+                                                                // Function to calculate accrued interest
+                                                                function calculateAccruedInterest() {
+
+                                                                    // Remove commas from input values
+                                                                    const fdAmount = parseFloat(fdAmountInput.value.replace(/,/g, ''));
+                                                                    const fdRate = parseFloat(fdRateInput.value);
+                                                                    const tenor = parseFloat(tenorInput.value);
+
+
+                                                                    // Check if all fields are filled and values are valid
+                                                                    if (isNaN(fdAmount) && isNaN(fdRate) && isNaN(tenor)) {
+                                                                        accruedInterestInput.value = "";
+                                                                    } else {
+
+                                                                        const accruedInterest = ((fdAmount * fdRate) / 1200) * tenor;
+                                                                        const formattedAccruedInterest = accruedInterest.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                        //  document.getElementById("accruedInterest").value = accruedInterest;
+                                                                        // $('#accruedInterest').val(accruedInterest);
+                                                                        accruedInterestInput.value = formattedAccruedInterest
+                                                                    }
+                                                                }
+
+                                                                // Attach event listeners to input fields to recalculate accrued interest whenever the user changes the values
+                                                                fdAmountInput.addEventListener("input", calculateAccruedInterest);
+                                                                fdRateInput.addEventListener("input", calculateAccruedInterest);
+                                                                tenorInput.addEventListener("input", calculateAccruedInterest);
+                                                                spreadInput.addEventListener("input", calculateAccruedInterest);
+
+
+
+
+
+
+                                                            </script>
+
+                                                            </body>
+
+                                                            </html>
